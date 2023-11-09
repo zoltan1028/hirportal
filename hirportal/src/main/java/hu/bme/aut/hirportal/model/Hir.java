@@ -3,19 +3,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Hir {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @JsonIgnore
-    @OneToMany(mappedBy = "hir")
-    private List<HirKategoria> hirkategorias;
+    @ManyToMany
+    private List<Kategoria> kategoriak = new ArrayList<>();
     private String cim;
     private Timestamp lejarat;
     private String szoveg;
+    public Hir() {
+    }
+    public Hir(Long id, List<Kategoria> kategoriak, String cim, Timestamp lejarat, String szoveg) {
+        this.id = id;
+        this.kategoriak = kategoriak;
+        this.cim = cim;
+        this.lejarat = lejarat;
+        this.szoveg = szoveg;
+    }
+
+    public void addToKategoriak(Kategoria l) {
+        this.kategoriak.add(l);
+    }
     public Long getId() {
         return id;
     }
@@ -24,12 +38,12 @@ public class Hir {
         this.id = id;
     }
 
-    public List<HirKategoria> getHirkategorias() {
-        return hirkategorias;
+    public List<Kategoria> getKategoriak() {
+        return kategoriak;
     }
 
-    public void setHirkategorias(List<HirKategoria> hirkategorias) {
-        this.hirkategorias = hirkategorias;
+    public void setKategoriak(List<Kategoria> kategoriak) {
+        this.kategoriak = kategoriak;
     }
 
     public String getCim() {

@@ -1,19 +1,26 @@
 package hu.bme.aut.hirportal.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Kategoria {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @JsonIgnore
-    @OneToMany(mappedBy = "kategoria")
-    private List<HirKategoria> hirkategorias;
+    @ManyToMany(mappedBy = "kategoriak", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private List<Hir> hirek = new ArrayList<>();
     private String nev;
+    public Kategoria() {
+    }
+    public Kategoria(Long id, List<Hir> hirek, String nev) {
+        this.id = id;
+        this.hirek = hirek;
+        this.nev = nev;
+    }
+
     public Long getId() {
         return id;
     }
@@ -22,12 +29,12 @@ public class Kategoria {
         this.id = id;
     }
 
-    public List<HirKategoria> getHirkategorias() {
-        return hirkategorias;
+    public List<Hir> getHirek() {
+        return hirek;
     }
 
-    public void setHirkategorias(List<HirKategoria> hirkategorias) {
-        this.hirkategorias = hirkategorias;
+    public void setHirek(List<Hir> hirek) {
+        this.hirek = hirek;
     }
 
     public String getNev() {
