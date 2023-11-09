@@ -39,7 +39,6 @@ public class HirController {
             }
         }
         hir.setKategoriak(kats);
-        System.out.println(hir.getKategoriak().get(0).getNev() + hir.getKategoriak().get(0).getId());
         return ResponseEntity.ok(hir);
     }
 }
