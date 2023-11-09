@@ -1,5 +1,6 @@
 package hu.bme.aut.hirportal.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -12,7 +13,8 @@ public class Hir {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToMany
+    @JsonIgnoreProperties("hirek")
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Kategoria> kategoriak = new ArrayList<>();
     private String cim;
     private Timestamp lejarat;

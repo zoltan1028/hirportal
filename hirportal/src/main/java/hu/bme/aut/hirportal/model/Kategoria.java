@@ -1,5 +1,7 @@
 package hu.bme.aut.hirportal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ public class Kategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @JsonIgnoreProperties("kategoriak")
     @ManyToMany(mappedBy = "kategoriak", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Hir> hirek = new ArrayList<>();
     private String nev;
