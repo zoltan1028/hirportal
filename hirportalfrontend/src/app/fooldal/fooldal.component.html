@@ -1,15 +1,23 @@
 <nav class="navbar navbar-light bg-light justify-content-between">
   <a class="navbar-brand">Hírportál</a>
-  <a *ngIf="szerkeszto" class="btn btn-danger">Új hír felvétele</a>
+  <a *ngIf="szerkeszto" class="btn btn-danger" routerLink="/ujhir">Új hír felvétele</a>
   <a *ngIf="szerkeszto" class="btn btn-danger" routerLink="/szerkesztes">Szerkesztes</a>
   <form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Keresés" aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Keresés</button>
   </form>
 </nav>
-
 <section>
   <button (click)="dummyLogin()">
     Login
   </button>
+  <div>
+    <hp-hir
+      *ngFor="let hir of this.hirek"
+      [id]="hir.id"
+      [cim]="hir.cim"
+      [lejarat]="hir.lejarat"
+      [szoveg]="hir.szoveg" >
+    </hp-hir>
+  </div>
 </section>

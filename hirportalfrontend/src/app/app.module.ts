@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 //manually added modules
 import { RouterModule, Routes } from '@angular/router';
-
+//http client module
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,24 +11,33 @@ import { FooldalComponent } from './fooldal/fooldal.component';
 //manually added w ng add @ng-bootstrap/ng-bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SzerkesztesComponent } from './szerkesztes/szerkesztes.component';
+import { HirComponent } from './hir/hir.component';
+import { SzerkesztesitemComponent } from './szerkesztesitem/szerkesztesitem.component';
+import { UjComponent } from './uj/uj.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'fooldal', pathMatch: 'full'},
   {path: 'fooldal', component: FooldalComponent},
-  {path: 'szerkesztes', component: SzerkesztesComponent}
+  //{path: 'szerkesztes', component: SzerkesztesComponent, children: [{path:':id', component: UjComponent}]}
+  {path: 'szerkesztes', component: SzerkesztesComponent},
+  {path: 'szerkesztes/:id', component: UjComponent},
+  {path: 'ujhir', component: UjComponent}
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
     FooldalComponent,
-    SzerkesztesComponent
+    SzerkesztesComponent,
+    HirComponent,
+    SzerkesztesitemComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
     NgbModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

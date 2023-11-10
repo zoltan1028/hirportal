@@ -85,6 +85,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "hirportal:build",
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "hirportal:build:production"
