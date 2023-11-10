@@ -14,6 +14,9 @@ import { SzerkesztesComponent } from './szerkesztes/szerkesztes.component';
 import { HirComponent } from './hir/hir.component';
 import { SzerkesztesitemComponent } from './szerkesztesitem/szerkesztesitem.component';
 import { UjComponent } from './uj/uj.component';
+//ngmodel
+import { FormsModule } from '@angular/forms';
+
 
 const routes: Routes = [
   {path: '', redirectTo: 'fooldal', pathMatch: 'full'},
@@ -31,13 +34,15 @@ const routes: Routes = [
     SzerkesztesComponent,
     HirComponent,
     SzerkesztesitemComponent,
+    UjComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

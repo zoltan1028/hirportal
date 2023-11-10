@@ -22,7 +22,7 @@ export class SzerkesztesComponent {
     console.log(this.hirek);
   }
   @Input()
-  id!: number;
+  id!: number | null;
   get Id() {
     return (this.id)
   }

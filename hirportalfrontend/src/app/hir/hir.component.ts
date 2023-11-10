@@ -11,7 +11,7 @@ export class HirComponent {
   ngOnInit() {
   }
   @Input()
-  id!: number;
+  id!: number|null;
   get Id() {
     return (this.id)
   }

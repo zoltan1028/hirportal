@@ -1,1 +1,23 @@
-<p>uj works!</p>
+<form ngNativeValidate #form *ngIf="dataFetched">
+  <div class="form-group">
+    <label for="cim">Cím</label>
+    <input name="cim" [(ngModel)]='cim' type="text" class="form-control" id="cim" placeholder="Cím">
+  </div>
+  <div class="form-group">
+    <label for="lejarat">Lejárat</label>
+    <input name="lejarat" [(ngModel)]='lejarat' type="text" class="form-control" id="lejarat" placeholder="Lejárat">
+  </div>
+  <div class="form-group">
+    <label for="kategoriak">Kategóriák</label>
+    <select multiple class="form-control" id="kategoriak">
+      <option>belföld</option>
+      <option>külföld</option>
+      <option>kultúra</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="szoveg">Szoveg</label>
+    <textarea name="szoveg" [(ngModel)]='szoveg' class="form-control" id="szoveg" rows="3"></textarea>
+  </div>
+  <button (click)="submitForm()" class="btn btn-danger">Új hír mentése</button>
+</form>

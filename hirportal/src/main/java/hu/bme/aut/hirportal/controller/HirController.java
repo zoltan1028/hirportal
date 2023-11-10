@@ -21,6 +21,14 @@ public class HirController {
     @Autowired
     private KategoriaRepository kategoriaRepository;
 
+    @GetMapping("{id}")
+    public ResponseEntity<Hir> GetHirById(@PathVariable Long id) {
+        Optional<Hir> hirOptional = hirRepository.findById(id);
+        if (hirOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(hirOptional.get());
+    }
     @GetMapping
     public ResponseEntity<List<Hir>> GetHirek() {
         return ResponseEntity.ok(hirRepository.findAll());

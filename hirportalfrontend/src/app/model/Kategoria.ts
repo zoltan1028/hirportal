@@ -1,4 +1,4 @@
 export interface Kategoria {
-  id: number,
+  id: number|null,
   nev: string
 }

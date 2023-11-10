@@ -11,6 +11,7 @@ export class FooldalComponent {
   constructor(private apiService: HirportalApiService) {}
   szerkeszto!: boolean;
   hirek!: Hir[];
+  hir!: Hir;
   ngOnInit() {
     console.log("nginit")
     this.apiService.getHirek().subscribe(hirek => {
