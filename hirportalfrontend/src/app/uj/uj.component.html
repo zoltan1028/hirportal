@@ -9,10 +9,8 @@
   </div>
   <div class="form-group">
     <label for="kategoriak">Kategóriák</label>
-    <select multiple class="form-control" id="kategoriak">
-      <option>belföld</option>
-      <option>külföld</option>
-      <option>kultúra</option>
+    <select name="multiselect" [(ngModel)]="selectedCategories" multiple class="form-control" id="kategoriak">
+      <option *ngFor="let kat of kategoriakOptions" [ngValue]="kat">{{kat.nev}}</option>
     </select>
   </div>
   <div class="form-group">

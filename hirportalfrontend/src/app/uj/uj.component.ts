@@ -14,7 +14,9 @@ export class UjComponent {
   constructor(private apiService: HirportalApiService, private router: Router) { }
   dataFetched: boolean = false
   hir!: Hir
-  id!: string
+  id!: any
+  selectedCategories!: Kategoria[]
+  kategoriakOptions!: Kategoria[]
   ngOnInit() {
     this.setData()
   }
@@ -39,6 +41,7 @@ export class UjComponent {
     return (this.kategoriak ?? "");
   }
   setData() {
+    this.apiService.getKategoriak().subscribe(kat => {this.kategoriakOptions = kat})
     this.id = this.router.url.split('/').pop()!;
     if (!(this.id === 'ujhir')) {
       this.apiService.getHirById(Number(this.id)).subscribe(hir => {
@@ -53,16 +56,25 @@ export class UjComponent {
     }
   }
   submitForm() {
+    if (this.id === "ujhir") {
+      this.id = null
+    }
     const hirtopost: Hir = {
-      id: null,
+      id: this.id,
       cim: this.Cim,
       lejarat: this.Lejarat,
       szoveg: this.Szoveg,
-      kategoriak: [{id:3, nev:"külföld"}]
+      kategoriak: this.selectedCategories
     }
-    this.apiService.postHir(hirtopost).subscribe(response => {
-      console.log(response);
-    });
+    if (this.id === null) {
+      this.apiService.postHir(hirtopost).subscribe(response => {
+        console.log(response);
+      });
+    } else {
+      this.apiService.putHir(hirtopost, this.id).subscribe(response => {
+        console.log(response);
+      });
+    }
   }
 }
 

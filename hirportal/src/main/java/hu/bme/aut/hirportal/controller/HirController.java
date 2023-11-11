@@ -42,12 +42,26 @@ public class HirController {
             Optional<Kategoria> kategoria = kategoriaRepository.findById(k.getId());
             if (!kategoria.isEmpty()) {
                 if (k.getId() == kategoria.get().getId()) {
+                    //settel jobb
                     kats.add(k);
                 }
             }
         }
         hir.setKategoriak(kats);
         return ResponseEntity.ok(hir);
+    }
+    @PutMapping(value = "{id}")
+    @Transactional
+    public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id) {
+        Optional<Hir> optionalHir = hirRepository.findById(id);
+        if(optionalHir.isEmpty()) {
+           return ResponseEntity.notFound().build();
+        } else {
+            var paramkat = hir.getKategoriak();
+            hirRepository.save(hir);
+            hir.setKategoriak(paramkat);
+            return ResponseEntity.ok(optionalHir.get());
+        }
     }
 }
 
