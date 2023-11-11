@@ -22,23 +22,8 @@ export class SzerkesztesComponent {
     console.log(this.hirek);
   }
   @Input()
-  id!: number | null;
-  get Id() {
-    return (this.id)
-  }
-  @Input()
-  cim!: string;
-  get Cim() {
-    return (this.cim)
-  }
-  @Input()
-  lejarat!: string;
-  get Lejarat() {
-    return (this.lejarat)
-  }
-  @Input()
-  szoveg!: string;
-  get Szoveg() {
-    return (this.szoveg)
+  hir!: number | null;
+  get Hir() {
+    return (this.hir)
   }
 }

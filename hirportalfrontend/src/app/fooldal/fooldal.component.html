@@ -2,9 +2,19 @@
   <a class="navbar-brand">Hírportál</a>
   <a *ngIf="szerkeszto" class="btn btn-danger" routerLink="/ujhir">Új hír felvétele</a>
   <a *ngIf="szerkeszto" class="btn btn-danger" routerLink="/szerkesztes">Szerkesztes</a>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" value="Belföld" (click)="setActiveCategory(cat1.value)" class="btn btn-secondary" #cat1>Belföld</button>
+    <button type="button" value="Külföld" (click)="setActiveCategory(cat2.value)" class="btn btn-secondary" #cat2>Külföld</button>
+    <button type="button" value="Kultúra" (click)="setActiveCategory(cat3.value)" class="btn btn-secondary" #cat3>Kultúra</button>
+    <button type="button" value="" (click)="setActiveCategory(cat4.value)" class="btn btn-secondary" #cat4>Összes</button>
+  </div>
   <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Keresés" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Keresés</button>
+    <input class="form-control mr-sm-2" type="search" placeholder="Keresés" aria-label="Search" #filter>
+    <button (click)="searchInHirek(filter.value)" class="btn btn-outline-success my-2 my-sm-0" type="submit">Keresés</button>
+    <div class="form-check form-switch">
+      <input value="isToggled" (change)="setToggle()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Keresés az összes hírben</label>
+    </div>
   </form>
 </nav>
 <section>
@@ -12,12 +22,6 @@
     Login
   </button>
   <div>
-    <hp-hir
-      *ngFor="let hir of this.hirek"
-      [id]="hir.id"
-      [cim]="hir.cim"
-      [lejarat]="hir.lejarat"
-      [szoveg]="hir.szoveg" >
-    </hp-hir>
+    <hp-hir *ngFor="let hir of filteredHirek" [hir]="hir"/>
   </div>
 </section>

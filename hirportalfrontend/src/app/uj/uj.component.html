@@ -19,5 +19,5 @@
     <label for="szoveg">Szoveg</label>
     <textarea name="szoveg" [(ngModel)]='szoveg' class="form-control" id="szoveg" rows="3"></textarea>
   </div>
-  <button (click)="submitForm()" class="btn btn-danger">Új hír mentése</button>
+  <button (click)="submitForm()" class="btn btn-danger">{{(id === "ujhir") ? 'Új hír mentése':'Módosítás mentése'}}</button>
 </form>

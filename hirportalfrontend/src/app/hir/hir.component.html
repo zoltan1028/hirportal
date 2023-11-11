@@ -1,6 +1,7 @@
 <p>hir works!</p>
-<div>{{id}}</div>
-<div>{{cim}}</div>
-<div>{{szoveg}}</div>
-<div>{{lejarat}}</div>
+<div>{{hir.id}}</div>
+<div>{{hir.cim}}</div>
+<div>{{hir.szoveg}}</div>
+<div>{{hir.lejarat}}</div>
+<div *ngFor="let k of hir.kategoriak">{{k.nev}}</div>
 

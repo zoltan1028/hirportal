@@ -2,9 +2,6 @@
 <div>
   <hp-szerkesztesitem
     *ngFor="let hir of this.hirek"
-    [id]="hir.id"
-    [cim]="hir.cim"
-    [lejarat]="hir.lejarat"
-    [szoveg]="hir.szoveg" >
+    [hir]="hir">
   </hp-szerkesztesitem>
 </div>
