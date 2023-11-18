@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { HirportalApiService } from '../hirportal.api.service';
 import { Hir } from '../model/Hir';
+import { FormGroup } from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'hp-fooldal',
@@ -8,10 +10,10 @@ import { Hir } from '../model/Hir';
   styleUrls: ['./fooldal.component.scss']
 })
 export class FooldalComponent {
-  constructor(private apiService: HirportalApiService) {}
-  szerkeszto!: boolean;
+  constructor(private apiService: HirportalApiService, private authService: AuthenticationService) {}
   hirek!: Hir[];
   hir!: Hir;
+  showSzerkesztesGombok!: boolean
   searchfield!: string;
   filteredHirek!: Hir[];
   selectedCategory: string = ""
@@ -21,11 +23,18 @@ export class FooldalComponent {
     this.apiService.getHirek().subscribe(hirek => {
       this.hirek = hirek
       this.filteredHirek = hirek
+      this.showSzerkesztesGombok = !!this.authService.getToken()
     })
   }
-  dummyLogin() {
-    this.szerkeszto = !this.szerkeszto;
-    console.log(this.hirek);
+  onLogin(formdata: any) {
+    const formObj = {
+      felhasznalonev:formdata.felhasznalonev,
+      jelszo:formdata.jelszo
+    }
+    this.apiService.postLogin(formObj).subscribe(response => {this.authService.setToken(response.headers.get('Token')!), this.showSzerkesztesGombok = !!this.authService.getToken();});
+  }
+  onLogout() {
+    this.apiService.getLogout("admin").subscribe(() => {this.authService.emptyToken(), this.showSzerkesztesGombok = !!this.authService.getToken()});
   }
   searchInHirek(value: string) {
     if(this.isToggled) {

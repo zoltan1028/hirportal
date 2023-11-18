@@ -1,13 +1,14 @@
 <nav class="navbar navbar-light bg-light justify-content-between">
   <a class="navbar-brand">Hírportál</a>
-  <a *ngIf="szerkeszto" class="btn btn-danger" routerLink="/ujhir">Új hír felvétele</a>
-  <a *ngIf="szerkeszto" class="btn btn-danger" routerLink="/szerkesztes">Szerkesztes</a>
+  <a *ngIf="showSzerkesztesGombok" class="btn btn-danger" routerLink="/ujhir">Új hír felvétele</a>
+  <a *ngIf="showSzerkesztesGombok" class="btn btn-danger" routerLink="/szerkesztes">Szerkesztes</a>
   <div class="btn-group" role="group" aria-label="Basic example">
     <button type="button" value="Belföld" (click)="setActiveCategory(cat1.value)" class="btn btn-secondary" #cat1>Belföld</button>
     <button type="button" value="Külföld" (click)="setActiveCategory(cat2.value)" class="btn btn-secondary" #cat2>Külföld</button>
     <button type="button" value="Kultúra" (click)="setActiveCategory(cat3.value)" class="btn btn-secondary" #cat3>Kultúra</button>
     <button type="button" value="" (click)="setActiveCategory(cat4.value)" class="btn btn-secondary" #cat4>Összes</button>
   </div>
+
   <form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Keresés" aria-label="Search" #filter>
     <button (click)="searchInHirek(filter.value)" class="btn btn-outline-success my-2 my-sm-0" type="submit">Keresés</button>
@@ -16,11 +17,22 @@
       <label class="form-check-label" for="flexSwitchCheckDefault">Keresés az összes hírben</label>
     </div>
   </form>
+
+  <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
+    <div class="form-group">
+      <label for="username">Felhasználónév</label>
+      <input name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel>
+    </div>
+    <div class="form-group">
+      <label for="password">Jelszó</label>
+      <input name="jelszo" type="password" class="form-control" id="password" placeholder="Jelszó" ngModel>
+    </div>
+    <button type="submit" value="submit" class="btn btn-primary">Bejelentkezés</button>
+    <button type="button" class="btn btn-primary" (click)="onLogout()">Kijelentkezés</button>
+  </form>
+
 </nav>
 <section>
-  <button (click)="dummyLogin()">
-    Login
-  </button>
   <div>
     <hp-hir *ngFor="let hir of filteredHirek" [hir]="hir"/>
   </div>

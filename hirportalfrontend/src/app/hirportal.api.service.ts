@@ -15,7 +15,13 @@ export class HirportalApiService {
 
   //Hirek
   getHirek() {
-    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
+    return this.http.post<Hir[]>(`${HirportalApiService.baseUrl}hirek/fooldal`, "1202,1205")
+  }
+  getHirekVedett(token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    console.log(headers)
+    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek/vedett`, {headers})
   }
   getHirById(id: number): Observable<any> {
     return this.http.get<Hir>(`${HirportalApiService.baseUrl}hirek/${id}`)
@@ -30,5 +36,12 @@ export class HirportalApiService {
   //Kategoriak
   getKategoriak() {
     return this.http.get<Kategoria[]>(`${HirportalApiService.baseUrl}kategoriak`)
+  }
+  //, { responseType: 'text' } as Record<string, unknown>
+  postLogin(obj: Object) {
+    return this.http.post<Object>(`${HirportalApiService.baseUrl}szerkesztok`, obj, { observe: 'response' })
+  }
+  getLogout(felhasznalonev: string) {
+    return this.http.get<void>(`${HirportalApiService.baseUrl}szerkesztok/${felhasznalonev}`)
   }
 }
