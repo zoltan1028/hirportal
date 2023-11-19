@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Hir } from './model/Hir';
 import { Observable } from 'rxjs';
 import { Kategoria } from './model/Kategoria';
+import { HirFoOldal } from './model/HirFoOldal';
 //import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class HirportalApiService {
 
   //Hirek
   getHirek() {
-    return this.http.post<Hir[]>(`${HirportalApiService.baseUrl}hirek/fooldal`, "1202,1205")
+    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
   }
   getHirekVedett(token: string) {
     let headers = new HttpHeaders();
@@ -43,5 +44,11 @@ export class HirportalApiService {
   }
   getLogout(felhasznalonev: string) {
     return this.http.get<void>(`${HirportalApiService.baseUrl}szerkesztok/${felhasznalonev}`)
+  }
+  postFoOldal(hirekids: string) {
+    return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids)
+  }
+  getFoOldalIds() {
+    return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`)
   }
 }

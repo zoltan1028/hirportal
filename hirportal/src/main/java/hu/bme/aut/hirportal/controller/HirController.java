@@ -2,8 +2,10 @@ package hu.bme.aut.hirportal.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.bme.aut.hirportal.model.Hir;
+import hu.bme.aut.hirportal.model.HirFooldal;
 import hu.bme.aut.hirportal.model.Kategoria;
 import hu.bme.aut.hirportal.model.Szerkeszto;
+import hu.bme.aut.hirportal.repository.HirFooldalRepository;
 import hu.bme.aut.hirportal.repository.HirRepository;
 import hu.bme.aut.hirportal.repository.KategoriaRepository;
 import hu.bme.aut.hirportal.repository.SzerkesztoRepository;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +29,8 @@ public class HirController {
     private KategoriaRepository kategoriaRepository;
     @Autowired
     private SzerkesztoRepository szerkesztoRepository;
+    @Autowired
+    private HirFooldalRepository hirFooldalRepository;
 
     @GetMapping("{id}")
     public ResponseEntity<Hir> GetHirById(@PathVariable Long id) {
@@ -35,27 +40,37 @@ public class HirController {
         }
         return ResponseEntity.ok(hirOptional.get());
     }
+    @GetMapping("fooldalhirids")
+    public ResponseEntity<List<HirFooldal>> GetFooldalIds() {
+        return ResponseEntity.ok(hirFooldalRepository.findAll());
+    }
     @GetMapping
     public ResponseEntity<List<Hir>> GetHirekFoOldal() {
-        //reszhalmaz
-        return ResponseEntity.ok(hirRepository.findAll());
+        var osszeshir = hirRepository.findAll();
+        var fooldalids = hirFooldalRepository.findAll();
+        List<Hir> fooldalhirek = new ArrayList<>();
+        for (HirFooldal hirfoldal: fooldalids) {
+            for (Hir hir: osszeshir) {
+                if(Objects.equals(hirfoldal.getHir().getId(), hir.getId())) {fooldalhirek.add(hir);}
+            }
+        }
+        return ResponseEntity.ok(fooldalhirek);
     }
     @PostMapping("fooldal")
     public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str) {
         String[] arrOfStr = str.split(",");
-        int[] ids = new int[arrOfStr.length];
-        for(int i = 0;i < arrOfStr.length;i++) {ids[i] = Integer.parseInt(arrOfStr[i]);}
+        Long[] ids = new Long[arrOfStr.length];
+        for(int i = 0;i < arrOfStr.length;i++) {ids[i] = Long.parseLong(arrOfStr[i]);}
         //id tabla
-        List<Hir> fooldal = new ArrayList<>();
-        List<Hir> optionaHirek = hirRepository.findAll();
-        for (Hir h: optionaHirek) {
-            for (int i: ids) {
-                if(h.getId() == i) {
-                    fooldal.add(h);
-                }
+        for (Long i: ids) {
+            Optional<Hir> hir = hirRepository.findById(i);
+            if(hir.isPresent()) {
+                var fooldalhir = new HirFooldal();
+                fooldalhir.setHir(hir.get());
+                hirFooldalRepository.save(fooldalhir);
             }
         }
-        return ResponseEntity.ok(fooldal);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("vedett")

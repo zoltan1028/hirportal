@@ -16,6 +16,9 @@ public class Hir {
     @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Kategoria> kategoriak = new ArrayList<>();
+    @OneToOne(mappedBy = "hir")
+    private HirFooldal hirFooldal;
+
     private String cim;
     private Timestamp lejarat;
     private String szoveg;
