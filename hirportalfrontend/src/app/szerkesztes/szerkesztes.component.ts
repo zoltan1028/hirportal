@@ -12,37 +12,42 @@ import { HirFoOldal } from '../model/HirFoOldal';
 export class SzerkesztesComponent {
   constructor(private apiService: HirportalApiService, private authService: AuthenticationService) {}
   osszesHir!: Hir[];
-  foOldalHirekIds: string = ""
   idOfEnabledBoxes = new Set();
   foOldalHirek!: HirFoOldal[];
+  foOldalIds: number[] = [];
   ngOnInit() {
     this.apiService.getFoOldalIds().subscribe(fohirek => {
       this.foOldalHirek = fohirek
+      for(let i of this.foOldalHirek) {
+        this.foOldalIds.push(i.hir.id!)
+      }
     })
-    console.log("nginit")
-    console.log(this.authService.getToken());
     this.apiService.getHirekVedett(this.authService.getToken()).subscribe(hirek => {
       this.osszesHir = hirek
-
-
     })
+  }
+  initCheckBox(id: number) {
+    for (let idf of this.foOldalIds) {
+      if(id === idf) {return true}
+    }
+    return false
   }
   @Input()
   hir!: number | null;
   get Hir() {
     return (this.hir)
   }
-  initCheckboxes(hirid: number) {
-    for(let i of this.foOldalHirek) {if(i.hir.id === hirid) {
-      this.idOfEnabledBoxes.add(hirid)
-      return true
-    }}
-    return false
-  }
-  checkUpdate(id: number) {
-
+  checkUpdate(value: any, hirid: any) {
+    if(value == false) {
+      this.foOldalIds.push(hirid)
+    } else if(this.foOldalIds.length > 0) {
+      const i = this.foOldalIds.indexOf(hirid)
+      this.foOldalIds.splice(i, 1)
+    }
+    console.log(this.foOldalIds)
   }
   submitHirekToFoOldal() {
-    ///this.apiService.postFoOldal(this.foOldalHirekIds.slice(1)).subscribe(response => {console.log(response)})
+    console.log(this.foOldalIds.toString())
+    this.apiService.postFoOldal(this.foOldalIds.toString()).subscribe(response => {console.log(response)})
   }
 }

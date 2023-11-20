@@ -21,7 +21,8 @@ export class SzerkesztesitemComponent {
   }
   @Output()
   onChecked: EventEmitter<void> = new EventEmitter();
-  onCheckBoxEmit() {
-    this.onChecked.emit();
+  onCheckBoxEmit(value: any) {
+    console.log(value)
+    this.onChecked.emit(value);
   }
 }

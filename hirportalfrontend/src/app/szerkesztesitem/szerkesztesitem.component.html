@@ -6,5 +6,5 @@
 <button routerLink="{{hir.id}}">Szerkesztes</button>
 <div class="form-check">
   <label class="form-check-label" for="selecthir">Kiválasztás főoldalra</label>
-  <input (click)="onCheckBoxEmit()" [checked]="isChecked" class="form-check-input" type="checkbox" value="" id="selecthir">
+  <input (click)="onCheckBoxEmit(isChecked)" [(ngModel)]="isChecked" class="form-check-input" type="checkbox" value="" id="selecthir">
 </div>

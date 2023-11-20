@@ -58,10 +58,11 @@ public class HirController {
     }
     @PostMapping("fooldal")
     public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str) {
+        var hirfooldal = hirFooldalRepository.findAll();
         String[] arrOfStr = str.split(",");
         Long[] ids = new Long[arrOfStr.length];
         for(int i = 0;i < arrOfStr.length;i++) {ids[i] = Long.parseLong(arrOfStr[i]);}
-        //id tabla
+        hirFooldalRepository.deleteAll();
         for (Long i: ids) {
             Optional<Hir> hir = hirRepository.findById(i);
             if(hir.isPresent()) {
