@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HirportalApiService } from '../hirportal.api.service';
 import { Hir } from '../model/Hir';
-import { FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 
 @Component({
@@ -12,35 +11,23 @@ import { AuthenticationService } from '../authentication.service';
 export class FooldalComponent {
   constructor(private apiService: HirportalApiService, private authService: AuthenticationService) {}
   hirek!: Hir[];
-  hir!: Hir;
   showSzerkesztesGombok!: boolean
-  searchfield!: string;
   filteredHirek!: Hir[];
-  selectedCategory: string = ""
   isToggled: boolean = false
   loginText: string = "Bejelentkezés"
-  loginProperty: boolean = true
+  requiredPropertForLogin: boolean = true
   ngOnInit() {
-    console.log("nginit")
+    console.log("ngOnInit")
     this.apiService.getHirek().subscribe(hirek => {
       this.hirek = hirek
       this.filteredHirek = hirek
       this.showSzerkesztesGombok = !!this.authService.getToken()
     })
-
-    if (this.authService.getToken() == "") {
-      this.loginText = "Bejelentkezés"
-      this.loginProperty = true
-
-    } else {
-      this.loginText = "Kijelentkezés"
-      this.loginProperty = false
-
-    }
-
+    this.initUserLoginProps();
   }
-  onLogin(formdata: any) {
+  onLoginButtonClick(formdata: any) {
     console.log(this.authService.getToken())
+    //onLogin
     if (this.authService.getToken() == "") {
       const formObj = {
         felhasznalonev:formdata.felhasznalonev,
@@ -49,23 +36,14 @@ export class FooldalComponent {
       this.apiService.postLogin(formObj).subscribe(response => {
         this.authService.setToken(response.headers.get('Token')!)
         this.authService.setUserId(response.headers.get('Authorization')!)
-        this.showSzerkesztesGombok = !!this.authService.getToken();
-
-        if (!!this.authService.getToken()) {
-          this.loginText = "Kijelentkezés"
-          this.loginProperty = false
-        }
+        this.initUserLoginProps();
       });
+    //onLogout
     } else {
       this.apiService.getLogout(this.authService.getUserId()).subscribe(() => {
         this.authService.emptyToken();
-        this.showSzerkesztesGombok = !!this.authService.getToken()
-        if (this.authService.getToken() === "") {
-          this.loginText = "Bejelentkezés"
-          this.loginProperty = true
-        }
+        this.initUserLoginProps();
       });
-
     }
   }
   searchInHirek(event: any) {
@@ -81,9 +59,19 @@ export class FooldalComponent {
     }
     this.filteredHirek = this.hirek
     this.filteredHirek = this.filteredHirek.filter(hir => hir.kategoriak.some(k => k.nev.includes(value.toLowerCase())));
-    console.log(this.filteredHirek)
   }
   setToggle() {
     this.isToggled = !this.isToggled
+  }
+  initUserLoginProps() {
+    if (this.authService.getToken() == "") {
+      this.showSzerkesztesGombok = !!this.authService.getToken();
+      this.loginText = "Bejelentkezés"
+      this.requiredPropertForLogin = true
+    } else {
+      this.showSzerkesztesGombok = !!this.authService.getToken()
+      this.loginText = "Kijelentkezés"
+      this.requiredPropertForLogin = false
+    }
   }
 }

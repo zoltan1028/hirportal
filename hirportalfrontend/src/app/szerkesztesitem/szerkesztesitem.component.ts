@@ -7,8 +7,7 @@ import { Hir } from '../model/Hir';
   styleUrls: ['./szerkesztesitem.component.scss']
 })
 export class SzerkesztesitemComponent {
-  ngOnInit() {
-  }
+  ngOnInit() {}
   @Input()
   hir!: Hir;
   get Hir() {
@@ -21,8 +20,5 @@ export class SzerkesztesitemComponent {
   }
   @Output()
   onChecked: EventEmitter<void> = new EventEmitter();
-  onCheckBoxEmit(value: any) {
-    console.log(value)
-    this.onChecked.emit(value);
-  }
+  onCheckBoxEmit(value: any) {this.onChecked.emit(value);}
 }

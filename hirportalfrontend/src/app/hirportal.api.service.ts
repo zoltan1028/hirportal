@@ -4,20 +4,12 @@ import { Hir } from './model/Hir';
 import { Observable } from 'rxjs';
 import { Kategoria } from './model/Kategoria';
 import { HirFoOldal } from './model/HirFoOldal';
-//import { Observable } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
 export class HirportalApiService {
-
   private static readonly baseUrl: string = "http://localhost:4200/";
   constructor(private http: HttpClient) { }
-
-
-
-
-
   //protected
   postHir(hirobj: Hir, token: string, userid: string) {
     let headers = new HttpHeaders();
@@ -37,8 +29,6 @@ export class HirportalApiService {
     headers = headers.append('Authorization', userid)
     return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids, {headers})
   }
-
-
   //not protected
   getHirek() {
     return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
@@ -60,7 +50,6 @@ export class HirportalApiService {
     return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`, {headers})
   }
   //login logout
-  //, { responseType: 'text' } as Record<string, unknown>
   postLogin(obj: Object) {
     return this.http.post<Object>(`${HirportalApiService.baseUrl}szerkesztok`, obj, { observe: 'response' })
   }
@@ -68,3 +57,4 @@ export class HirportalApiService {
     return this.http.get<void>(`${HirportalApiService.baseUrl}szerkesztok/${userid}`)
   }
 }
+//, { responseType: 'text' } as Record<string, unknown> -> if text response needed for get requests

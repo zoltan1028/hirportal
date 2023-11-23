@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light bg-light justify-content-between row pt-5">
+  <a *ngIf="showSzerkesztesGombok" class="btn btn-danger" routerLink="/ujhir">Új hír felvétele</a>
+  <a *ngIf="showSzerkesztesGombok" class="btn btn-danger" routerLink="/szerkesztes">Szerkesztes</a>
   <div class="row d-flex justify-content-between">
-    <a *ngIf="showSzerkesztesGombok" class="btn btn-danger" routerLink="/ujhir">Új hír felvétele</a>
-    <a *ngIf="showSzerkesztesGombok" class="btn btn-danger" routerLink="/szerkesztes">Szerkesztes</a>
 
     <h4 class="col-4 justify-content-center align-items-center">Hírportál</h4>
 
@@ -12,14 +12,14 @@
       <button type="button" value="" (click)="setActiveCategory(cat4.value)" class="nav-link filtertext" #cat4>Összes</button>
     </div>
 
-    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)" class="col-4 row" ngNativeValidate>
+    <form #loginForm="ngForm" (ngSubmit)="onLoginButtonClick(loginForm.value)" class="col-4 row" ngNativeValidate>
       <div class="form-group col-5">
         <label for="username">Felhasználónév</label>
-        <input name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel [required]="loginProperty">
+        <input name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel [required]="requiredPropertForLogin">
       </div>
       <div class="form-group col-5">
         <label for="password">Jelszó</label>
-        <input name="jelszo" type="password" class="form-control" id="password" placeholder="Jelszó" ngModel [required]="loginProperty">
+        <input name="jelszo" type="password" class="form-control" id="password" placeholder="Jelszó" ngModel [required]="requiredPropertForLogin">
       </div>
       <div class="form-group col-2 d-flex align-items-center">
         <button type="submit" value="submit" class="btn btn-light py-2">{{loginText}}</button>
@@ -39,10 +39,8 @@
 
 </nav>
 
-
 <section>
   <div>
-
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12">
@@ -54,6 +52,5 @@
         </div>
       </div>
     </div>
-
   </div>
 </section>

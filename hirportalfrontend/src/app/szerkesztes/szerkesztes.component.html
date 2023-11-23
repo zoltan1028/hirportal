@@ -3,8 +3,8 @@
   <hp-szerkesztesitem
     *ngFor="let hir of this.osszesHir"
     [hir]="hir"
-    (onChecked)="checkUpdate($event, hir.id)"
-    [isChecked]="initCheckBox(hir.id!)">
+    (onChecked)="onCheckBoxUpdates($event, hir.id)"
+    [isChecked]="initCheckBoxes(hir.id!)">
   </hp-szerkesztesitem>
   <div class="mb-5 mt-2">
     <button class="btn btn-danger mx-2" (click)="submitHirekToFoOldal()">Kiválasztott hírek mentése a főoldalra</button>

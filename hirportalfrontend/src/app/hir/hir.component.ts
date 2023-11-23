@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { HirportalApiService } from '../hirportal.api.service';
 import { Hir } from '../model/Hir';
 
 @Component({

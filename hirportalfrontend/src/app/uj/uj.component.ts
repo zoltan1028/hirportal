@@ -13,14 +13,12 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class UjComponent {
   constructor(private apiService: HirportalApiService, private router: Router, private authService: AuthenticationService) { }
-  dataFetched: boolean = false
+  showTemplate: boolean = false
   hir!: Hir
   id!: any
   selectedCategories!: Kategoria[]
   kategoriakOptions!: Kategoria[]
-  ngOnInit() {
-    this.setData()
-  }
+  ngOnInit() {this.setData()}
   @Input()
   cim!: string;
   get Cim() {
@@ -45,15 +43,15 @@ export class UjComponent {
     this.apiService.getKategoriak().subscribe(kat => {this.kategoriakOptions = kat})
     this.id = this.router.url.split('/').pop()!;
     if (!(this.id === 'ujhir')) {
-      this.apiService.getHirById(Number(this.id)).subscribe(hir => {
-        this.dataFetched = true;
+        this.apiService.getHirById(Number(this.id)).subscribe(hir => {
+        this.showTemplate = true;
         this.hir = hir
         this.cim = this.hir.cim
         this.lejarat = this.hir.lejarat
         this.szoveg = this.hir.szoveg
       });
     } else {
-      this.dataFetched = true;
+      this.showTemplate = true;
     }
   }
   submitForm() {

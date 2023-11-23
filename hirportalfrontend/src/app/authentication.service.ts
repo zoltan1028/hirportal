@@ -4,20 +4,15 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthenticationService {
-
   private static token: string = ""
   private static userid: string = ""
   constructor() { }
-
   emptyToken() {
     AuthenticationService.token = "";
   }
   setToken(token: string) {
-    if (token === null) {
-      AuthenticationService.token = "";
-    } else {
-      AuthenticationService.token = token;
-    }
+    if (token === null) {AuthenticationService.token = "";}
+    else {AuthenticationService.token = token;}
   }
   setUserId(userid: string) {
     AuthenticationService.userid = userid;
@@ -28,5 +23,4 @@ export class AuthenticationService {
   getToken(): string {
     return AuthenticationService.token;
   }
-
 }

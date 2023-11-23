@@ -1,6 +1,6 @@
 <div class="my-5">
   <h5>{{(id === "ujhir") ? 'Új hír felvétele':'Hír módosítása'}}</h5>
-  <form ngNativeValidate #form *ngIf="dataFetched" class="container">
+  <form ngNativeValidate #form *ngIf="showTemplate" class="container">
     <div class="form-group my-5">
       <label for="cim">Cím</label>
       <input name="cim" [(ngModel)]='cim' type="text" class="form-control" id="cim" placeholder="Cím">

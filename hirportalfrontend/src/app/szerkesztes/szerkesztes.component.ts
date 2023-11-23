@@ -16,35 +16,21 @@ export class SzerkesztesComponent {
   foOldalHirek!: HirFoOldal[];
   foOldalIds: number[] = [];
   ngOnInit() {
-    this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {
-      this.foOldalHirek = fohirek
-      for(let i of this.foOldalHirek) {
-        this.foOldalIds.push(i.hir.id!)
-      }
-    })
-    this.apiService.getHirekVedett(this.authService.getToken()).subscribe(hirek => {
-      this.osszesHir = hirek
-    })
-  }
-  initCheckBox(id: number) {
-    for (let idf of this.foOldalIds) {
-      if(id === idf) {return true}
-    }
-    return false
+    this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {this.foOldalHirek = fohirek; for(let i of this.foOldalHirek) {this.foOldalIds.push(i.hir.id!);}})
+    this.apiService.getHirekVedett(this.authService.getToken()).subscribe(hirek => {this.osszesHir = hirek})
   }
   @Input()
   hir!: number | null;
   get Hir() {
     return (this.hir)
   }
-  checkUpdate(value: any, hirid: any) {
-    if(value == false) {
-      this.foOldalIds.push(hirid)
-    } else if(this.foOldalIds.length > 0) {
-      const i = this.foOldalIds.indexOf(hirid)
-      this.foOldalIds.splice(i, 1)
-    }
-    console.log(this.foOldalIds)
+  initCheckBoxes(id: number) {
+    for (let idf of this.foOldalIds) {if(id === idf) {return true}}
+    return false
+  }
+  onCheckBoxUpdates(value: any, hirid: any) {
+    if(value == false) {this.foOldalIds.push(hirid)}
+    else if(this.foOldalIds.length > 0) {const i = this.foOldalIds.indexOf(hirid); this.foOldalIds.splice(i, 1);}
   }
   submitHirekToFoOldal() {
     console.log(this.foOldalIds.toString())
