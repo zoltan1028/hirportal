@@ -27,22 +27,28 @@ export class HirportalApiService {
   getHirekVedett(token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    console.log(headers)
     return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek/vedett`, {headers})
   }
   //missing impl
-  postHir(hirobj: Hir) {
-    console.log(hirobj)
-    return this.http.post<Hir>(`${HirportalApiService.baseUrl}hirek`, hirobj)
+  postHir(hirobj: Hir, token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.post<Hir>(`${HirportalApiService.baseUrl}hirek`, hirobj, {headers})
   }
-  putHir(hirobj: Hir, pathvar: number) {
-    return this.http.put<Hir>(`${HirportalApiService.baseUrl}hirek/${pathvar}`, hirobj)
+  putHir(hirobj: Hir, pathvar: number, token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.put<Hir>(`${HirportalApiService.baseUrl}hirek/${pathvar}`, hirobj, {headers})
   }
-  postFoOldal(hirekids: string) {
-    return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids)
+  postFoOldal(hirekids: string, token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids, {headers})
   }
-  getFoOldalIds() {
-    return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`)
+  getFoOldalIds(token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`, {headers})
   }
 
 

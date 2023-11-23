@@ -32,6 +32,8 @@ public class HirController {
     @Autowired
     private HirFooldalRepository hirFooldalRepository;
 
+
+    //Unprotected endpoints
     @GetMapping("{id}")
     public ResponseEntity<Hir> GetHirById(@PathVariable Long id) {
         Optional<Hir> hirOptional = hirRepository.findById(id);
@@ -39,10 +41,6 @@ public class HirController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(hirOptional.get());
-    }
-    @GetMapping("fooldalhirids")
-    public ResponseEntity<List<HirFooldal>> GetFooldalIds() {
-        return ResponseEntity.ok(hirFooldalRepository.findAll());
     }
     @GetMapping
     public ResponseEntity<List<Hir>> GetHirekFoOldal() {
@@ -56,39 +54,28 @@ public class HirController {
         }
         return ResponseEntity.ok(fooldalhirek);
     }
-    @PostMapping("fooldal")
-    public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str) {
-        var hirfooldal = hirFooldalRepository.findAll();
-        String[] arrOfStr = str.split(",");
-        Long[] ids = new Long[arrOfStr.length];
-        for(int i = 0;i < arrOfStr.length;i++) {ids[i] = Long.parseLong(arrOfStr[i]);}
-        hirFooldalRepository.deleteAll();
-        for (Long i: ids) {
-            Optional<Hir> hir = hirRepository.findById(i);
-            if(hir.isPresent()) {
-                var fooldalhir = new HirFooldal();
-                fooldalhir.setHir(hir.get());
-                hirFooldalRepository.save(fooldalhir);
-            }
-        }
-        return ResponseEntity.ok().build();
-    }
 
-    @GetMapping("vedett")
-    public ResponseEntity<List<Hir>> GetHirek(@RequestHeader String Token) {
-        //auth servicebe id es token kinek a tokenje
-        var szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByToken(Token));
+    //API endpoints that require authentication by Token
+    public boolean AuthenticateByToken(String token) {
+        var szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByToken(token));
         if(szerkesztoOpt.isPresent()) {
             Szerkeszto szerkeszto = szerkesztoOpt.get();
-            if (Token.equals(szerkeszto.getToken())) {
-                return ResponseEntity.ok(hirRepository.findAll());
-            }
+            System.out.println(szerkeszto + token);
+            return token.equals(szerkeszto.getToken());
         }
-        return ResponseEntity.ok().build();
+        return false;
+    }
+    @GetMapping("vedett")
+    public ResponseEntity<List<Hir>> GetHirek(@RequestHeader String Token) {
+        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+
+        return ResponseEntity.ok(hirRepository.findAll());
     }
     @PostMapping
     @Transactional
-    public ResponseEntity<Hir> PostHir(@RequestBody Hir hir) {
+    public ResponseEntity<Hir> PostHir(@RequestBody Hir hir, @RequestHeader String Token) {
+        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+
         hirRepository.save(hir);
         List<Kategoria> kats = new ArrayList<>();
         for (var k : hir.getKategoriak()) {
@@ -105,16 +92,43 @@ public class HirController {
     }
     @PutMapping(value = "{id}")
     @Transactional
-    public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id) {
+    public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id, @RequestHeader String Token) {
+        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+
         Optional<Hir> optionalHir = hirRepository.findById(id);
         if(optionalHir.isEmpty()) {
-           return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         } else {
             var paramkat = hir.getKategoriak();
             hirRepository.save(hir);
             hir.setKategoriak(paramkat);
             return ResponseEntity.ok(optionalHir.get());
         }
+    }
+    //for /szerkeszto page
+    @GetMapping("fooldalhirids")
+    public ResponseEntity<List<HirFooldal>> GetFooldalIds(@RequestHeader String Token) {
+        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+        return ResponseEntity.ok(hirFooldalRepository.findAll());
+    }
+    @PostMapping("fooldal")
+    public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str, @RequestHeader String Token) {
+        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+
+        var hirfooldal = hirFooldalRepository.findAll();
+        String[] arrOfStr = str.split(",");
+        Long[] ids = new Long[arrOfStr.length];
+        for(int i = 0;i < arrOfStr.length;i++) {ids[i] = Long.parseLong(arrOfStr[i]);}
+        hirFooldalRepository.deleteAll();
+        for (Long i: ids) {
+            Optional<Hir> hir = hirRepository.findById(i);
+            if(hir.isPresent()) {
+                var fooldalhir = new HirFooldal();
+                fooldalhir.setHir(hir.get());
+                hirFooldalRepository.save(fooldalhir);
+            }
+        }
+        return ResponseEntity.ok().build();
     }
 }
 

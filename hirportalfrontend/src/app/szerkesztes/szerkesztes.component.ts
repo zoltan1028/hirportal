@@ -16,7 +16,7 @@ export class SzerkesztesComponent {
   foOldalHirek!: HirFoOldal[];
   foOldalIds: number[] = [];
   ngOnInit() {
-    this.apiService.getFoOldalIds().subscribe(fohirek => {
+    this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {
       this.foOldalHirek = fohirek
       for(let i of this.foOldalHirek) {
         this.foOldalIds.push(i.hir.id!)
@@ -48,6 +48,6 @@ export class SzerkesztesComponent {
   }
   submitHirekToFoOldal() {
     console.log(this.foOldalIds.toString())
-    this.apiService.postFoOldal(this.foOldalIds.toString()).subscribe(response => {console.log(response)})
+    this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
   }
 }

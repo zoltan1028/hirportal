@@ -3,6 +3,7 @@ import { HirportalApiService } from '../hirportal.api.service';
 import { Router } from '@angular/router';
 import { Hir } from '../model/Hir';
 import { Kategoria } from '../model/Kategoria';
+import { AuthenticationService } from '../authentication.service';
 @Component({
   selector: 'hp-uj',
   templateUrl: './uj.component.html',
@@ -11,7 +12,7 @@ import { Kategoria } from '../model/Kategoria';
   //imports:[FormsModule]
 })
 export class UjComponent {
-  constructor(private apiService: HirportalApiService, private router: Router) { }
+  constructor(private apiService: HirportalApiService, private router: Router, private authService: AuthenticationService) { }
   dataFetched: boolean = false
   hir!: Hir
   id!: any
@@ -67,11 +68,11 @@ export class UjComponent {
       kategoriak: this.selectedCategories
     }
     if (this.id === null) {
-      this.apiService.postHir(hirtopost).subscribe(response => {
+      this.apiService.postHir(hirtopost, this.authService.getToken()).subscribe(response => {
         console.log(response);
       });
     } else {
-      this.apiService.putHir(hirtopost, this.id).subscribe(response => {
+      this.apiService.putHir(hirtopost, this.id, this.authService.getToken()).subscribe(response => {
         console.log(response);
       });
     }
