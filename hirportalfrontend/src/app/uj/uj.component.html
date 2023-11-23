@@ -1,4 +1,4 @@
-<form ngNativeValidate #form *ngIf="dataFetched">
+<form ngNativeValidate #form *ngIf="dataFetched" class="container">
   <div class="form-group">
     <label for="cim">Cím</label>
     <input name="cim" [(ngModel)]='cim' type="text" class="form-control" id="cim" placeholder="Cím">
@@ -18,4 +18,6 @@
     <textarea name="szoveg" [(ngModel)]='szoveg' class="form-control" id="szoveg" rows="3"></textarea>
   </div>
   <button (click)="submitForm()" class="btn btn-danger">{{(id === "ujhir") ? 'Új hír mentése':'Módosítás mentése'}}</button>
+  <a class="btn btn-primary" routerLink="/">Főoldalra</a>
+  <a class="btn bg-dark text-white" routerLink="/szerkesztes">Szerkesztés lista</a>
 </form>

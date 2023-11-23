@@ -21,6 +21,7 @@ public class Hir {
 
     private String cim;
     private Timestamp lejarat;
+    @Column(columnDefinition = "varchar(max)")
     private String szoveg;
     public Hir() {
     }

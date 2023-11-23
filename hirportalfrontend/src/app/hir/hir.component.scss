@@ -1,0 +1,30 @@
+.hvezer {
+  font-size: 6rem;
+}
+.hnemvezer {
+  font-size: 2rem;
+}
+.belföld {
+  color: red;
+}
+.külföld {
+  color: blue;
+}
+.kultúra {
+  color: yellowgreen;
+}
+.vezcikkparagraph {
+  font-size: 2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;  /* Number of lines displayed before it truncate */
+   overflow: hidden;
+
+}
+.nemvezcikkparagraph {
+  font-size: 1.5rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;  /* Number of lines displayed before it truncate */
+   overflow: hidden;
+}

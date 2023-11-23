@@ -1,10 +1,13 @@
-<p>hir works!</p>
-<div>{{hir.id}}</div>
-<div>{{hir.cim}}</div>
-<div>{{hir.szoveg}}</div>
-<div>{{hir.lejarat}}</div>
-<button routerLink="{{hir.id}}">Szerkesztes</button>
-<div class="form-check">
-  <label class="form-check-label" for="selecthir">Kiválasztás főoldalra</label>
-  <input (click)="onCheckBoxEmit(isChecked)" [(ngModel)]="isChecked" class="form-check-input" type="checkbox" value="" id="selecthir">
+<div class="card">
+  <h5 class="card-header">{{hir.cim}}</h5>
+  <div class="card-body">
+    <h5 class="card-title"><span *ngFor="let k of hir.kategoriak">{{" "+k.nev}}</span></h5>
+    <small>{{hir.lejarat}}</small>
+    <small>{{hir.id}}</small>
+    <div class="form-check">
+      <label class="form-check-label" for="selecthir">Kiválasztás főoldalra</label>
+      <input (click)="onCheckBoxEmit(isChecked)" [(ngModel)]="isChecked" class="form-check-input" type="checkbox" value="" id="selecthir">
+    </div>
+    <button class="btn btn-primary" routerLink="{{hir.id}}">Szerkesztes</button>
+  </div>
 </div>

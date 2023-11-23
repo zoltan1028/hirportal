@@ -15,4 +15,9 @@ export class HirComponent {
   get Hir() {
     return (this.hir)
   }
+  @Input()
+  vezcikk: boolean = true;
+  get VezCikk() {
+    return (this.vezcikk)
+  }
 }

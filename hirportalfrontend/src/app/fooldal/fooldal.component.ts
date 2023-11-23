@@ -36,12 +36,13 @@ export class FooldalComponent {
   onLogout() {
     this.apiService.getLogout("admin").subscribe(() => {this.authService.emptyToken(), this.showSzerkesztesGombok = !!this.authService.getToken()});
   }
-  searchInHirek(value: string) {
-    if(this.isToggled) {
-      this.filteredHirek = this.hirek.filter(hir => hir.cim.toLowerCase().includes(value.toLowerCase()));
-    } else {
-      this.filteredHirek = this.filteredHirek.filter(hir => hir.cim.toLowerCase().includes(value.toLowerCase()));
-    }
+
+  searchInHirek(event: any) {
+      if(this.isToggled) {
+        this.filteredHirek = this.hirek.filter(hir => hir.cim.toLowerCase().includes(event.value.toLowerCase()));
+      } else {
+        this.filteredHirek = this.filteredHirek.filter(hir => hir.cim.toLowerCase().includes(event.value.toLowerCase()));
+      }
   }
   setActiveCategory(value: string) {
     if(value === "") {
