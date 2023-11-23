@@ -19,6 +19,7 @@ export class FooldalComponent {
   selectedCategory: string = ""
   isToggled: boolean = false
   loginText: string = "Bejelentkezés"
+  loginProperty: boolean = true
   ngOnInit() {
     console.log("nginit")
     this.apiService.getHirek().subscribe(hirek => {
@@ -26,10 +27,15 @@ export class FooldalComponent {
       this.filteredHirek = hirek
       this.showSzerkesztesGombok = !!this.authService.getToken()
     })
+
     if (this.authService.getToken() == "") {
       this.loginText = "Bejelentkezés"
+      this.loginProperty = true
+
     } else {
       this.loginText = "Kijelentkezés"
+      this.loginProperty = false
+
     }
 
   }
@@ -42,18 +48,21 @@ export class FooldalComponent {
       }
       this.apiService.postLogin(formObj).subscribe(response => {
         this.authService.setToken(response.headers.get('Token')!)
+        this.authService.setUserId(response.headers.get('Authorization')!)
         this.showSzerkesztesGombok = !!this.authService.getToken();
 
         if (!!this.authService.getToken()) {
           this.loginText = "Kijelentkezés"
+          this.loginProperty = false
         }
       });
     } else {
-      this.apiService.getLogout(formdata.felhasznalonev).subscribe(() => {
+      this.apiService.getLogout(this.authService.getUserId()).subscribe(() => {
         this.authService.emptyToken();
         this.showSzerkesztesGombok = !!this.authService.getToken()
         if (this.authService.getToken() === "") {
           this.loginText = "Bejelentkezés"
+          this.loginProperty = true
         }
       });
 

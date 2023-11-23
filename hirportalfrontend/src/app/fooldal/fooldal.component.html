@@ -15,11 +15,11 @@
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)" class="col-4 row" ngNativeValidate>
       <div class="form-group col-5">
         <label for="username">Felhasználónév</label>
-        <input name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel required>
+        <input name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel [required]="loginProperty">
       </div>
       <div class="form-group col-5">
         <label for="password">Jelszó</label>
-        <input name="jelszo" type="password" class="form-control" id="password" placeholder="Jelszó" ngModel required>
+        <input name="jelszo" type="password" class="form-control" id="password" placeholder="Jelszó" ngModel [required]="loginProperty">
       </div>
       <div class="form-group col-2 d-flex align-items-center">
         <button type="submit" value="submit" class="btn btn-light py-2">{{loginText}}</button>

@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class AuthenticationService {
 
   private static token: string = ""
+  private static userid: string = ""
   constructor() { }
 
   emptyToken() {
@@ -17,6 +18,12 @@ export class AuthenticationService {
     } else {
       AuthenticationService.token = token;
     }
+  }
+  setUserId(userid: string) {
+    AuthenticationService.userid = userid;
+  }
+  getUserId() {
+    return AuthenticationService.userid;
   }
   getToken(): string {
     return AuthenticationService.token;

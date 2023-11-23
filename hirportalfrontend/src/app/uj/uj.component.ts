@@ -68,11 +68,11 @@ export class UjComponent {
       kategoriak: this.selectedCategories
     }
     if (this.id === null) {
-      this.apiService.postHir(hirtopost, this.authService.getToken()).subscribe(response => {
+      this.apiService.postHir(hirtopost, this.authService.getToken(), this.authService.getUserId()).subscribe(response => {
         console.log(response);
       });
     } else {
-      this.apiService.putHir(hirtopost, this.id, this.authService.getToken()).subscribe(response => {
+      this.apiService.putHir(hirtopost, this.id, this.authService.getToken(), this.authService.getUserId()).subscribe(response => {
         console.log(response);
       });
     }

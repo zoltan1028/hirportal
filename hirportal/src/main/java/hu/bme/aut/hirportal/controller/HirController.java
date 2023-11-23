@@ -9,9 +9,10 @@ import hu.bme.aut.hirportal.repository.HirFooldalRepository;
 import hu.bme.aut.hirportal.repository.HirRepository;
 import hu.bme.aut.hirportal.repository.KategoriaRepository;
 import hu.bme.aut.hirportal.repository.SzerkesztoRepository;
+import hu.bme.aut.hirportal.service.AuthenticationService;
 import jakarta.transaction.Transactional;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,8 @@ public class HirController {
     private SzerkesztoRepository szerkesztoRepository;
     @Autowired
     private HirFooldalRepository hirFooldalRepository;
+    @Autowired
+    private AuthenticationService authenticationService;
 
 
     //Unprotected endpoints
@@ -55,26 +58,16 @@ public class HirController {
         return ResponseEntity.ok(fooldalhirek);
     }
 
-    //API endpoints that require authentication by Token
-    public boolean AuthenticateByToken(String token) {
-        var szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByToken(token));
-        if(szerkesztoOpt.isPresent()) {
-            Szerkeszto szerkeszto = szerkesztoOpt.get();
-            System.out.println(szerkeszto + token);
-            return token.equals(szerkeszto.getToken());
-        }
-        return false;
-    }
-    @GetMapping("vedett")
-    public ResponseEntity<List<Hir>> GetHirek(@RequestHeader String Token) {
-        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+    //Protected endpoints by token auth
 
+    @GetMapping("vedett")
+    public ResponseEntity<List<Hir>> GetHirek() {
         return ResponseEntity.ok(hirRepository.findAll());
     }
     @PostMapping
     @Transactional
-    public ResponseEntity<Hir> PostHir(@RequestBody Hir hir, @RequestHeader String Token) {
-        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+    public ResponseEntity<Hir> PostHir(@RequestBody Hir hir, @RequestHeader String Token, @RequestHeader String Authorization) {
+        if (!authenticationService.AuthenticateByToken(Token, Authorization)) {return ResponseEntity.ok().build();}
 
         hirRepository.save(hir);
         List<Kategoria> kats = new ArrayList<>();
@@ -92,8 +85,8 @@ public class HirController {
     }
     @PutMapping(value = "{id}")
     @Transactional
-    public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id, @RequestHeader String Token) {
-        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+    public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id, @RequestHeader String Token, @RequestHeader String Authorization) {
+        if (!authenticationService.AuthenticateByToken(Token, Authorization)) {return ResponseEntity.ok().build();}
 
         Optional<Hir> optionalHir = hirRepository.findById(id);
         if(optionalHir.isEmpty()) {
@@ -107,13 +100,12 @@ public class HirController {
     }
     //for /szerkeszto page
     @GetMapping("fooldalhirids")
-    public ResponseEntity<List<HirFooldal>> GetFooldalIds(@RequestHeader String Token) {
-        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+    public ResponseEntity<List<HirFooldal>> GetFooldalIds() {
         return ResponseEntity.ok(hirFooldalRepository.findAll());
     }
     @PostMapping("fooldal")
-    public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str, @RequestHeader String Token) {
-        if (!AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+    public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str, @RequestHeader String Token, @RequestHeader String Authorization) {
+        if (!authenticationService.AuthenticateByToken(Token, Authorization)) {return ResponseEntity.ok().build();}
 
         var hirfooldal = hirFooldalRepository.findAll();
         String[] arrOfStr = str.split(",");
