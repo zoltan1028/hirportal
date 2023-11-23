@@ -4,5 +4,6 @@ export interface Hir {
   cim: string,
   lejarat: string,
   szoveg: string,
+  letrehozas: string,
   kategoriak: Kategoria[]
 }

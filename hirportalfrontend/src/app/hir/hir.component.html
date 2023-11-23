@@ -1,22 +1,12 @@
-<!--
-<p>hir works!</p>
-<div>{{hir.id}}</div>
-<div>{{hir.cim}}</div>
-<div>{{hir.szoveg}}</div>
-<div>{{hir.lejarat}}</div>
-<div *ngFor="let k of hir.kategoriak">{{k.nev}}</div>
-<a routerLink={{hir.id}} class="btn btn-danger">Megnyitás</a>
--->
 <hr>
-
-<div class="card py-2 my-2">
-  <div class="card-body">
-    <h5 class="card-title" [ngClass]="vezcikk ? 'hvezer' : 'hnemvezer' " routerLink={{hir.id}}>{{hir.cim}}</h5>
-    <h4><span class="{{k.nev}}" *ngFor="let k of hir.kategoriak">{{k.nev+" "}}</span></h4>
-    <div *ngIf="vezcikk">
-      <img class="card-img-top" src="../../assets/testheader.webp" alt="Card image cap">
+  <div class="card py-2 my-2">
+    <div class="card-body">
+      <h5 class="card-title" [ngClass]="vezcikk ? 'hvezer' : 'hnemvezer' " routerLink={{hir.id}}>{{hir.cim}}</h5>
+      <h4><span class="{{k.nev}}" *ngFor="let k of hir.kategoriak">{{k.nev+" "}}</span></h4>
+      <div *ngIf="vezcikk">
+        <img class="card-img-top" src="../../assets/testheader.webp" alt="Card image cap">
+      </div>
+      <p class="card-text" routerLink={{hir.id}} [ngClass]="vezcikk ? 'vezcikkparagraph':'nemvezcikkparagraph'">{{hir.szoveg}}</p>
     </div>
-    <p class="card-text" routerLink={{hir.id}} [ngClass]="vezcikk ? 'vezcikkparagraph':'nemvezcikkparagraph'">{{hir.szoveg}}</p>
   </div>
-</div>
 <hr>

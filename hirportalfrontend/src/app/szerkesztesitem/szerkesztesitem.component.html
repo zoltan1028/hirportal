@@ -2,8 +2,17 @@
   <h5 class="card-header">{{hir.cim}}</h5>
   <div class="card-body">
     <h5 class="card-title"><span *ngFor="let k of hir.kategoriak">{{" "+k.nev}}</span></h5>
-    <small>{{hir.lejarat}}</small>
-    <small>{{hir.id}}</small>
+    <div class="row">
+      <div class="col">
+        <p>Id: {{hir.id}}</p>
+      </div>
+      <div class="col">
+        <p>Létrehozás: {{hir.letrehozas}}</p>
+      </div>
+      <div class="col">
+        <p>Érvényes: {{hir.lejarat}}</p>
+      </div>
+    </div>
     <div class="form-check">
       <label class="form-check-label" for="selecthir">Kiválasztás főoldalra</label>
       <input (click)="onCheckBoxEmit(isChecked)" [(ngModel)]="isChecked" class="form-check-input" type="checkbox" value="" id="selecthir">

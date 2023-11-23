@@ -39,6 +39,11 @@ export class UjComponent {
   get Kategoriak() {
     return (this.kategoriak ?? "");
   }
+  @Input()
+  letrehozas!: string;
+  get Letrehozas() {
+    return (this.letrehozas ?? "");
+  }
   setData() {
     this.apiService.getKategoriak().subscribe(kat => {this.kategoriakOptions = kat})
     this.id = this.router.url.split('/').pop()!;
@@ -63,7 +68,8 @@ export class UjComponent {
       cim: this.Cim,
       lejarat: this.Lejarat,
       szoveg: this.Szoveg,
-      kategoriak: this.selectedCategories
+      kategoriak: this.selectedCategories,
+      letrehozas: this.letrehozas
     }
     if (this.id === null) {
       this.apiService.postHir(hirtopost, this.authService.getToken(), this.authService.getUserId()).subscribe(response => {

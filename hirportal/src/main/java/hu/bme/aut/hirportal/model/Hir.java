@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +23,7 @@ public class Hir {
 
     private String cim;
     private Timestamp lejarat;
+    private Timestamp letrehozas = new Timestamp(new Date().getTime());
     @Column(columnDefinition = "varchar(max)")
     private String szoveg;
     public Hir() {
@@ -60,8 +63,14 @@ public class Hir {
         this.cim = cim;
     }
 
-    public Timestamp getLejarat() {
-        return lejarat;
+    public String getLejarat() {
+
+        if (this.lejarat != null) {
+            SimpleDateFormat formatdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            var date = formatdate.format(new Date(this.lejarat.getTime()));
+            return date;
+        }
+        return null;
     }
 
     public void setLejarat(Timestamp lejarat) {
@@ -74,5 +83,18 @@ public class Hir {
 
     public void setSzoveg(String szoveg) {
         this.szoveg = szoveg;
+    }
+
+    public String getLetrehozas() {
+        if (this.letrehozas != null) {
+            SimpleDateFormat formatdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            var date = formatdate.format(new Date(this.letrehozas.getTime()));
+            return date;
+        }
+        return null;
+    }
+
+    public void setLetrehozas(Timestamp letrehozas) {
+        this.letrehozas = letrehozas;
     }
 }
