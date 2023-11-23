@@ -1,10 +1,13 @@
 <div class="container">
+  <h5>Főoldal szerkesztése</h5>
   <hp-szerkesztesitem
     *ngFor="let hir of this.osszesHir"
     [hir]="hir"
     (onChecked)="checkUpdate($event, hir.id)"
     [isChecked]="initCheckBox(hir.id!)">
   </hp-szerkesztesitem>
-  <button class="btn btn-danger" (click)="submitHirekToFoOldal()">Kiválasztott hírek mentése a főoldalra</button>
-  <a class="btn btn-primary" routerLink="/">Főoldalra</a>
+  <div class="mb-5 mt-2">
+    <button class="btn btn-danger mx-2" (click)="submitHirekToFoOldal()">Kiválasztott hírek mentése a főoldalra</button>
+    <a class="btn btn-primary mx-2" routerLink="/">Főoldalra</a>
+  </div>
 </div>

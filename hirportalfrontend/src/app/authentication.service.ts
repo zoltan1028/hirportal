@@ -12,7 +12,11 @@ export class AuthenticationService {
     AuthenticationService.token = "";
   }
   setToken(token: string) {
-    AuthenticationService.token = token;
+    if (token === null) {
+      AuthenticationService.token = "";
+    } else {
+      AuthenticationService.token = token;
+    }
   }
   getToken(): string {
     return AuthenticationService.token;

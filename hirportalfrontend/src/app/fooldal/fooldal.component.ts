@@ -18,6 +18,7 @@ export class FooldalComponent {
   filteredHirek!: Hir[];
   selectedCategory: string = ""
   isToggled: boolean = false
+  loginText: string = "Bejelentkezés"
   ngOnInit() {
     console.log("nginit")
     this.apiService.getHirek().subscribe(hirek => {
@@ -25,18 +26,39 @@ export class FooldalComponent {
       this.filteredHirek = hirek
       this.showSzerkesztesGombok = !!this.authService.getToken()
     })
+    if (this.authService.getToken() == "") {
+      this.loginText = "Bejelentkezés"
+    } else {
+      this.loginText = "Kijelentkezés"
+    }
+
   }
   onLogin(formdata: any) {
-    const formObj = {
-      felhasznalonev:formdata.felhasznalonev,
-      jelszo:formdata.jelszo
-    }
-    this.apiService.postLogin(formObj).subscribe(response => {this.authService.setToken(response.headers.get('Token')!), this.showSzerkesztesGombok = !!this.authService.getToken();});
-  }
-  onLogout() {
-    this.apiService.getLogout("admin").subscribe(() => {this.authService.emptyToken(), this.showSzerkesztesGombok = !!this.authService.getToken()});
-  }
+    console.log(this.authService.getToken())
+    if (this.authService.getToken() == "") {
+      const formObj = {
+        felhasznalonev:formdata.felhasznalonev,
+        jelszo:formdata.jelszo
+      }
+      this.apiService.postLogin(formObj).subscribe(response => {
+        this.authService.setToken(response.headers.get('Token')!)
+        this.showSzerkesztesGombok = !!this.authService.getToken();
 
+        if (!!this.authService.getToken()) {
+          this.loginText = "Kijelentkezés"
+        }
+      });
+    } else {
+      this.apiService.getLogout(formdata.felhasznalonev).subscribe(() => {
+        this.authService.emptyToken();
+        this.showSzerkesztesGombok = !!this.authService.getToken()
+        if (this.authService.getToken() === "") {
+          this.loginText = "Bejelentkezés"
+        }
+      });
+
+    }
+  }
   searchInHirek(event: any) {
       if(this.isToggled) {
         this.filteredHirek = this.hirek.filter(hir => hir.cim.toLowerCase().includes(event.value.toLowerCase()));

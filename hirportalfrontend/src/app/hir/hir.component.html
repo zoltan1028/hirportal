@@ -7,6 +7,8 @@
 <div *ngFor="let k of hir.kategoriak">{{k.nev}}</div>
 <a routerLink={{hir.id}} class="btn btn-danger">Megnyitás</a>
 -->
+<hr>
+
 <div class="card py-2 my-2">
   <div class="card-body">
     <h5 class="card-title" [ngClass]="vezcikk ? 'hvezer' : 'hnemvezer' " routerLink={{hir.id}}>{{hir.cim}}</h5>
@@ -14,6 +16,7 @@
     <div *ngIf="vezcikk">
       <img class="card-img-top" src="../../assets/testheader.webp" alt="Card image cap">
     </div>
-    <p class="card-text" [ngClass]="vezcikk ? 'vezcikkparagraph':'nemvezcikkparagraph'">{{hir.szoveg}}</p>
+    <p class="card-text" routerLink={{hir.id}} [ngClass]="vezcikk ? 'vezcikkparagraph':'nemvezcikkparagraph'">{{hir.szoveg}}</p>
   </div>
 </div>
+<hr>

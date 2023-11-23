@@ -18,15 +18,19 @@ export class HirportalApiService {
   getHirek() {
     return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
   }
+  getHirById(id: number): Observable<any> {
+    return this.http.get<Hir>(`${HirportalApiService.baseUrl}hirek/${id}`)
+  }
+
+
+  //Token access
   getHirekVedett(token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
     console.log(headers)
     return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek/vedett`, {headers})
   }
-  getHirById(id: number): Observable<any> {
-    return this.http.get<Hir>(`${HirportalApiService.baseUrl}hirek/${id}`)
-  }
+  //missing impl
   postHir(hirobj: Hir) {
     console.log(hirobj)
     return this.http.post<Hir>(`${HirportalApiService.baseUrl}hirek`, hirobj)
@@ -34,7 +38,15 @@ export class HirportalApiService {
   putHir(hirobj: Hir, pathvar: number) {
     return this.http.put<Hir>(`${HirportalApiService.baseUrl}hirek/${pathvar}`, hirobj)
   }
-  //Kategoriak
+  postFoOldal(hirekids: string) {
+    return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids)
+  }
+  getFoOldalIds() {
+    return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`)
+  }
+
+
+
   getKategoriak() {
     return this.http.get<Kategoria[]>(`${HirportalApiService.baseUrl}kategoriak`)
   }
@@ -44,11 +56,5 @@ export class HirportalApiService {
   }
   getLogout(felhasznalonev: string) {
     return this.http.get<void>(`${HirportalApiService.baseUrl}szerkesztok/${felhasznalonev}`)
-  }
-  postFoOldal(hirekids: string) {
-    return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids)
-  }
-  getFoOldalIds() {
-    return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`)
   }
 }

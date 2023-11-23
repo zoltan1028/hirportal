@@ -2,16 +2,16 @@
   font-size: 6rem;
 }
 .hnemvezer {
-  font-size: 2rem;
+  font-size: 3rem;
 }
 .belföld {
-  color: red;
+  color: rgb(255, 50, 50);
 }
 .külföld {
-  color: blue;
+  color: rgb(63, 63, 255);
 }
 .kultúra {
-  color: yellowgreen;
+  color: rgb(0, 201, 47);
 }
 .vezcikkparagraph {
   font-size: 2rem;
@@ -19,12 +19,26 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;  /* Number of lines displayed before it truncate */
    overflow: hidden;
-
+}
+.initial::first-letter{
+  initial-letter: 2;
 }
 .nemvezcikkparagraph {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;  /* Number of lines displayed before it truncate */
    overflow: hidden;
+}
+h5:hover, p:hover {
+  color: darkgray;
+}
+.card {
+  border-radius: 0px;
+  border: 0;
+  border-left: 0.2rem solid black;
+}
+
+h4 {
+  font-size: 2rem;
 }
