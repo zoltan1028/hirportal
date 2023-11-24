@@ -12,6 +12,7 @@ export class FooldalComponent {
   constructor(private apiService: HirportalApiService, private authService: AuthenticationService) {}
   hirek!: Hir[];
   showSzerkesztesGombok!: boolean
+  //fooldalon megjelenitendo hirek
   filteredHirek!: Hir[];
   isToggled: boolean = false
   loginText: string = "Bejelentkezés"
@@ -22,6 +23,7 @@ export class FooldalComponent {
     this.apiService.getHirek().subscribe(hirek => {
       this.hirek = hirek
       this.filteredHirek = hirek
+      this.onVezercikkInFilteredSetVezercikkFirst()
       this.showSzerkesztesGombok = !!this.authService.getToken()
     })
     this.initUserLoginProps();
@@ -51,16 +53,20 @@ export class FooldalComponent {
   searchInHirek(event: any) {
       if(this.isToggled) {
         this.filteredHirek = this.hirek.filter(hir => hir.cim.toLowerCase().includes(event.value.toLowerCase()));
+        this.onVezercikkInFilteredSetVezercikkFirst()
       } else {
         this.filteredHirek = this.filteredHirek.filter(hir => hir.cim.toLowerCase().includes(event.value.toLowerCase()));
+        this.onVezercikkInFilteredSetVezercikkFirst()
       }
   }
   setActiveCategory(value: string) {
     if(value === "") {
       this.filteredHirek = this.hirek
+      this.onVezercikkInFilteredSetVezercikkFirst()
     }
     this.filteredHirek = this.hirek
     this.filteredHirek = this.filteredHirek.filter(hir => hir.kategoriak.some(k => k.nev.includes(value.toLowerCase())));
+    this.onVezercikkInFilteredSetVezercikkFirst()
   }
   setToggle() {
     this.isToggled = !this.isToggled
@@ -76,6 +82,22 @@ export class FooldalComponent {
       this.loginText = "Kijelentkezés"
       this.requiredPropertForLogin = false
       this.loginFieldDisabled = true
+    }
+  }
+  onVezercikkInFilteredSetVezercikkFirst() {
+    var vezCikk: Hir = this.filteredHirek[0];
+    var vezFound: boolean = false
+    for(let hir of this.filteredHirek) {
+      if(hir.hirFooldal.vezercikk === true) {vezCikk = hir; vezFound = true;}
+    }
+    var finalList: Hir[] = []
+    if(vezFound) {
+      finalList.push(vezCikk);
+      for (let hir of this.filteredHirek) {
+        if(!(hir === vezCikk)) {finalList.push(hir);}
+      }
+      //comp prop value set only if vezcikk found in filtered
+      this.filteredHirek = finalList
     }
   }
 }

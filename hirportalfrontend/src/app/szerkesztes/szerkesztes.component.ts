@@ -15,8 +15,16 @@ export class SzerkesztesComponent {
   idOfEnabledBoxes = new Set();
   foOldalHirek!: HirFoOldal[];
   foOldalIds: number[] = [];
+  vezercikkid: number = -1;
   ngOnInit() {
-    this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {this.foOldalHirek = fohirek; for(let i of this.foOldalHirek) {this.foOldalIds.push(i.hir.id!);}})
+    this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {
+      this.foOldalHirek = fohirek;
+      for(let i of this.foOldalHirek) {
+        this.foOldalIds.push(i.hir.id!);
+        if(i.vezercikk) {
+          this.vezercikkid = i.hir.id!
+        }
+    }})
     this.apiService.getHirekVedett(this.authService.getToken()).subscribe(hirek => {this.osszesHir = hirek})
   }
   @Input()
@@ -28,12 +36,17 @@ export class SzerkesztesComponent {
     for (let idf of this.foOldalIds) {if(id === idf) {return true}}
     return false
   }
-  onCheckBoxUpdates(value: any, hirid: any) {
-    if(value == false) {this.foOldalIds.push(hirid)}
+  onCheckBoxUpdates(event: any, hirid: any) {
+    if(event == false) {this.foOldalIds.push(hirid)}
     else if(this.foOldalIds.length > 0) {const i = this.foOldalIds.indexOf(hirid); this.foOldalIds.splice(i, 1);}
   }
   submitHirekToFoOldal() {
+    this.foOldalIds.push(this.vezercikkid);
     console.log(this.foOldalIds.toString())
     this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
+    this.foOldalIds.pop()
+  }
+  onMarkedAsVezerCikk(event: any, hirid: any) {
+    this.vezercikkid = hirid;
   }
 }

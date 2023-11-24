@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/hirek")
@@ -112,12 +109,21 @@ public class HirController {
         Long[] ids = new Long[arrOfStr.length];
         for(int i = 0;i < arrOfStr.length;i++) {ids[i] = Long.parseLong(arrOfStr[i]);}
         hirFooldalRepository.deleteAll();
-        for (Long i: ids) {
+
+        var vezcikkid = ids[ids.length-1];
+        var idswithoutvezer = Arrays.copyOf(ids, ids.length -1);
+
+        for (Long i: idswithoutvezer) {
             Optional<Hir> hir = hirRepository.findById(i);
             if(hir.isPresent()) {
                 var fooldalhir = new HirFooldal();
                 fooldalhir.setHir(hir.get());
+                if (vezcikkid.equals(hir.get().getId())) {
+                    fooldalhir.setVezercikk(true);
+                }
                 hirFooldalRepository.save(fooldalhir);
+
+
             }
         }
         return ResponseEntity.ok().build();

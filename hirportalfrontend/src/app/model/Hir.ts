@@ -1,3 +1,4 @@
+import { HirFoOldal } from './HirFoOldal';
 import { Kategoria } from './Kategoria';
 export interface Hir {
   id: number|null,
@@ -6,5 +7,7 @@ export interface Hir {
   szoveg: string,
   letrehozas: string,
   kategoriak: Kategoria[],
-  keplink: string
+  keplink: string,
+  isVezercikk: boolean,
+  hirFooldal: HirFoOldal
 }

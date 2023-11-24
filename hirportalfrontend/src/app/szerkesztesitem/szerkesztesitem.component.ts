@@ -18,7 +18,16 @@ export class SzerkesztesitemComponent {
   get IsChecked() {
     return (this.isChecked)
   }
+  @Input()
+  isMarked: boolean = false;
+  get IsMarked() {
+    return (this.isMarked)
+  }
+
   @Output()
   onChecked: EventEmitter<void> = new EventEmitter();
   onCheckBoxEmit(value: any) {this.onChecked.emit(value);}
+  @Output()
+  onMarked: EventEmitter<void> = new EventEmitter();
+  onMarkedEmit(value: any) {this.onMarked.emit(value);}
 }

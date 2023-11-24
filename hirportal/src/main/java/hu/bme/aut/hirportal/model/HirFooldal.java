@@ -12,6 +12,17 @@ public class HirFooldal {
     @JoinColumn(name = "hirid", referencedColumnName = "id")
     private Hir hir;
 
+
+    public boolean isVezercikk() {
+        return isVezercikk;
+    }
+
+    public void setVezercikk(boolean vezercikk) {
+        isVezercikk = vezercikk;
+    }
+
+    private boolean isVezercikk = false;
+
     public Long getId() {
         return id;
     }

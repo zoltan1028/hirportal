@@ -18,6 +18,13 @@ public class Hir {
     @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Kategoria> kategoriak = new ArrayList<>();
+
+    @JsonIgnoreProperties("hir")
+
+    public HirFooldal getHirFooldal() {
+        return hirFooldal;
+    }
+
     @OneToOne(mappedBy = "hir")
     private HirFooldal hirFooldal;
 
@@ -26,9 +33,6 @@ public class Hir {
     private Timestamp letrehozas = new Timestamp(new Date().getTime());
     @Column(columnDefinition = "varchar(max)")
     private String szoveg;
-
-
-
     private String keplink;
     public Hir() {
     }

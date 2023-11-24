@@ -4,7 +4,7 @@
       <h5 class="card-title" [ngClass]="vezcikk ? 'hvezer' : 'hnemvezer' " routerLink={{hir.id}}>{{hir.cim}}</h5>
       <h4><span class="{{k.nev}}" *ngFor="let k of hir.kategoriak">{{k.nev+" "}}</span></h4>
       <div *ngIf="vezcikk">
-        <img class="card-img-top" src={{hir.keplink}} alt="Card image cap">
+        <img *ngIf="!!hir.keplink" class="card-img-top" src={{hir.keplink}} alt="Card image cap">
       </div>
       <p class="card-text" routerLink={{hir.id}} [ngClass]="vezcikk ? 'vezcikkparagraph':'nemvezcikkparagraph'">{{hir.szoveg}}</p>
     </div>

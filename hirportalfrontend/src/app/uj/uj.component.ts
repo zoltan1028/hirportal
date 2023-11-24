@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Hir } from '../model/Hir';
 import { Kategoria } from '../model/Kategoria';
 import { AuthenticationService } from '../authentication.service';
+import { HirFoOldal } from '../model/HirFoOldal';
 @Component({
   selector: 'hp-uj',
   templateUrl: './uj.component.html',
@@ -49,6 +50,16 @@ export class UjComponent {
   get Keplink() {
     return (this.keplink ?? "");
   }
+  @Input()
+  isVezercikk!: boolean;
+  get IsVezercikk() {
+    return (this.isVezercikk ?? "");
+  }
+  @Input()
+  hirfooldal!: HirFoOldal;
+  get HirFooldal() {
+    return (this.hirfooldal ?? "");
+  }
   setData() {
     this.apiService.getKategoriak().subscribe(kat => {this.kategoriakOptions = kat})
     this.id = this.router.url.split('/').pop()!;
@@ -75,7 +86,9 @@ export class UjComponent {
       szoveg: this.Szoveg,
       kategoriak: this.selectedCategories,
       letrehozas: this.letrehozas,
-      keplink: this.keplink
+      keplink: this.keplink,
+      isVezercikk: this.IsVezercikk,
+      hirFooldal: this.hirfooldal
     }
     if (this.id === null) {
       this.apiService.postHir(hirtopost, this.authService.getToken()).subscribe(response => {
