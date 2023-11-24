@@ -1,16 +1,42 @@
-<nav class="navbar navbar-light bg-light justify-content-between row pt-5 px-5">
-  <div class="row d-flex justify-content-between">
+<nav class="row navbar navbar-light bg-light py-5 px-5">
 
-    <h4 class="col-4 justify-content-center align-items-center">Hírportál</h4>
+  <div class="col-3">
+    <h4>Hírportál</h4>
+  </div>
 
-    <div class="col-4 justify-content-center nav" >
-      <button type="button" value="Belföld" (click)="setActiveCategory(cat1.value)" class="nav-link filtertext" #cat1>Belföld</button>
-      <button type="button" value="Külföld" (click)="setActiveCategory(cat2.value)" class="nav-link filtertext" #cat2>Külföld</button>
-      <button type="button" value="Kultúra" (click)="setActiveCategory(cat3.value)" class="nav-link filtertext" #cat3>Kultúra</button>
-      <button type="button" value="" (click)="setActiveCategory(cat4.value)" class="nav-link filtertext" #cat4>Összes</button>
+  <div class="col-6">
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-8 nav d-flex justify-content-center" >
+        <button type="button" value="Belföld" (click)="setActiveCategory(cat1.value)" class="nav-link filtertext" #cat1>Belföld</button>
+        <button type="button" value="Külföld" (click)="setActiveCategory(cat2.value)" class="nav-link filtertext" #cat2>Külföld</button>
+        <button type="button" value="Kultúra" (click)="setActiveCategory(cat3.value)" class="nav-link filtertext" #cat3>Kultúra</button>
+        <button type="button" value="" (click)="setActiveCategory(cat4.value)" class="nav-link filtertext" #cat4>Összes</button>
+      </div>
     </div>
 
-    <form #loginForm="ngForm" (ngSubmit)="onLoginButtonClick(loginForm.value)" class="col-4 row d-flex justify-content-between" ngNativeValidate>
+    <div class="row d-flex justify-content-center">
+      <div class="col-6">
+        <input class="form-control mr-sm-2" type="search" placeholder="Keresés" aria-label="Search" (keyup.enter)="searchInHirek($event.target)" #filter>
+        <div class="form-check form-switch">
+          <input class="form-check form-switch" value="isToggled" (change)="setToggle()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <small>Kersés az összeshírben</small>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showSzerkesztesGombok" class="row d-flex justify-content-center">
+      <div class="col-5 btn-group">
+        <a class="btn btn-danger btnszerk" routerLink="/ujhir">Új hír felvétele</a>
+        <a class="btn btn-secondary btnszerk" routerLink="/szerkesztes">Szerkesztes</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-3">
+
+    <form #loginForm="ngForm" (ngSubmit)="onLoginButtonClick(loginForm.value)" class="row d-flex justify-content-between" ngNativeValidate>
       <div class="form-group col-4">
         <label for="username">Felhasználónév</label>
         <input name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel [required]="requiredPropertForLogin">
@@ -24,24 +50,8 @@
         <button type="submit" value="submit" class="btn btn-light py-2" id="login">{{loginText}}</button>
       </div>
     </form>
+
   </div>
-
-  <form class="row d-flex justify-content-between">
-    <div class="col-4">
-
-    </div>
-    <div class="col-4">
-      <input class="form-control mr-sm-2" type="search" placeholder="Keresés" aria-label="Search" (keyup.enter)="searchInHirek($event.target)" #filter>
-      <div class="form-check form-switch">
-        <input class="form-check form-switch" value="isToggled" (change)="setToggle()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        <small>Kersés az összeshírben</small>
-      </div>
-    </div>
-    <div class="col-4 btn-group">
-      <a *ngIf="showSzerkesztesGombok" class="btn btn-danger btnszerk" routerLink="/ujhir">Új hír felvétele</a>
-      <a *ngIf="showSzerkesztesGombok" class="btn btn-secondary btnszerk" routerLink="/szerkesztes">Szerkesztes</a>
-    </div>
-  </form>
 
 </nav>
 
