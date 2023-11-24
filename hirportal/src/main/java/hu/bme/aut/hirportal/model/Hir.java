@@ -26,6 +26,10 @@ public class Hir {
     private Timestamp letrehozas = new Timestamp(new Date().getTime());
     @Column(columnDefinition = "varchar(max)")
     private String szoveg;
+
+
+
+    private String keplink;
     public Hir() {
     }
     public Hir(Long id, List<Kategoria> kategoriak, String cim, Timestamp lejarat, String szoveg) {
@@ -73,8 +77,10 @@ public class Hir {
         return null;
     }
 
-    public void setLejarat(Timestamp lejarat) {
-        this.lejarat = lejarat;
+    public void setLejarat(String lejarat) {
+
+        this.lejarat = Timestamp.valueOf(lejarat);
+
     }
 
     public String getSzoveg() {
@@ -96,5 +102,13 @@ public class Hir {
 
     public void setLetrehozas(Timestamp letrehozas) {
         this.letrehozas = letrehozas;
+    }
+
+    public String getKeplink() {
+        return keplink;
+    }
+
+    public void setKeplink(String keplink) {
+        this.keplink = keplink;
     }
 }

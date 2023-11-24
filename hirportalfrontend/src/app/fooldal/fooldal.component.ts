@@ -16,6 +16,7 @@ export class FooldalComponent {
   isToggled: boolean = false
   loginText: string = "Bejelentkezés"
   requiredPropertForLogin: boolean = true
+  loginFieldDisabled: boolean = false
   ngOnInit() {
     console.log("ngOnInit")
     this.apiService.getHirek().subscribe(hirek => {
@@ -67,10 +68,12 @@ export class FooldalComponent {
       this.showSzerkesztesGombok = !!this.authService.getToken();
       this.loginText = "Bejelentkezés"
       this.requiredPropertForLogin = true
+      this.loginFieldDisabled = false
     } else {
       this.showSzerkesztesGombok = !!this.authService.getToken()
       this.loginText = "Kijelentkezés"
       this.requiredPropertForLogin = false
+      this.loginFieldDisabled = true
     }
   }
 }
