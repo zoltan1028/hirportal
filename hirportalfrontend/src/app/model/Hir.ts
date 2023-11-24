@@ -5,5 +5,6 @@ export interface Hir {
   lejarat: string,
   szoveg: string,
   letrehozas: string,
-  kategoriak: Kategoria[]
+  kategoriak: Kategoria[],
+  keplink: string
 }

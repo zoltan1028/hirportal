@@ -44,6 +44,11 @@ export class UjComponent {
   get Letrehozas() {
     return (this.letrehozas ?? "");
   }
+  @Input()
+  keplink!: string;
+  get Keplink() {
+    return (this.keplink ?? "");
+  }
   setData() {
     this.apiService.getKategoriak().subscribe(kat => {this.kategoriakOptions = kat})
     this.id = this.router.url.split('/').pop()!;
@@ -69,7 +74,8 @@ export class UjComponent {
       lejarat: this.Lejarat,
       szoveg: this.Szoveg,
       kategoriak: this.selectedCategories,
-      letrehozas: this.letrehozas
+      letrehozas: this.letrehozas,
+      keplink: this.keplink
     }
     if (this.id === null) {
       this.apiService.postHir(hirtopost, this.authService.getToken()).subscribe(response => {

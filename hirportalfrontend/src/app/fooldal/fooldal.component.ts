@@ -35,9 +35,11 @@ export class FooldalComponent {
         jelszo:formdata.jelszo
       }
       this.apiService.postLogin(formObj).subscribe(response => {
+
         this.authService.setToken(response.headers.get('Token')!)
         this.initUserLoginProps();
       });
+
     //onLogout
     } else {
       this.apiService.getLogout(this.authService.getToken()).subscribe(() => {

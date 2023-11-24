@@ -16,6 +16,10 @@
       </select>
     </div>
     <div class="form-group my-5">
+      <label for="keplink">Kép hivatkozása</label>
+      <input name="keplink" [(ngModel)]='keplink' type="text" class="form-control" id="keplink" placeholder="Keplink">
+    </div>
+    <div class="form-group my-5">
       <label for="szoveg">Szoveg</label>
       <textarea [rows]="15" name="szoveg" [(ngModel)]='szoveg' class="form-control" id="szoveg" rows="3"></textarea>
     </div>
