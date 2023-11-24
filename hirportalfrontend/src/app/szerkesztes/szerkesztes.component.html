@@ -6,10 +6,12 @@
     (onChecked)="onCheckBoxUpdates($event, hir.id)"
     (onMarked)="onMarkedAsVezerCikk($event, hir.id)"
     [isChecked]="initCheckBoxes(hir.id!)"
+    [isMarked]="initRadio(hir.id!)"
   >
   </hp-szerkesztesitem>
   <div class="mb-5 mt-2">
     <button class="btn btn-danger mx-2" (click)="submitHirekToFoOldal()">Kiválasztott hírek mentése a főoldalra</button>
     <a class="btn btn-primary mx-2" routerLink="/">Főoldalra</a>
+    <p *ngIf="hibauzenet">Válasszon vezércikket a kiválasztott cikkek közül!</p>
   </div>
 </div>

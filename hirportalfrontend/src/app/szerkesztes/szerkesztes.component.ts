@@ -16,6 +16,7 @@ export class SzerkesztesComponent {
   foOldalHirek!: HirFoOldal[];
   foOldalIds: number[] = [];
   vezercikkid: number = -1;
+  hibauzenet = false;
   ngOnInit() {
     this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {
       this.foOldalHirek = fohirek;
@@ -36,17 +37,38 @@ export class SzerkesztesComponent {
     for (let idf of this.foOldalIds) {if(id === idf) {return true}}
     return false
   }
+  initRadio(id: number) {
+    if(id === this.vezercikkid) {return true}
+    //for (let idf of this.foOldalIds) {if(id === idf) {return true}}
+    return false
+  }
   onCheckBoxUpdates(event: any, hirid: any) {
     if(event == false) {this.foOldalIds.push(hirid)}
     else if(this.foOldalIds.length > 0) {const i = this.foOldalIds.indexOf(hirid); this.foOldalIds.splice(i, 1);}
   }
   submitHirekToFoOldal() {
-    this.foOldalIds.push(this.vezercikkid);
-    console.log(this.foOldalIds.toString())
-    this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
-    this.foOldalIds.pop()
+
+    if (this.formValidation()) {
+      this.foOldalIds.push(this.vezercikkid);
+      console.log(this.foOldalIds.toString())
+      this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
+      this.foOldalIds.pop()
+      this.hibauzenet = false
+
+    } else {
+      this.hibauzenet = true
+    }
+
   }
   onMarkedAsVezerCikk(event: any, hirid: any) {
     this.vezercikkid = hirid;
+  }
+  formValidation() {
+    for(let id of this.foOldalIds) {
+      if (id === this.vezercikkid) {
+        return true
+      }
+    }
+    return false
   }
 }

@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { ReszletesComponent } from './reszletes/reszletes.component';
 
 
+
 const routes: Routes = [
   {path: '', redirectTo: 'fooldal', pathMatch: 'full'},
   {path: 'fooldal', component: FooldalComponent},
@@ -37,7 +38,7 @@ const routes: Routes = [
     HirComponent,
     SzerkesztesitemComponent,
     UjComponent,
-    ReszletesComponent
+    ReszletesComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +46,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     NgbModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
