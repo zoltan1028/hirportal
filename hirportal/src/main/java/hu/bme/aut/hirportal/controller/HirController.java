@@ -66,8 +66,8 @@ public class HirController {
     }
     @PostMapping
     @Transactional
-    public ResponseEntity<Hir> PostHir(@RequestBody Hir hir, @RequestHeader String Token, @RequestHeader String Authorization) {
-        if (!authenticationService.AuthenticateByToken(Token, Authorization)) {return ResponseEntity.ok().build();}
+    public ResponseEntity<Hir> PostHir(@RequestBody Hir hir, @RequestHeader String Token) {
+        if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
 
         hirRepository.save(hir);
         List<Kategoria> kats = new ArrayList<>();
@@ -85,8 +85,8 @@ public class HirController {
     }
     @PutMapping(value = "{id}")
     @Transactional
-    public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id, @RequestHeader String Token, @RequestHeader String Authorization) {
-        if (!authenticationService.AuthenticateByToken(Token, Authorization)) {return ResponseEntity.ok().build();}
+    public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id, @RequestHeader String Token) {
+        if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
 
         Optional<Hir> optionalHir = hirRepository.findById(id);
         if(optionalHir.isEmpty()) {
@@ -104,8 +104,8 @@ public class HirController {
         return ResponseEntity.ok(hirFooldalRepository.findAll());
     }
     @PostMapping("fooldal")
-    public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str, @RequestHeader String Token, @RequestHeader String Authorization) {
-        if (!authenticationService.AuthenticateByToken(Token, Authorization)) {return ResponseEntity.ok().build();}
+    public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str, @RequestHeader String Token) {
+        if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
 
         var hirfooldal = hirFooldalRepository.findAll();
         String[] arrOfStr = str.split(",");

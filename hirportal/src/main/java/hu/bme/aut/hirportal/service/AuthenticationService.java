@@ -16,20 +16,17 @@ public class AuthenticationService {
     public String GenerateTokenWithAuth() {
         return auth.GenerateToken();
     }
-    public boolean AuthenticateByToken(String token, String userid) {
+    public boolean AuthenticateByToken(String token) {
         var szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByToken(token));
-        if(szerkesztoOpt.isPresent()) {
-            var sz = szerkesztoOpt.get();
-            System.out.println(sz.getId().toString().equals(userid));
-            return sz.getId().toString().equals(userid);
-        }
-        return false;
+        return szerkesztoOpt.isPresent();
     }
-    public boolean isLoggedIn(Long userid) {
-        var szerkesztoOpt = szerkesztoRepository.findById(userid);
+    public boolean LogoutUser(String token) {
+        var szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByToken(token));
         if (szerkesztoOpt.isPresent()) {
-            var sz = szerkesztoOpt.get().getToken();
-            return !Objects.equals(sz, "");
+            var sz = szerkesztoOpt.get();
+            sz.setToken("");
+            szerkesztoRepository.save(sz);
+            return true;
         }
         return false;
     }

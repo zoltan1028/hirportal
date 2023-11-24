@@ -34,6 +34,6 @@ export class SzerkesztesComponent {
   }
   submitHirekToFoOldal() {
     console.log(this.foOldalIds.toString())
-    this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken(), this.authService.getUserId()).subscribe(response => {console.log(response)})
+    this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
   }
 }

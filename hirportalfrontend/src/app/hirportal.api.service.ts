@@ -11,22 +11,19 @@ export class HirportalApiService {
   private static readonly baseUrl: string = "http://localhost:4200/";
   constructor(private http: HttpClient) { }
   //protected
-  postHir(hirobj: Hir, token: string, userid: string) {
+  postHir(hirobj: Hir, token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    headers = headers.append('Authorization', userid)
     return this.http.post<Hir>(`${HirportalApiService.baseUrl}hirek`, hirobj, {headers})
   }
-  putHir(hirobj: Hir, pathvar: number, token: string, userid: string) {
+  putHir(hirobj: Hir, pathvar: number, token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    headers = headers.append('Authorization', userid)
     return this.http.put<Hir>(`${HirportalApiService.baseUrl}hirek/${pathvar}`, hirobj, {headers})
   }
-  postFoOldal(hirekids: string, token: string, userid: string) {
+  postFoOldal(hirekids: string, token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    headers = headers.append('Authorization', userid)
     return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids, {headers})
   }
   //not protected
@@ -53,8 +50,10 @@ export class HirportalApiService {
   postLogin(obj: Object) {
     return this.http.post<Object>(`${HirportalApiService.baseUrl}szerkesztok`, obj, { observe: 'response' })
   }
-  getLogout(userid: string) {
-    return this.http.get<void>(`${HirportalApiService.baseUrl}szerkesztok/${userid}`)
+  getLogout(token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.get<void>(`${HirportalApiService.baseUrl}szerkesztok`, {headers})
   }
 }
 //, { responseType: 'text' } as Record<string, unknown> -> if text response needed for get requests

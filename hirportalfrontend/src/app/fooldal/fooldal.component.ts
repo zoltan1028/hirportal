@@ -35,12 +35,11 @@ export class FooldalComponent {
       }
       this.apiService.postLogin(formObj).subscribe(response => {
         this.authService.setToken(response.headers.get('Token')!)
-        this.authService.setUserId(response.headers.get('Authorization')!)
         this.initUserLoginProps();
       });
     //onLogout
     } else {
-      this.apiService.getLogout(this.authService.getUserId()).subscribe(() => {
+      this.apiService.getLogout(this.authService.getToken()).subscribe(() => {
         this.authService.emptyToken();
         this.initUserLoginProps();
       });

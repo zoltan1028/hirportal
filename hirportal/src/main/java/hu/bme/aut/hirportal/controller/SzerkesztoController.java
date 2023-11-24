@@ -28,24 +28,16 @@ public class SzerkesztoController {
             HttpHeaders responseHeader = new HttpHeaders();
             String newToken = authenticationService.GenerateTokenWithAuth();
             responseHeader.set("Token", newToken);
-            responseHeader.set("Authorization", szerkeszto.getId().toString());
             szerkeszto.setToken(newToken);
             szerkesztoRepository.save(szerkeszto);
             return ResponseEntity.ok().headers(responseHeader).build();
         }
         return ResponseEntity.ok().build();
     }
-    @GetMapping("{userid}")
-    public ResponseEntity<Void> PostLogout(@PathVariable String userid) {
-        System.out.println(userid);
-
-        boolean isloggedin = authenticationService.isLoggedIn(Long.valueOf(userid));
-        if(!isloggedin) {return ResponseEntity.badRequest().build();}
-        //empty token
-        Optional<Szerkeszto> szerkesztoOpt = szerkesztoRepository.findById(Long.valueOf(userid));
-        var szerkeszto = szerkesztoOpt.get();
-        szerkeszto.setToken("");
-        szerkesztoRepository.save(szerkeszto);
-        return ResponseEntity.ok().build();
+    @GetMapping
+    public ResponseEntity<Void> PostLogout(@RequestHeader String Token) {
+        boolean isSuccess = authenticationService.LogoutUser(Token);
+        if(isSuccess) {return ResponseEntity.ok().build();}
+        return ResponseEntity.notFound().build();
     }
 }
