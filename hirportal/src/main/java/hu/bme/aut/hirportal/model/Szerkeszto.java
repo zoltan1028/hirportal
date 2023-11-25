@@ -8,11 +8,15 @@ import java.util.List;
 
 @Entity
 public class Szerkeszto {
+    @JsonIgnore
     @GeneratedValue
     @Id
     private Long id;
+    //@JsonIgnore
     private String felhasznalonev;
+    @JsonIgnore
     private String jelszo;
+    @JsonIgnore
     private String token;
 
     public List<Hir> getHirek() {

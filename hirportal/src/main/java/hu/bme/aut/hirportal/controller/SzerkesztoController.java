@@ -19,12 +19,15 @@ public class SzerkesztoController {
     @Autowired
     AuthenticationService authenticationService;
     @PostMapping
-    public ResponseEntity<String> PostLogin(@RequestBody Szerkeszto szerkesztoFromBody) {
-        Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(szerkesztoFromBody.getFelhasznalonev()));
+    public ResponseEntity<String> PostLogin(@RequestHeader String Felhasznalonev, @RequestHeader String Jelszo) {
+
+        System.out.println(Felhasznalonev);
+        //jsz is
+        Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(Felhasznalonev));
         if(szerkesztoOpt.isEmpty()) {return ResponseEntity.badRequest().build();}
 
         var szerkeszto = szerkesztoOpt.get();
-        if(szerkeszto.getFelhasznalonev().equals(szerkesztoFromBody.getFelhasznalonev()) && szerkeszto.getJelszo().equals(szerkesztoFromBody.getJelszo())) {
+        if(szerkeszto.getFelhasznalonev().equals(Felhasznalonev) && szerkeszto.getJelszo().equals(Jelszo)) {
             HttpHeaders responseHeader = new HttpHeaders();
             String newToken = authenticationService.GenerateTokenWithAuth();
             responseHeader.set("Token", newToken);

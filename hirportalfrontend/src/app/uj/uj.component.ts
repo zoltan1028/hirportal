@@ -5,6 +5,7 @@ import { Hir } from '../model/Hir';
 import { Kategoria } from '../model/Kategoria';
 import { AuthenticationService } from '../authentication.service';
 import { HirFoOldal } from '../model/HirFoOldal';
+import { Szerkeszto } from '../model/Szerkeszto';
 @Component({
   selector: 'hp-uj',
   templateUrl: './uj.component.html',
@@ -60,6 +61,11 @@ export class UjComponent {
   get HirFooldal() {
     return (this.hirfooldal ?? "");
   }
+  @Input()
+  szerkesztok!: Szerkeszto[];
+  get Szerkesztok() {
+    return (this.szerkesztok ?? "");
+  }
   setData() {
     this.apiService.getKategoriak().subscribe(kat => {this.kategoriakOptions = kat})
     this.id = this.router.url.split('/').pop()!;
@@ -70,6 +76,7 @@ export class UjComponent {
         this.cim = this.hir.cim
         this.lejarat = this.hir.lejarat
         this.szoveg = this.hir.szoveg
+        this.szerkesztok = this.hir.szerkesztok
       });
     } else {
       this.showTemplate = true;
@@ -88,7 +95,8 @@ export class UjComponent {
       letrehozas: this.letrehozas,
       keplink: this.keplink,
       isVezercikk: this.IsVezercikk,
-      hirFooldal: this.hirfooldal
+      hirFooldal: this.hirfooldal,
+      szerkesztok: this.Szerkesztok
     }
     if (this.id === null) {
       this.apiService.postHir(hirtopost, this.authService.getToken()).subscribe(response => {

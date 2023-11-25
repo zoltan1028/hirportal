@@ -92,20 +92,16 @@ public class HirController {
         } else {
             var paramkat = hir.getKategoriak();
             var szerkeszto = optionalSzerkeszto.get();
-            hir.setKategoriak(paramkat);
+            var managedhir = optionalHir.get();
+            managedhir.setKategoriak(paramkat);
 
-            if(hir.getSzerkesztok().size() == 0) {hir.addToSzerkesztok(szerkeszto);}
-            for (var sz: hir.getSzerkesztok()) {
-                System.out.println(sz.getId() + "d"+szerkeszto.getId());
+            if(managedhir.getSzerkesztok().size() == 0) {managedhir.addToSzerkesztok(szerkeszto);}
 
-                if(!(Objects.equals(sz.getId(), szerkeszto.getId()))) {
-                    System.out.println(hir.getSzerkesztok().toString());
-                    //1 nel tobbszor nem adhatod hozza!
-                    hir.addToSzerkesztok(szerkeszto);
-                }
+            boolean duplicateid = false;
+            for (var sz: managedhir.getSzerkesztok()) {
+                if ((Objects.equals(sz.getId(), szerkeszto.getId()))) {duplicateid = true;break;}
             }
-            hirRepository.save(hir);
-
+            if(!duplicateid) {managedhir.addToSzerkesztok(szerkeszto);}
             return ResponseEntity.ok(optionalHir.get());
         }
     }

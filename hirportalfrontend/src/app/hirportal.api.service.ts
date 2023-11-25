@@ -47,8 +47,11 @@ export class HirportalApiService {
     return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`, {headers})
   }
   //login logout
-  postLogin(obj: Object) {
-    return this.http.post<Object>(`${HirportalApiService.baseUrl}szerkesztok`, obj, { observe: 'response' })
+  postLogin(felhasznalonev: string, jelszo: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Felhasznalonev', felhasznalonev)
+    headers = headers.append('Jelszo', jelszo)
+    return this.http.post<Object>(`${HirportalApiService.baseUrl}szerkesztok`, null,{ observe: 'response', headers: headers})
   }
   getLogout(token: string) {
     let headers = new HttpHeaders();

@@ -1,5 +1,6 @@
 import { HirFoOldal } from './HirFoOldal';
 import { Kategoria } from './Kategoria';
+import { Szerkeszto } from './Szerkeszto';
 export interface Hir {
   id: number|null,
   cim: string,
@@ -9,5 +10,6 @@ export interface Hir {
   kategoriak: Kategoria[],
   keplink: string,
   isVezercikk: boolean,
-  hirFooldal: HirFoOldal
+  hirFooldal: HirFoOldal,
+  szerkesztok: Szerkeszto[]
 }

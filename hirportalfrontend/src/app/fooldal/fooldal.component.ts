@@ -32,11 +32,7 @@ export class FooldalComponent {
     console.log(this.authService.getToken())
     //onLogin
     if (this.authService.getToken() == "") {
-      const formObj = {
-        felhasznalonev:formdata.felhasznalonev,
-        jelszo:formdata.jelszo
-      }
-      this.apiService.postLogin(formObj).subscribe(response => {
+      this.apiService.postLogin(formdata.felhasznalonev, formdata.jelszo).subscribe(response => {
 
         this.authService.setToken(response.headers.get('Token')!)
         this.initUserLoginProps();

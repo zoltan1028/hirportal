@@ -18,6 +18,7 @@ public class Hir {
     @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Kategoria> kategoriak = new ArrayList<>();
+    @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Szerkeszto> szerkesztok = new ArrayList<>();
     @JsonIgnoreProperties("hir")
