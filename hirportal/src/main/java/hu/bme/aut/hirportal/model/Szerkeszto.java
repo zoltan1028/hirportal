@@ -18,7 +18,9 @@ public class Szerkeszto {
     private String jelszo;
     @JsonIgnore
     private String token;
-
+    @JsonIgnore
+    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER)
+    private List<Hir> hirek = new ArrayList<>();
     public List<Hir> getHirek() {
         return hirek;
     }
@@ -26,10 +28,6 @@ public class Szerkeszto {
     public void setHirek(List<Hir> hirek) {
         this.hirek = hirek;
     }
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Hir> hirek = new ArrayList<>();
     public String getToken() {
         return token;
     }

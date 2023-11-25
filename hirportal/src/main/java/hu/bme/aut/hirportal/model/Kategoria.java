@@ -13,7 +13,7 @@ public class Kategoria {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @JsonIgnore
-    @ManyToMany(mappedBy = "kategoriak", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "kategoriak", fetch = FetchType.EAGER)
     private List<Hir> hirek = new ArrayList<>();
     private String nev;
     public Kategoria() {

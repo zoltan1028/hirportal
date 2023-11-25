@@ -105,6 +105,15 @@ public class HirController {
             return ResponseEntity.ok(optionalHir.get());
         }
     }
+
+    @DeleteMapping("/delete/{hirid}")
+    @Transactional
+    public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable Long hirid) {
+        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        System.out.println(hirid);
+        hirRepository.deleteById(hirid);
+        return ResponseEntity.ok().build();
+    }
     //for /szerkeszto page
     @GetMapping("fooldalhirids")
     public ResponseEntity<List<HirFooldal>> GetFooldalIds() {

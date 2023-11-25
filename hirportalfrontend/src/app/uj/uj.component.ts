@@ -85,6 +85,7 @@ export class UjComponent {
   submitForm() {
     if (this.id === "ujhir") {
       this.id = null
+      this.szerkesztok = []
     }
     const hirtopost: Hir = {
       id: this.id,
@@ -96,6 +97,7 @@ export class UjComponent {
       keplink: this.keplink,
       isVezercikk: this.IsVezercikk,
       hirFooldal: this.hirfooldal,
+      //
       szerkesztok: this.Szerkesztok
     }
     if (this.id === null) {

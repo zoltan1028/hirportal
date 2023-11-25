@@ -7,6 +7,7 @@
     (onMarked)="onMarkedAsVezerCikk($event, hir.id)"
     [isChecked]="initCheckBoxes(hir.id!)"
     [isMarked]="initRadio(hir.id!)"
+    (onDelete)="deleteHir($event, hir.id!)"
   >
   </hp-szerkesztesitem>
   <div class="mb-5 mt-2">

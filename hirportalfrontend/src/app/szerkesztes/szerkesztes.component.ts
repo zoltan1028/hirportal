@@ -71,4 +71,8 @@ export class SzerkesztesComponent {
     }
     return false
   }
+  deleteHir(evetn: any, hirid: any) {
+    console.log("delete" + hirid)
+    this.apiService.deleteHir(this.authService.getToken(), hirid).subscribe(response => {console.log(response)})
+  }
 }

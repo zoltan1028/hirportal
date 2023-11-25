@@ -8,7 +8,7 @@ public class HirFooldal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hirid", referencedColumnName = "id")
     private Hir hir;
 

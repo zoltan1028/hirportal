@@ -16,16 +16,13 @@ public class Hir {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @JsonIgnoreProperties("hirek")
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Kategoria> kategoriak = new ArrayList<>();
     @JsonIgnoreProperties("hirek")
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Szerkeszto> szerkesztok = new ArrayList<>();
     @JsonIgnoreProperties("hir")
-    public HirFooldal getHirFooldal() {
-        return hirFooldal;
-    }
-    @OneToOne(mappedBy = "hir")
+    @OneToOne(mappedBy = "hir", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private HirFooldal hirFooldal;
 
     private String cim;
@@ -121,5 +118,8 @@ public class Hir {
 
     public void setKeplink(String keplink) {
         this.keplink = keplink;
+    }
+    public HirFooldal getHirFooldal() {
+        return hirFooldal;
     }
 }

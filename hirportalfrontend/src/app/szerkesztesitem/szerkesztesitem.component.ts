@@ -30,4 +30,7 @@ export class SzerkesztesitemComponent {
   @Output()
   onMarked: EventEmitter<void> = new EventEmitter();
   onMarkedEmit(value: any) {this.onMarked.emit(value);}
+  @Output()
+  onDelete: EventEmitter<void> = new EventEmitter();
+  onDeleteEmit(value: any) {this.onDelete.emit(value);}
 }
