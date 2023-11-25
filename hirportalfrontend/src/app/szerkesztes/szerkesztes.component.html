@@ -13,6 +13,10 @@
   <div class="mb-5 mt-2">
     <button class="btn btn-danger mx-2" (click)="submitHirekToFoOldal()">Kiválasztott hírek mentése a főoldalra</button>
     <a class="btn btn-primary mx-2" routerLink="/">Főoldalra</a>
+    <input name="ujkategoria" [(ngModel)]='ujkategoria' type="text" class="form-control" id="ujkategoria" placeholder="ujkategoria">
+    <button class="btn btn-primary" (click)="addUjKategoria()">Új kategória mentése</button>
+    <input name="torleskategoria" [(ngModel)]='kategoriaTodelete' type="text" class="form-control" id="torleskategoria" placeholder="torleskategoria">
+    <button class="btn btn-danger" (click)="removeKategoria()">Kategória törlése</button>
     <p *ngIf="hibauzenet">Válasszon vezércikket a kiválasztott cikkek közül!</p>
   </div>
 </div>

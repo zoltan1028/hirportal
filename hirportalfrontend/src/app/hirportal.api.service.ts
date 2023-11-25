@@ -41,6 +41,16 @@ export class HirportalApiService {
     headers = headers.append('Token', token)
     return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`, {headers})
   }
+  postKategoria(token: string, kategoria: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.post<void>(`${HirportalApiService.baseUrl}kategoriak/${kategoria}`, null, {headers})
+  }
+  deleteKategoria(token: string, kategoria: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.delete<void>(`${HirportalApiService.baseUrl}kategoriak/delete/${kategoria}`, {headers})
+  }
   //not protected
   getHirek() {
     return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)

@@ -21,6 +21,7 @@ public class Hir {
     @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Szerkeszto> szerkesztok = new ArrayList<>();
+    //orphan remove nem?
     @JsonIgnoreProperties("hir")
     @OneToOne(mappedBy = "hir", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private HirFooldal hirFooldal;

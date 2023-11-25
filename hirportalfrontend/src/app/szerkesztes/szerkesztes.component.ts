@@ -17,6 +17,8 @@ export class SzerkesztesComponent {
   foOldalIds: number[] = [];
   vezercikkid: number = -1;
   hibauzenet = false;
+  ujkategoria: string = "";
+  kategoriaTodelete: string = "";
   ngOnInit() {
     this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {
       this.foOldalHirek = fohirek;
@@ -74,5 +76,13 @@ export class SzerkesztesComponent {
   deleteHir(evetn: any, hirid: any) {
     console.log("delete" + hirid)
     this.apiService.deleteHir(this.authService.getToken(), hirid).subscribe(response => {console.log(response)})
+  }
+
+  addUjKategoria() {
+    this.apiService.postKategoria(this.authService.getToken(), this.ujkategoria).subscribe(response => {console.log(response)})
+  }
+  removeKategoria() {
+    console.log(this.kategoriaTodelete)
+    this.apiService.deleteKategoria(this.authService.getToken(), this.kategoriaTodelete).subscribe(response => {console.log(response)})
   }
 }
