@@ -1,8 +1,10 @@
 package hu.bme.aut.hirportal.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Szerkeszto {
@@ -13,6 +15,17 @@ public class Szerkeszto {
     private String jelszo;
     private String token;
 
+    public List<Hir> getHirek() {
+        return hirek;
+    }
+
+    public void setHirek(List<Hir> hirek) {
+        this.hirek = hirek;
+    }
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Hir> hirek = new ArrayList<>();
     public String getToken() {
         return token;
     }

@@ -18,13 +18,12 @@ public class Hir {
     @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Kategoria> kategoriak = new ArrayList<>();
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Szerkeszto> szerkesztok = new ArrayList<>();
     @JsonIgnoreProperties("hir")
-
     public HirFooldal getHirFooldal() {
         return hirFooldal;
     }
-
     @OneToOne(mappedBy = "hir")
     private HirFooldal hirFooldal;
 
@@ -43,7 +42,14 @@ public class Hir {
         this.lejarat = lejarat;
         this.szoveg = szoveg;
     }
+    public List<Szerkeszto> getSzerkesztok() {
+        return szerkesztok;
+    }
 
+    public void setSzerkesztok(List<Szerkeszto> szerkesztok) {
+        this.szerkesztok = szerkesztok;
+    }
+    public void addToSzerkesztok(Szerkeszto sz) {this.szerkesztok.add(sz);}
     public void addToKategoriak(Kategoria l) {
         this.kategoriak.add(l);
     }

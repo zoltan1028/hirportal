@@ -84,14 +84,28 @@ public class HirController {
     @Transactional
     public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id, @RequestHeader String Token) {
         if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+        var optionalSzerkeszto = Optional.ofNullable(szerkesztoRepository.findByToken(Token));
 
         Optional<Hir> optionalHir = hirRepository.findById(id);
-        if(optionalHir.isEmpty()) {
+        if(optionalHir.isEmpty() || optionalSzerkeszto.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
             var paramkat = hir.getKategoriak();
-            hirRepository.save(hir);
+            var szerkeszto = optionalSzerkeszto.get();
             hir.setKategoriak(paramkat);
+
+            if(hir.getSzerkesztok().size() == 0) {hir.addToSzerkesztok(szerkeszto);}
+            for (var sz: hir.getSzerkesztok()) {
+                System.out.println(sz.getId() + "d"+szerkeszto.getId());
+
+                if(!(Objects.equals(sz.getId(), szerkeszto.getId()))) {
+                    System.out.println(hir.getSzerkesztok().toString());
+                    //1 nel tobbszor nem adhatod hozza!
+                    hir.addToSzerkesztok(szerkeszto);
+                }
+            }
+            hirRepository.save(hir);
+
             return ResponseEntity.ok(optionalHir.get());
         }
     }
