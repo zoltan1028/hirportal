@@ -38,6 +38,7 @@ export class ManageszerkesztoComponent {
     } else {
       this.apiService.putSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response)})
     }
+    this.ngOnInit();
 
   }
   setData() {
@@ -55,7 +56,7 @@ export class ManageszerkesztoComponent {
   }
   removeSzerkeszto() {
     if(this.szerkesztoToDelete !== null) {
-      this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response)})
+      this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response);this.ngOnInit();})
     }
   }
   test(id: number|null) {

@@ -77,15 +77,19 @@ export class SzerkesztesComponent {
     return false
   }
   deleteHir(evetn: any, hirid: any) {
-    console.log("delete" + hirid)
-    this.apiService.deleteHir(this.authService.getToken(), hirid).subscribe(response => {console.log(response)})
+    this.apiService.deleteHir(this.authService.getToken(), hirid).subscribe(response => {console.log(response);
+      this.osszesHir = this.osszesHir.filter(h => h.id !== hirid);
+    })
   }
 
   addUjKategoria() {
-    this.apiService.postKategoria(this.authService.getToken(), this.ujkategoria).subscribe(response => {console.log(response)})
+    this.apiService.postKategoria(this.authService.getToken(), this.ujkategoria).subscribe(response => {console.log(response);this.ngOnInit();
+    //add to local var
+    })
   }
   removeKategoria() {
-    console.log(this.kategoriaTodelete)
-    this.apiService.deleteKategoria(this.authService.getToken(), this.kategoriaTodelete).subscribe(response => {console.log(response)})
+    this.apiService.deleteKategoria(this.authService.getToken(), this.kategoriaTodelete).subscribe(response => {console.log(response);this.ngOnInit();
+    //remove from local var
+    })
   }
 }
