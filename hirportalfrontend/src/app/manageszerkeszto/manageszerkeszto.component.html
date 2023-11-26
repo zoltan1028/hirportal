@@ -1,0 +1,30 @@
+<div class="my-5">
+  <!--<h5>{{(id === "ujhir") ? 'Új hír felvétele':'Hír módosítása'}}</h5>-->
+  <h5>Új szerkesztő hozzáadása</h5>
+  <form ngNativeValidate #form *ngIf="showTemplate" class="container">
+    <div class="form-group my-5">
+      <label for="felhasznalonev">Felhasználónév</label>
+      <input name="felhasznalonev" [(ngModel)]='felhasznalonev' type="text" class="form-control" id="felhasznalonev" placeholder="Felhasználónév">
+    </div>
+    <div class="form-group my-5">
+      <label for="jelszo">Jelszó</label>
+      <input name="jelszo" [(ngModel)]='jelszo' type="password" class="form-control" id="jelszo" placeholder="Jelszó">
+    </div>
+    <div class="form-group my-5">
+      <label for="nev">Név</label>
+      <input name="nev" [(ngModel)]='nev' type="text" class="form-control" id="nev" placeholder="Név">
+    </div>
+    <button (click)="submitForm()" class="btn btn-danger mx-2">{{(id === "") ? 'Új szerkesztő mentése':'Módosítás mentése'}}</button>
+    <a class="btn btn-primary mx-2" routerLink="/">Főoldalra</a>
+    <a class="btn bg-dark text-white mx-2" routerLink="/szerkesztes">Szerkesztés lista</a>
+  </form>
+  <h5>Szerkesztő törlése</h5>
+  <div *ngFor="let sz of this.szerkesztok">
+    <div class="row">
+      <h4>név: {{sz.nev}} azonosító: {{sz.id}}</h4>
+    </div>
+  </div>
+  <input name="torleskategoria" [(ngModel)]='szerkesztoToDelete' type="text" class="form-control" id="torleskategoria" placeholder="torleskategoria">
+  <button class="btn btn-danger" (click)="removeSzerkeszto()">Szerkesztő törlése</button>
+</div>
+

@@ -1,14 +1,17 @@
 package hu.bme.aut.hirportal.controller;
 
 import hu.bme.aut.hirportal.auth.Authentication;
+import hu.bme.aut.hirportal.dto.SzerkesztoDto;
 import hu.bme.aut.hirportal.model.Szerkeszto;
 import hu.bme.aut.hirportal.repository.SzerkesztoRepository;
 import hu.bme.aut.hirportal.service.AuthenticationService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,7 +21,7 @@ public class SzerkesztoController {
     SzerkesztoRepository szerkesztoRepository;
     @Autowired
     AuthenticationService authenticationService;
-    @PostMapping
+    @PostMapping("login")
     public ResponseEntity<String> PostLogin(@RequestHeader String Felhasznalonev, @RequestHeader String Jelszo) {
 
         System.out.println(Felhasznalonev);
@@ -37,10 +40,37 @@ public class SzerkesztoController {
         }
         return ResponseEntity.ok().build();
     }
-    @GetMapping
+    @PostMapping("logout")
     public ResponseEntity<Void> PostLogout(@RequestHeader String Token) {
         boolean isSuccess = authenticationService.LogoutUser(Token);
         if(isSuccess) {return ResponseEntity.ok().build();}
         return ResponseEntity.notFound().build();
+    }
+    @GetMapping
+    public ResponseEntity<List<Szerkeszto>> GetSzerkesztok(@RequestHeader String Token) {
+        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        return ResponseEntity.ok(szerkesztoRepository.findAll());
+    }
+    @PostMapping
+    @Transactional
+    public ResponseEntity<SzerkesztoDto> PostSzerkeszto(@RequestHeader String Token,@RequestBody SzerkesztoDto szerkesztodto) {
+        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        Szerkeszto szerkeszto = new Szerkeszto();
+        szerkesztoRepository.save(szerkeszto);
+        szerkeszto.setNev(szerkesztodto.getNev());
+        szerkeszto.setFelhasznalonev(szerkesztodto.getFelhasznalonev());
+        szerkeszto.setJelszo(szerkesztodto.getJelszo());
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity<List<Szerkeszto>> DeleteSzerkeszto(@RequestHeader String Token, @PathVariable Long id) {
+        var szerkesztoToDelete = szerkesztoRepository.findById(id);
+        var szerkesztoWhoDeletes = szerkesztoRepository.findByToken(Token);
+        //onmagunk torlse check
+        if(szerkesztoToDelete.get().getId().equals(szerkesztoWhoDeletes.getId())) {return ResponseEntity.badRequest().build();}
+        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        szerkesztoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

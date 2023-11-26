@@ -4,6 +4,8 @@ import { Hir } from './model/Hir';
 import { Observable } from 'rxjs';
 import { Kategoria } from './model/Kategoria';
 import { HirFoOldal } from './model/HirFoOldal';
+import { Szerkeszto } from './model/Szerkeszto';
+import { SzerkesztoDto } from './model/SzerkesztoDto';
 @Injectable({
   providedIn: 'root'
 })
@@ -51,6 +53,22 @@ export class HirportalApiService {
     headers = headers.append('Token', token)
     return this.http.delete<void>(`${HirportalApiService.baseUrl}kategoriak/delete/${kategoria}`, {headers})
   }
+  //szerkesztok
+  getSzerkesztok(token: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.get<Szerkeszto[]>(`${HirportalApiService.baseUrl}szerkesztok`, {headers})
+  }
+  postSzerkeszto(token: string, szerkeszto: SzerkesztoDto) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.post<void>(`${HirportalApiService.baseUrl}szerkesztok`, szerkeszto, {headers})
+  }
+  deleteSzerkeszto(token: string, szerkesztodid: number) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.delete<void>(`${HirportalApiService.baseUrl}szerkesztok/${szerkesztodid}`, {headers})
+  }
   //not protected
   getHirek() {
     return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
@@ -68,12 +86,12 @@ export class HirportalApiService {
     let headers = new HttpHeaders();
     headers = headers.append('Felhasznalonev', felhasznalonev)
     headers = headers.append('Jelszo', jelszo)
-    return this.http.post<Object>(`${HirportalApiService.baseUrl}szerkesztok`, null, { observe: 'response', headers: headers})
+    return this.http.post<Object>(`${HirportalApiService.baseUrl}szerkesztok/login`, null, { observe: 'response', headers: headers})
   }
-  getLogout(token: string) {
+  postLogout(token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.get<void>(`${HirportalApiService.baseUrl}szerkesztok`, {headers})
+    return this.http.post<void>(`${HirportalApiService.baseUrl}szerkesztok/logout`, null, {headers})
   }
 }
 //, { responseType: 'text' } as Record<string, unknown> -> if text response needed for get requests

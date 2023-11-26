@@ -40,7 +40,7 @@ export class FooldalComponent {
 
     //onLogout
     } else {
-      this.apiService.getLogout(this.authService.getToken()).subscribe(() => {
+      this.apiService.postLogout(this.authService.getToken()).subscribe(() => {
         this.authService.emptyToken();
         this.initUserLoginProps();
       });

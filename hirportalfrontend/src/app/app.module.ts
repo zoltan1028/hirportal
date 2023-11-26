@@ -17,6 +17,7 @@ import { UjComponent } from './uj/uj.component';
 //ngmodel
 import { FormsModule } from '@angular/forms';
 import { ReszletesComponent } from './reszletes/reszletes.component';
+import { ManageszerkesztoComponent } from './manageszerkeszto/manageszerkeszto.component';
 
 
 
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path: 'szerkesztes', component: SzerkesztesComponent},
   {path: 'szerkesztes/:id', component: UjComponent},
   {path: 'ujhir', component: UjComponent},
-  {path: 'fooldal/:id', component: ReszletesComponent}
+  {path: 'fooldal/:id', component: ReszletesComponent},
+  {path: 'manageszerkesztok', component: ManageszerkesztoComponent}
 ]
 
 @NgModule({
@@ -39,6 +41,7 @@ const routes: Routes = [
     SzerkesztesitemComponent,
     UjComponent,
     ReszletesComponent,
+    ManageszerkesztoComponent,
   ],
   imports: [
     BrowserModule,

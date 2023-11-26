@@ -8,18 +8,18 @@ import java.util.List;
 
 @Entity
 public class Szerkeszto {
-    @JsonIgnore
     @GeneratedValue
     @Id
     private Long id;
-    //@JsonIgnore
+    @JsonIgnore
     private String felhasznalonev;
+    private String nev;
     @JsonIgnore
     private String jelszo;
     @JsonIgnore
     private String token;
     @JsonIgnore
-    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Hir> hirek = new ArrayList<>();
     public List<Hir> getHirek() {
         return hirek;
@@ -57,5 +57,12 @@ public class Szerkeszto {
 
     public void setJelszo(String jelszo) {
         this.jelszo = jelszo;
+    }
+    public String getNev() {
+        return nev;
+    }
+
+    public void setNev(String nev) {
+        this.nev = nev;
     }
 }
