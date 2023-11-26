@@ -3,6 +3,7 @@ import { Hir } from '../model/Hir';
 import { HirportalApiService } from '../hirportal.api.service';
 import { AuthenticationService } from '../authentication.service';
 import { HirFoOldal } from '../model/HirFoOldal';
+import { Kategoria } from '../model/Kategoria';
 
 @Component({
   selector: 'hp-szerkesztes',
@@ -19,6 +20,7 @@ export class SzerkesztesComponent {
   hibauzenet = false;
   ujkategoria: string = "";
   kategoriaTodelete: string = "";
+  kategoriak: Kategoria[] = []
   ngOnInit() {
     this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {
       this.foOldalHirek = fohirek;
@@ -28,6 +30,7 @@ export class SzerkesztesComponent {
           this.vezercikkid = i.hir.id!
         }
     }})
+    this.apiService.getKategoriak().subscribe(response => {this.kategoriak = response})
     this.apiService.getHirekVedett(this.authService.getToken()).subscribe(hirek => {this.osszesHir = hirek})
   }
   @Input()

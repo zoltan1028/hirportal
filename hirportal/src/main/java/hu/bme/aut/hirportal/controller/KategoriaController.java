@@ -34,13 +34,11 @@ public class KategoriaController {
 
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/delete/{kategorianev}")
+    @DeleteMapping("/delete/{id}")
     @Transactional
-    public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable String kategorianev) {
+    public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        var k = kategoriaRepository.findByNev(kategorianev);
-        System.out.println(k.getNev());
-        kategoriaRepository.deleteById(k.getId());
+        kategoriaRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 

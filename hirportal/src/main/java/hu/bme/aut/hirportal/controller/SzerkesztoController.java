@@ -73,4 +73,18 @@ public class SzerkesztoController {
         szerkesztoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+    @PutMapping("{id}")
+    @Transactional
+    public ResponseEntity<List<Szerkeszto>> PutSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDto szerkesztodto, @PathVariable Long id) {
+        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        System.out.println(id);
+        var optszerkeszto = szerkesztoRepository.findById(id);
+        if (optszerkeszto.isEmpty()){return ResponseEntity.badRequest().build();}
+        var managedszerkeszto = optszerkeszto.get();
+        managedszerkeszto.setFelhasznalonev(szerkesztodto.getFelhasznalonev());
+        managedszerkeszto.setJelszo(szerkesztodto.getJelszo());
+        managedszerkeszto.setNev(szerkesztodto.getNev());
+        szerkesztoRepository.save(managedszerkeszto);
+        return ResponseEntity.ok().build();
+    }
 }

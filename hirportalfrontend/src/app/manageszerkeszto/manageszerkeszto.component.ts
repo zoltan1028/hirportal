@@ -15,32 +15,52 @@ export class ManageszerkesztoComponent {
   felhasznalonev: string = ""
   jelszo: string = ""
   nev: string = ""
-  id: string = ""
+  id: number|null = null
   szerkesztok!: Szerkeszto[]
   szerkeszto!: Szerkeszto
   szerkesztoToDelete!: number
   //admin: boolean = false
   ngOnInit() {this.setData();}
   submitForm() {
-    const sz: SzerkesztoDto = {
-      nev: this.nev,
-      jelszo: this.jelszo,
-      felhasznalonev: this.felhasznalonev,
-      id: null
+    if(this.id === null) {
+      this.id = null
     }
-    console.log(sz.felhasznalonev + sz.nev)
-    this.apiService.postSzerkeszto(this.authService.getToken(), sz).subscribe(response => {console.log(response)})
+    console.log(this.id + "WTF")
+    const szerkeszto: SzerkesztoDto = {
+      id: this.id,
+      felhasznalonev: this.felhasznalonev,
+      jelszo: this.jelszo,
+      nev: this.nev
+    }
+    console.log(szerkeszto)
+    if (szerkeszto.id === null) {
+      this.apiService.postSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response)})
+    } else {
+      this.apiService.putSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response)})
+    }
+
   }
   setData() {
     this.apiService.getSzerkesztok(this.authService.getToken()).subscribe(szerkesztok => {
-      console.log("dasasd")
-
       this.szerkesztok = szerkesztok
-      console.log(this.szerkesztok)
+      const emptyoption: SzerkesztoDto = {
+        id: null,
+        felhasznalonev:"null",
+        jelszo: "null",
+        nev: "null"
+      }
+      this.szerkesztok.push(emptyoption)
       this.showTemplate = true
     })
   }
   removeSzerkeszto() {
-    this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response)})
+    if(this.szerkesztoToDelete !== null) {
+      this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response)})
+    }
+  }
+  test(id: number|null) {
+    const sz = this.szerkesztok.find(sz => sz.id === id)
+    this.nev = sz!.nev
+    this.id = sz!.id
   }
 }

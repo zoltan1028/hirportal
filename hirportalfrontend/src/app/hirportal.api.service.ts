@@ -64,6 +64,11 @@ export class HirportalApiService {
     headers = headers.append('Token', token)
     return this.http.post<void>(`${HirportalApiService.baseUrl}szerkesztok`, szerkeszto, {headers})
   }
+  putSzerkeszto(token: string, szerkeszto: SzerkesztoDto) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.put<void>(`${HirportalApiService.baseUrl}szerkesztok/${szerkeszto.id}`, szerkeszto, {headers})
+  }
   deleteSzerkeszto(token: string, szerkesztodid: number) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)

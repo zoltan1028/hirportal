@@ -24,7 +24,7 @@
       <textarea [rows]="15" name="szoveg" [(ngModel)]='szoveg' class="form-control" id="szoveg" rows="3"></textarea>
     </div>
     <button (click)="submitForm()" class="btn btn-danger mx-2">{{(id === "ujhir") ? 'Új hír mentése':'Módosítás mentése'}}</button>
-    <a class="btn btn-primary mx-2" routerLink="/">Főoldalra</a>
+    <a class="btn btn-secondary mx-2" routerLink="/">Főoldalra</a>
     <a class="btn bg-dark text-white mx-2" routerLink="/szerkesztes">Szerkesztés lista</a>
   </form>
 </div>
