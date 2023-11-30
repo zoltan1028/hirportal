@@ -1,0 +1,9 @@
+<div class="card">
+  <div class="card-body style">
+    <h5 class="card-title">Elem törlése</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Megerősítés</h6>
+    <p class="card-text">Biztosan törölni akarod {{element}} nevű elemet?</p>
+    <a class="btn buttonAcolor mx-2 btn-block" (click)="cancel.emit()">Mégse</a>
+    <a [routerLink]="routefrommodal" class="btn btn-danger btn-block" (click)="del.emit()">Törlés megerősítése</a>
+  </div>
+</div>

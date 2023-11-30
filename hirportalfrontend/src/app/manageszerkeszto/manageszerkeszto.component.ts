@@ -3,6 +3,8 @@ import { AuthenticationService } from '../authentication.service';
 import { HirportalApiService } from '../hirportal.api.service';
 import { Szerkeszto } from '../model/Szerkeszto';
 import { SzerkesztoDto } from '../model/SzerkesztoDto';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModaldeleteComponent } from '../modaldelete/modaldelete.component';
 
 @Component({
   selector: 'hp-manageszerkeszto',
@@ -10,7 +12,7 @@ import { SzerkesztoDto } from '../model/SzerkesztoDto';
   styleUrls: ['./manageszerkeszto.component.scss']
 })
 export class ManageszerkesztoComponent {
-  constructor(private apiService: HirportalApiService, private authService: AuthenticationService) { }
+  constructor(private apiService: HirportalApiService, private authService: AuthenticationService, private modalService: NgbModal) { }
   showTemplate: boolean = false
   felhasznalonev: string = ""
   jelszo: string = ""
@@ -34,12 +36,10 @@ export class ManageszerkesztoComponent {
     }
     console.log(szerkeszto)
     if (szerkeszto.id === null) {
-      this.apiService.postSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response)})
+      this.apiService.postSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response); this.ngOnInit();})
     } else {
-      this.apiService.putSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response)})
+      this.apiService.putSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response); this.ngOnInit();})
     }
-    this.ngOnInit();
-
   }
   setData() {
     this.apiService.getSzerkesztok(this.authService.getToken()).subscribe(szerkesztok => {
@@ -56,7 +56,10 @@ export class ManageszerkesztoComponent {
   }
   removeSzerkeszto() {
     if(this.szerkesztoToDelete !== null) {
-      this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response);this.ngOnInit();})
+      const szerkeszto = this.szerkesztok.find(sz => sz.id === this.szerkesztoToDelete)!.nev;
+      let modal = this.modalService.open(ModaldeleteComponent, {backdrop:'static', centered: true});
+      (modal.componentInstance as ModaldeleteComponent)
+      .initModalDeleteWindow({receivedelement: szerkeszto, routefrommodal : '/manageszerkesztok'}, {del: () => {modal.close(); this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response);this.ngOnInit();})}, cancel: () => {modal.close();}});
     }
   }
   test(id: number|null) {

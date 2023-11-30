@@ -23,12 +23,8 @@ public class SzerkesztoController {
     AuthenticationService authenticationService;
     @PostMapping("login")
     public ResponseEntity<String> PostLogin(@RequestHeader String Felhasznalonev, @RequestHeader String Jelszo) {
-
-        System.out.println(Felhasznalonev);
-        //jsz is
         Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(Felhasznalonev));
         if(szerkesztoOpt.isEmpty()) {return ResponseEntity.badRequest().build();}
-
         var szerkeszto = szerkesztoOpt.get();
         if(szerkeszto.getFelhasznalonev().equals(Felhasznalonev) && szerkeszto.getJelszo().equals(Jelszo)) {
             HttpHeaders responseHeader = new HttpHeaders();
@@ -55,6 +51,7 @@ public class SzerkesztoController {
     @Transactional
     public ResponseEntity<SzerkesztoDto> PostSzerkeszto(@RequestHeader String Token,@RequestBody SzerkesztoDto szerkesztodto) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        if((szerkesztodto.getFelhasznalonev().isEmpty() && szerkesztodto.getJelszo().isEmpty())) {return ResponseEntity.badRequest().build();}
         Szerkeszto szerkeszto = new Szerkeszto();
         szerkesztoRepository.save(szerkeszto);
         szerkeszto.setNev(szerkesztodto.getNev());
@@ -77,7 +74,6 @@ public class SzerkesztoController {
     @Transactional
     public ResponseEntity<List<Szerkeszto>> PutSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDto szerkesztodto, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        System.out.println(id);
         var optszerkeszto = szerkesztoRepository.findById(id);
         if (optszerkeszto.isEmpty()){return ResponseEntity.badRequest().build();}
         var managedszerkeszto = optszerkeszto.get();

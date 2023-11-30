@@ -18,6 +18,7 @@ import { UjComponent } from './uj/uj.component';
 import { FormsModule } from '@angular/forms';
 import { ReszletesComponent } from './reszletes/reszletes.component';
 import { ManageszerkesztoComponent } from './manageszerkeszto/manageszerkeszto.component';
+import { ModaldeleteComponent } from './modaldelete/modaldelete.component';
 
 
 
@@ -42,6 +43,7 @@ const routes: Routes = [
     UjComponent,
     ReszletesComponent,
     ManageszerkesztoComponent,
+    ModaldeleteComponent,
   ],
   imports: [
     BrowserModule,

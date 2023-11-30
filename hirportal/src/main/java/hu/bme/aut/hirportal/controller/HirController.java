@@ -65,7 +65,6 @@ public class HirController {
     @Transactional
     public ResponseEntity<Hir> PostHir(@RequestBody Hir hir, @RequestHeader String Token) {
         if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
-
         hirRepository.save(hir);
         List<Kategoria> kats = new ArrayList<>();
         for (var k : hir.getKategoriak()) {
@@ -85,7 +84,6 @@ public class HirController {
     public ResponseEntity<Hir> PutHir(@RequestBody Hir hir, @PathVariable("id") Long id, @RequestHeader String Token) {
         if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
         var optionalSzerkeszto = Optional.ofNullable(szerkesztoRepository.findByToken(Token));
-
         Optional<Hir> optionalHir = hirRepository.findById(id);
         if(optionalHir.isEmpty() || optionalSzerkeszto.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -96,7 +94,6 @@ public class HirController {
             managedhir.setKategoriak(paramkat);
 
             if(managedhir.getSzerkesztok().size() == 0) {managedhir.addToSzerkesztok(szerkeszto);}
-
             boolean duplicateid = false;
             for (var sz: managedhir.getSzerkesztok()) {
                 if ((Objects.equals(sz.getId(), szerkeszto.getId()))) {duplicateid = true;break;}
@@ -122,7 +119,6 @@ public class HirController {
     @PostMapping("fooldal")
     public ResponseEntity<Object> PostHirekFoOldal(@RequestBody String str, @RequestHeader String Token) {
         if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
-
         var hirfooldal = hirFooldalRepository.findAll();
         String[] arrOfStr = str.split(",");
         Long[] ids = new Long[arrOfStr.length];
@@ -131,7 +127,6 @@ public class HirController {
 
         var vezcikkid = ids[ids.length-1];
         var idswithoutvezer = Arrays.copyOf(ids, ids.length -1);
-
         for (Long i: idswithoutvezer) {
             Optional<Hir> hir = hirRepository.findById(i);
             if(hir.isPresent()) {
@@ -141,8 +136,6 @@ public class HirController {
                     fooldalhir.setVezercikk(true);
                 }
                 hirFooldalRepository.save(fooldalhir);
-
-
             }
         }
         return ResponseEntity.ok().build();

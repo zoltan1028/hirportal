@@ -23,7 +23,6 @@ export class SzerkesztesitemComponent {
   get IsMarked() {
     return (this.isMarked)
   }
-
   @Output()
   onChecked: EventEmitter<void> = new EventEmitter();
   onCheckBoxEmit(value: any) {this.onChecked.emit(value);}

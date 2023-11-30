@@ -1,18 +1,18 @@
 <div class="my-5">
   <!--<h5>{{(id === "ujhir") ? 'Új hír felvétele':'Hír módosítása'}}</h5>-->
   <h5>Új szerkesztő hozzáadása</h5>
-  <form ngNativeValidate #form *ngIf="showTemplate" class="container">
+  <form #loginForm="ngForm" (submit)="submitForm()" *ngIf="showTemplate" class="container">
     <div class="form-group my-5">
       <label for="felhasznalonev">Felhasználónév</label>
-      <input name="felhasznalonev" [(ngModel)]='felhasznalonev' type="text" class="form-control" id="felhasznalonev" placeholder="Felhasználónév">
+      <input name="felhasznalonev" [(ngModel)]='felhasznalonev' type="text" class="form-control" id="felhasznalonev" placeholder="Felhasználónév" required>
     </div>
     <div class="form-group my-5">
       <label for="jelszo">Jelszó</label>
-      <input name="jelszo" [(ngModel)]='jelszo' type="password" class="form-control" id="jelszo" placeholder="Jelszó">
+      <input name="jelszo" [(ngModel)]='jelszo' type="password" class="form-control" id="jelszo" placeholder="Jelszó" required>
     </div>
     <div class="form-group my-5">
       <label for="nev">Név</label>
-      <input name="nev" [(ngModel)]='nev' type="text" class="form-control" id="nev" placeholder="Név">
+      <input name="nev" [(ngModel)]='nev' type="text" class="form-control" id="nev" placeholder="Név" required>
     </div>
 
     <div class="form-group my-5">
@@ -22,9 +22,9 @@
       </select>
     </div>
 
-    <button (click)="submitForm()" class="btn btn-danger">{{(id === null) ? 'Új szerkesztő mentése':'Módosítás mentése'}}</button>
+    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-danger">{{(id === null) ? 'Új szerkesztő mentése':'Módosítás mentése'}}</button>
     <a class="btn btn-secondary mx-2" routerLink="/">Főoldalra</a>
-    <a class="btn bg-dark text-white" routerLink="/szerkesztes">Szerkesztés lista</a>
+    <a class="btn bg-dark text-white" routerLink="/szerkesztok">Szerkesztés lista</a>
 
     <h5>Szerkesztő törlése</h5>
 
@@ -35,8 +35,8 @@
       </select>
     </div>
 
-    <button class="btn btn-danger" (click)="removeSzerkeszto()">Szerkesztő törlése</button>
-    </form>
+    <button class="btn btn-danger" type="button" (click)="removeSzerkeszto()">Szerkesztő törlése</button>
+  </form>
 
 </div>
 
