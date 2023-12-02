@@ -49,7 +49,7 @@ public class SzerkesztoController {
     }
     @PostMapping
     @Transactional
-    public ResponseEntity<SzerkesztoDto> PostSzerkeszto(@RequestHeader String Token,@RequestBody SzerkesztoDto szerkesztodto) {
+    public ResponseEntity<Void> PostSzerkeszto(@RequestHeader String Token,@RequestBody SzerkesztoDto szerkesztodto) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
         if((szerkesztodto.getFelhasznalonev().isEmpty() && szerkesztodto.getJelszo().isEmpty())) {return ResponseEntity.badRequest().build();}
         Szerkeszto szerkeszto = new Szerkeszto();
