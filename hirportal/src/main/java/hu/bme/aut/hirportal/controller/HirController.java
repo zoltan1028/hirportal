@@ -92,6 +92,11 @@ public class HirController {
             var szerkeszto = optionalSzerkeszto.get();
             var managedhir = optionalHir.get();
             managedhir.setKategoriak(paramkat);
+            managedhir.setCim(hir.getCim());
+            managedhir.setLejarat(hir.getLejarat());
+            managedhir.setKeplink(hir.getKeplink());
+            managedhir.setSzoveg(hir.getSzoveg());
+
 
             if(managedhir.getSzerkesztok().size() == 0) {managedhir.addToSzerkesztok(szerkeszto);}
             boolean duplicateid = false;
