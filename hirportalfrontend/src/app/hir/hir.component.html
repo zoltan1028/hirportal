@@ -3,7 +3,7 @@
     <div class="card-body">
       <h5 class="card-title" [ngClass]="vezcikk ? 'hvezer' : 'hnemvezer' " routerLink={{hir.id}}>{{hir.cim}}</h5>
       <h4><span class="{{k.nev}}" *ngFor="let k of hir.kategoriak">{{k.nev+" "}}</span></h4>
-      <h4><span class="{{sz.felhasznalonev}}" *ngFor="let sz of hir.szerkesztok">{{sz.felhasznalonev}}</span></h4>
+      <h4><span class="{{sz.nev}}" *ngFor="let sz of hir.szerkesztok">{{sz.nev+" "}}</span></h4>
       <div *ngIf="vezcikk">
         <img *ngIf="!!hir.keplink" class="card-img-top" src={{hir.keplink}} alt="Card image cap">
       </div>

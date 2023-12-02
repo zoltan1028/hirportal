@@ -6,6 +6,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{hirbyid.cim}}</h5>
+            <h4><span class="{{sz.nev}}" *ngFor="let sz of hirbyid.szerkesztok">{{sz.nev+" "}}</span></h4>
             <p>{{hirbyid.letrehozas}}</p>
             <p class="card-text">{{hirbyid.szoveg}}</p>
           </div>
