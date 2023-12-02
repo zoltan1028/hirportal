@@ -61,7 +61,7 @@ public class SzerkesztoController {
     }
     @DeleteMapping("{id}")
     @Transactional
-    public ResponseEntity<List<Szerkeszto>> DeleteSzerkeszto(@RequestHeader String Token, @PathVariable Long id) {
+    public ResponseEntity<Void> DeleteSzerkeszto(@RequestHeader String Token, @PathVariable Long id) {
         var szerkesztoToDelete = szerkesztoRepository.findById(id);
         var szerkesztoWhoDeletes = szerkesztoRepository.findByToken(Token);
         //onmagunk torlse check
@@ -72,7 +72,7 @@ public class SzerkesztoController {
     }
     @PutMapping("{id}")
     @Transactional
-    public ResponseEntity<List<Szerkeszto>> PutSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDto szerkesztodto, @PathVariable Long id) {
+    public ResponseEntity<Void> PutSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDto szerkesztodto, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
         var optszerkeszto = szerkesztoRepository.findById(id);
         if (optszerkeszto.isEmpty()){return ResponseEntity.badRequest().build();}

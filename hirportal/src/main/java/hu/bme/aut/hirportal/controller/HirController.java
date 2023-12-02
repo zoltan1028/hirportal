@@ -68,17 +68,7 @@ public class HirController {
         var optionalSzerkeszto = Optional.ofNullable(szerkesztoRepository.findByToken(Token));
         hirRepository.save(hir);
         if (optionalSzerkeszto.isPresent()) {hir.addToSzerkesztok(optionalSzerkeszto.get());}
-        List<Kategoria> kats = new ArrayList<>();
-        for (var k : hir.getKategoriak()) {
-            Optional<Kategoria> kategoria = kategoriaRepository.findById(k.getId());
-            if (!kategoria.isEmpty()) {
-                if (k.getId() == kategoria.get().getId()) {
-                    //settel jobb
-                    kats.add(k);
-                }
-            }
-        }
-        hir.setKategoriak(kats);
+        hir.setKategoriak(hir.getKategoriak());
         return ResponseEntity.ok(hir);
     }
     @PutMapping(value = "{id}")
