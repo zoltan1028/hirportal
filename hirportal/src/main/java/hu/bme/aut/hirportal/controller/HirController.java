@@ -65,7 +65,9 @@ public class HirController {
     @Transactional
     public ResponseEntity<Hir> PostHir(@RequestBody Hir hir, @RequestHeader String Token) {
         if (!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.ok().build();}
+        var optionalSzerkeszto = Optional.ofNullable(szerkesztoRepository.findByToken(Token));
         hirRepository.save(hir);
+        if (optionalSzerkeszto.isPresent()) {hir.addToSzerkesztok(optionalSzerkeszto.get());}
         List<Kategoria> kats = new ArrayList<>();
         for (var k : hir.getKategoriak()) {
             Optional<Kategoria> kategoria = kategoriaRepository.findById(k.getId());
