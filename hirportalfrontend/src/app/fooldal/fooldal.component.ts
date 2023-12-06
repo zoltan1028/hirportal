@@ -20,7 +20,7 @@ export class FooldalComponent {
   loginFieldDisabled: boolean = false
   ngOnInit() {
     console.log("ngOnInit")
-    this.apiService.getHirek().subscribe(hirek => {
+    this.apiService.getFoOldal().subscribe(hirek => {
       this.hirek = hirek
       this.filteredHirek = hirek
       this.onVezercikkInFilteredSetVezercikkFirst()

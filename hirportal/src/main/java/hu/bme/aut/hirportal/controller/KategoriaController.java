@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import hu.bme.aut.hirportal.service.AuthenticationService;
-
 import java.util.List;
 
 @RestController
@@ -34,9 +33,8 @@ public class KategoriaController {
     @Transactional
     public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        if(id == null) {return ResponseEntity.badRequest().build();}
         kategoriaRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-
-
 }

@@ -1,6 +1,5 @@
 package hu.bme.aut.hirportal.controller;
 
-import hu.bme.aut.hirportal.auth.Authentication;
 import hu.bme.aut.hirportal.dto.SzerkesztoDto;
 import hu.bme.aut.hirportal.model.Szerkeszto;
 import hu.bme.aut.hirportal.repository.SzerkesztoRepository;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 

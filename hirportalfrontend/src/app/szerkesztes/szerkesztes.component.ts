@@ -33,7 +33,7 @@ export class SzerkesztesComponent {
         }
     }})
     this.apiService.getKategoriak().subscribe(response => {this.kategoriak = response})
-    this.apiService.getHirekVedett(this.authService.getToken()).subscribe(hirek => {this.osszesHir = hirek})
+    this.apiService.getHirek().subscribe(hirek => {this.osszesHir = hirek})
   }
   @Input()
   hir!: number | null;

@@ -33,11 +33,6 @@ export class HirportalApiService {
     headers = headers.append('Token', token)
     return this.http.delete<Hir>(`${HirportalApiService.baseUrl}hirek/delete/${id}`, {headers})
   }
-  getHirekVedett(token: string) {
-    let headers = new HttpHeaders();
-    headers = headers.append('Token', token)
-    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek/vedett`, {headers})
-  }
   getFoOldalIds(token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
@@ -75,6 +70,9 @@ export class HirportalApiService {
     return this.http.delete<void>(`${HirportalApiService.baseUrl}szerkesztok/${szerkesztodid}`, {headers})
   }
   //not protected
+  getFoOldal() {
+    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek/fooldal`)
+  }
   getHirek() {
     return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
   }
