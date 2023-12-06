@@ -21,6 +21,11 @@ public class SzerkesztoController {
     SzerkesztoRepository szerkesztoRepository;
     @Autowired
     AuthenticationService authenticationService;
+    @GetMapping
+    public ResponseEntity<List<Szerkeszto>> GetSzerkesztok(@RequestHeader String Token) {
+        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        return ResponseEntity.ok(szerkesztoRepository.findAll());
+    }
     @PostMapping("login")
     public ResponseEntity<String> PostLogin(@RequestHeader String Felhasznalonev, @RequestHeader String Jelszo) {
         Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(Felhasznalonev));
@@ -34,18 +39,13 @@ public class SzerkesztoController {
             szerkesztoRepository.save(szerkeszto);
             return ResponseEntity.ok().headers(responseHeader).build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().build();
     }
     @PostMapping("logout")
     public ResponseEntity<Void> PostLogout(@RequestHeader String Token) {
         boolean isSuccess = authenticationService.LogoutUser(Token);
         if(isSuccess) {return ResponseEntity.ok().build();}
-        return ResponseEntity.notFound().build();
-    }
-    @GetMapping
-    public ResponseEntity<List<Szerkeszto>> GetSzerkesztok(@RequestHeader String Token) {
-        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        return ResponseEntity.ok(szerkesztoRepository.findAll());
+        return ResponseEntity.badRequest().build();
     }
     @PostMapping
     @Transactional
@@ -59,17 +59,6 @@ public class SzerkesztoController {
         szerkeszto.setJelszo(szerkesztodto.getJelszo());
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("{id}")
-    @Transactional
-    public ResponseEntity<Void> DeleteSzerkeszto(@RequestHeader String Token, @PathVariable Long id) {
-        var szerkesztoToDelete = szerkesztoRepository.findById(id);
-        var szerkesztoWhoDeletes = szerkesztoRepository.findByToken(Token);
-        //onmagunk torlse check
-        if(szerkesztoToDelete.get().getId().equals(szerkesztoWhoDeletes.getId())) {return ResponseEntity.badRequest().build();}
-        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        szerkesztoRepository.deleteById(id);
-        return ResponseEntity.ok().build();
-    }
     @PutMapping("{id}")
     @Transactional
     public ResponseEntity<Void> PutSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDto szerkesztodto, @PathVariable Long id) {
@@ -81,6 +70,18 @@ public class SzerkesztoController {
         managedszerkeszto.setJelszo(szerkesztodto.getJelszo());
         managedszerkeszto.setNev(szerkesztodto.getNev());
         szerkesztoRepository.save(managedszerkeszto);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity<Void> DeleteSzerkeszto(@RequestHeader String Token, @PathVariable Long id) {
+        var szerkesztoToDelete = szerkesztoRepository.findById(id);
+        var szerkesztoWhoDeletes = szerkesztoRepository.findByToken(Token);
+        if (szerkesztoToDelete.isEmpty()) {return ResponseEntity.badRequest().build();}
+        //onmagunk torlse check
+        if(szerkesztoToDelete.get().getId().equals(szerkesztoWhoDeletes.getId())) {return ResponseEntity.badRequest().build();}
+        if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        szerkesztoRepository.delete(szerkesztoToDelete.get());
         return ResponseEntity.ok().build();
     }
 }

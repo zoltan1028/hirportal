@@ -46,9 +46,9 @@ export class ManageszerkesztoComponent {
       this.szerkesztok = szerkesztok
       const emptyoption: SzerkesztoDto = {
         id: null,
-        felhasznalonev:"null",
-        jelszo: "null",
-        nev: "null"
+        felhasznalonev:"",
+        jelszo: "",
+        nev: ""
       }
       this.szerkesztok.push(emptyoption)
       this.showTemplate = true
