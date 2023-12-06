@@ -19,9 +19,7 @@
     </div>
     <div class="form-check">
       <input (change)="onMarkedEmit($event)" class="form-check-input" [checked]="isMarked" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-      <label class="form-check-label" for="flexRadioDefault2">
-        Default checked radio
-      </label>
+      <label class="form-check-label" for="flexRadioDefault2">Vezércikknek választás</label>
     </div>
     <button class="btn btn-secondary" routerLink="{{hir.id}}">Szerkesztes</button>
     <button class="btn btn-danger mx-2" (click)="onDeleteEmit($event)">Törlés</button>
