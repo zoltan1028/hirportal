@@ -1,25 +1,23 @@
 h4 {
-  font-size: 6rem;
+  font-size: 5rem;
   text-align: center;
 }
 
 .filtertext:hover {
-  text-decoration: underline;
-  color: black;
-  font-size: 1.6rem;
+  text-decoration: underline rgb(255, 68, 68);
+  font-size: 1.3rem;
   transform: scale(1.05);
 }
 
 .filtertext {
   color: black;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   transition: all .2s ease-in-out;
-  min-height: 110px;;
-  max-height: 140px;
+  min-height: 50px;;
 }
 
 .underline{
-  text-decoration: underline;
+  text-decoration: underline rgb(255, 68, 68);
 }
 
 .navbar-light {
@@ -29,6 +27,7 @@ h4 {
 
 .btnszerk {
   line-height: 20px;
+  font-size: 1rem;
 }
 
 nav {
