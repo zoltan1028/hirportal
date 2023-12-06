@@ -12,7 +12,16 @@ import { SzerkesztoDto } from './model/SzerkesztoDto';
 export class HirportalApiService {
   private static readonly baseUrl: string = "http://localhost:4200/";
   constructor(private http: HttpClient) { }
-  //protected
+  //hirek
+  getFoOldal() {
+    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek/fooldal`)
+  }
+  getHirek() {
+    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
+  }
+  getHirById(id: number): Observable<any> {
+    return this.http.get<Hir>(`${HirportalApiService.baseUrl}hirek/${id}`)
+  }
   postHir(hirobj: Hir, token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
@@ -23,30 +32,21 @@ export class HirportalApiService {
     headers = headers.append('Token', token)
     return this.http.put<Hir>(`${HirportalApiService.baseUrl}hirek/${pathvar}`, hirobj, {headers})
   }
-  postFoOldal(hirekids: string, token: string) {
-    let headers = new HttpHeaders();
-    headers = headers.append('Token', token)
-    return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids, {headers})
-  }
   deleteHir(token: string, id: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
     return this.http.delete<Hir>(`${HirportalApiService.baseUrl}hirek/delete/${id}`, {headers})
   }
+  //fooldal
   getFoOldalIds(token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
     return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`, {headers})
   }
-  postKategoria(token: string, kategoria: string) {
+  postFoOldal(hirekids: string, token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.post<void>(`${HirportalApiService.baseUrl}kategoriak/${kategoria}`, null, {headers})
-  }
-  deleteKategoria(token: string, kategoria: string) {
-    let headers = new HttpHeaders();
-    headers = headers.append('Token', token)
-    return this.http.delete<void>(`${HirportalApiService.baseUrl}kategoriak/delete/${kategoria}`, {headers})
+    return this.http.post<void>(`${HirportalApiService.baseUrl}hirek/fooldal`, hirekids, {headers})
   }
   //szerkesztok
   getSzerkesztok(token: string) {
@@ -69,22 +69,21 @@ export class HirportalApiService {
     headers = headers.append('Token', token)
     return this.http.delete<void>(`${HirportalApiService.baseUrl}szerkesztok/${szerkesztodid}`, {headers})
   }
-  //not protected
-  getFoOldal() {
-    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek/fooldal`)
-  }
-  getHirek() {
-    return this.http.get<Hir[]>(`${HirportalApiService.baseUrl}hirek`)
-  }
-  getHirById(id: number): Observable<any> {
-    return this.http.get<Hir>(`${HirportalApiService.baseUrl}hirek/${id}`)
-  }
+  //kategoriak
   getKategoriak() {
     return this.http.get<Kategoria[]>(`${HirportalApiService.baseUrl}kategoriak`)
   }
-
-
-  //login logout
+  postKategoria(token: string, kategoria: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.post<void>(`${HirportalApiService.baseUrl}kategoriak/${kategoria}`, null, {headers})
+  }
+  deleteKategoria(token: string, kategoria: string) {
+    let headers = new HttpHeaders();
+    headers = headers.append('Token', token)
+    return this.http.delete<void>(`${HirportalApiService.baseUrl}kategoriak/delete/${kategoria}`, {headers})
+  }
+  //login
   postLogin(felhasznalonev: string, jelszo: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Felhasznalonev', felhasznalonev)

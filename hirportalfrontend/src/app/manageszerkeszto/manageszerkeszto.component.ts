@@ -21,13 +21,11 @@ export class ManageszerkesztoComponent {
   szerkesztok!: Szerkeszto[]
   szerkeszto!: Szerkeszto
   szerkesztoToDelete!: number
-  //admin: boolean = false
   ngOnInit() {this.setData();}
   submitForm() {
     if(this.id === null) {
       this.id = null
     }
-    console.log(this.id + "WTF")
     const szerkeszto: SzerkesztoDto = {
       id: this.id,
       felhasznalonev: this.felhasznalonev,
@@ -62,7 +60,7 @@ export class ManageszerkesztoComponent {
       .initModalDeleteWindow({receivedelement: szerkeszto, routefrommodal : '/manageszerkesztok'}, {del: () => {modal.close(); this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response);this.ngOnInit();})}, cancel: () => {modal.close();}});
     }
   }
-  test(id: number|null) {
+  onOptionChangeSetSelectedNevAndId(id: number|null) {
     const sz = this.szerkesztok.find(sz => sz.id === id)
     this.nev = sz!.nev
     this.id = sz!.id

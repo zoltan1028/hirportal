@@ -17,7 +17,7 @@
 
     <div class="form-group my-5">
       <label for="ids">ID</label>
-      <select (change)="test(id)" name="multiselect" [(ngModel)]="id" class="form-control" id="ids">
+      <select (change)="onOptionChangeSetSelectedNevAndId(id)" name="multiselect" [(ngModel)]="id" class="form-control" id="ids">
         <option  *ngFor="let sz of szerkesztok" [ngValue]="sz.id">{{sz.id}} {{sz.nev}}</option>
       </select>
     </div>
