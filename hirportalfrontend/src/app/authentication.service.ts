@@ -4,16 +4,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private static token: string = ""
+  private static token: string = ''
+  private static username: string = ''
   constructor() { }
   emptyToken() {
-    AuthenticationService.token = "";
+    AuthenticationService.token = '';
   }
-  setToken(token: string) {
-    if (token === null) {AuthenticationService.token = "";}
-    else {AuthenticationService.token = token;}
+  setToken(token: string, name: string) {
+    if (token === null) {AuthenticationService.token = '';}
+    else {AuthenticationService.token = token; AuthenticationService.username = name;}
   }
   getToken(): string {
     return AuthenticationService.token;
+  }
+  getName(): string {
+    return AuthenticationService.username;
   }
 }

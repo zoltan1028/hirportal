@@ -7,11 +7,11 @@
   <div class="col-6">
 
     <div class="row d-flex justify-content-center">
-      <div class="col-8 nav d-flex justify-content-center" >
-        <button type="button" value="Belföld" (click)="setActiveCategory(cat1.value)" class="nav-link filtertext" #cat1>Belföld</button>
-        <button type="button" value="Külföld" (click)="setActiveCategory(cat2.value)" class="nav-link filtertext" #cat2>Külföld</button>
-        <button type="button" value="Kultúra" (click)="setActiveCategory(cat3.value)" class="nav-link filtertext" #cat3>Kultúra</button>
-        <button type="button" value="" (click)="setActiveCategory(cat4.value)" class="nav-link filtertext" #cat4>Összes</button>
+      <div class="col-8 nav d-flex justify-content-center p-4 filter" >
+        <button [ngClass]="{'underline': cat1.value == selectedFilter}" type="button" value="Belföld" (click)="setActiveCategory(cat1.value)" class="nav-link filtertext" #cat1>Belföld</button>
+        <button [ngClass]="{'underline': cat2.value == selectedFilter}" type="button" value="Külföld" (click)="setActiveCategory(cat2.value)" class="nav-link filtertext" #cat2>Külföld</button>
+        <button [ngClass]="{'underline': cat3.value == selectedFilter}" type="button" value="Kultúra" (click)="setActiveCategory(cat3.value)" class="nav-link filtertext" #cat3>Kultúra</button>
+        <button [ngClass]="{'underline': cat4.value == selectedFilter}" type="button" value="" (click)="setActiveCategory(cat4.value)" class="nav-link filtertext" #cat4>Összes</button>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
     <form #loginForm="ngForm" (ngSubmit)="onLoginButtonClick(loginForm.value)" class="row d-flex justify-content-between" ngNativeValidate>
       <div class="form-group col-4">
         <label for="username">Felhasználónév</label>
-        <input name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel [disabled]="loginFieldDisabled" required>
+        <input [(ngModel)]="name" name="felhasznalonev" type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Felhasználónév" ngModel [disabled]="loginFieldDisabled" required>
       </div>
       <div class="form-group col-6">
         <label for="password">Jelszó</label>

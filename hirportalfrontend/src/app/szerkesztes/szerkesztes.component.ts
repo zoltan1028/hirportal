@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Hir } from '../model/Hir';
 import { HirportalApiService } from '../hirportal.api.service';
 import { AuthenticationService } from '../authentication.service';
@@ -15,11 +15,9 @@ import { ModaldeleteComponent } from '../modaldelete/modaldelete.component';
 export class SzerkesztesComponent {
   constructor(private apiService: HirportalApiService, private authService: AuthenticationService, private modalService: NgbModal,) {}
   osszesHir!: Hir[];
-  idOfEnabledBoxes = new Set();
   foOldalHirek!: HirFoOldal[];
   foOldalIds: number[] = [];
-  vezercikkid: number = -1;
-  hibauzenet = false;
+  vezercikkid!: number;
   ujkategoria: string = "";
   kategoriaTodelete: string = "";
   kategoriak: Kategoria[] = []
@@ -46,36 +44,24 @@ export class SzerkesztesComponent {
   }
   initRadio(id: number) {
     if(id === this.vezercikkid) {return true}
-    //for (let idf of this.foOldalIds) {if(id === idf) {return true}}
     return false
   }
-  onCheckBoxUpdates(event: any, hirid: any) {
+  onCheckBoxChanged(event: any, hirid: any) {
+    //push on check
     if(event == false) {this.foOldalIds.push(hirid)}
+    //remove on uncheck
     else if(this.foOldalIds.length > 0) {const i = this.foOldalIds.indexOf(hirid); this.foOldalIds.splice(i, 1);}
-  }
-  submitHirekToFoOldal() {
-    if (this.formValidation()) {
-      this.foOldalIds.push(this.vezercikkid);
-      console.log(this.foOldalIds.toString())
-      this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
-      this.foOldalIds.pop()
-      this.hibauzenet = false
-    } else {
-      this.hibauzenet = true
-    }
   }
   onMarkedAsVezerCikk(event: any, hirid: any) {
     this.vezercikkid = hirid;
   }
-  formValidation() {
-    for(let id of this.foOldalIds) {
-      if (id === this.vezercikkid) {
-        return true
-      }
-    }
-    return false
+  submitHirekToFoOldal() {
+    this.foOldalIds.push(this.vezercikkid);
+    console.log(this.foOldalIds.toString())
+    this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
+    this.foOldalIds.pop()
   }
-  deleteHir(evetn: any, hirid: any) {
+  deleteHir(event: any, hirid: any) {
     const cim = this.osszesHir.find(hir => hir.id === hirid)!.cim;
     let modal = this.modalService.open(ModaldeleteComponent, {backdrop:'static', centered: true});
     (modal.componentInstance as ModaldeleteComponent)
@@ -87,7 +73,6 @@ export class SzerkesztesComponent {
   }
   removeKategoria() {
     const katnev = this.kategoriak.find(kat => kat.id === Number(this.kategoriaTodelete))!.nev;
-
     let modal = this.modalService.open(ModaldeleteComponent, {backdrop:'static', centered: true});
     (modal.componentInstance as ModaldeleteComponent)
     .initModalDeleteWindow({receivedelement: katnev, routefrommodal : '/szerkesztok'}, {del: () => {modal.close(); this.apiService.deleteKategoria(this.authService.getToken(), this.kategoriaTodelete).subscribe(response => {console.log(response);this.ngOnInit();})}, cancel: () => {modal.close();}});

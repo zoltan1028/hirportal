@@ -26,10 +26,10 @@
     <a class="btn btn-secondary mx-2" routerLink="/">Főoldalra</a>
     <a class="btn bg-dark text-white" routerLink="/szerkesztes">Szerkesztés lista</a>
 
-    <h5>Szerkesztő törlése</h5>
+    <h2 class="mt-5">Szerkesztő törlése</h2>
 
     <div class="form-group my-2">
-      <label for="delids">Szerkesztők</label>
+      <label for="delids">Szerkesztők:</label>
       <select name="delids" [(ngModel)]="szerkesztoToDelete" class="form-control" id="delids">
         <option  *ngFor="let sz of szerkesztok" [ngValue]="sz.id">{{sz.id}} {{sz.nev}}</option>
       </select>

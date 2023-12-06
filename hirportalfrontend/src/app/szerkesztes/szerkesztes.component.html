@@ -3,29 +3,30 @@
   <hp-szerkesztesitem
     *ngFor="let hir of this.osszesHir"
     [hir]="hir"
-    (onChecked)="onCheckBoxUpdates($event, hir.id)"
+    (onChecked)="onCheckBoxChanged($event, hir.id)"
     (onMarked)="onMarkedAsVezerCikk($event, hir.id)"
     [isChecked]="initCheckBoxes(hir.id!)"
     [isMarked]="initRadio(hir.id!)"
     (onDelete)="deleteHir($event, hir.id!)"
   >
   </hp-szerkesztesitem>
-  <div class="mb-5 mt-2">
+  <div>
+    <h2 class="mt-5">Kategóriák kezelése</h2>
     <button class="btn btn-danger" (click)="submitHirekToFoOldal()">Kiválasztott hírek mentése a főoldalra</button>
     <a class="btn btn-secondary mx-2" routerLink="/">Főoldalra</a>
     <a class="btn bg-dark text-white" routerLink="/manageszerkesztok">Szerkesztők kezelése</a>
+    <a class="btn btn-danger mx-2" routerLink="/ujhir">Új hír felvétele</a>
+
 
     <input name="ujkategoria" [(ngModel)]='ujkategoria' type="text" class="form-control mt-2" id="ujkategoria" placeholder="Újkategoria">
     <button class="btn btn-secondary my-2" (click)="addUjKategoria()">Új kategória mentése</button>
 
     <div class="form-group">
-      <label for="delkats">Kategoriák</label>
+      <label for="delkats">Kategoriák:</label>
       <select name="delkats" [(ngModel)]="kategoriaTodelete" class="form-control" id="delkats">
         <option  *ngFor="let k of kategoriak" [ngValue]="k.id">{{k.nev}}</option>
       </select>
       <button class="btn btn-danger mt-2 mb-5" (click)="removeKategoria()">Kategória törlése</button>
     </div>
-
-    <p *ngIf="hibauzenet">Válasszon vezércikket a kiválasztott cikkek közül!</p>
   </div>
 </div>

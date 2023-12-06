@@ -17,6 +17,8 @@ export class FooldalComponent {
   isToggled: boolean = false
   loginText: string = "Bejelentkezés"
   loginFieldDisabled: boolean = false
+  name: string = ""
+  selectedFilter: string = ''
   ngOnInit() {
     console.log("ngOnInit")
     this.apiService.getFoOldal().subscribe(hirek => {
@@ -32,7 +34,7 @@ export class FooldalComponent {
     //onLogin
     if (this.authService.getToken() == "") {
       this.apiService.postLogin(formdata.felhasznalonev, formdata.jelszo).subscribe(response => {
-        this.authService.setToken(response.headers.get('Token')!)
+        this.authService.setToken(response.headers.get('Token')!, formdata.felhasznalonev)
         this.initUserLoginProps();
       });
 
@@ -58,6 +60,7 @@ export class FooldalComponent {
       this.filteredHirek = this.hirek
       this.onVezercikkInFilteredSetVezercikkFirst()
     }
+    this.selectedFilter = value
     this.filteredHirek = this.hirek
     this.filteredHirek = this.filteredHirek.filter(hir => hir.kategoriak.some(k => k.nev.includes(value.toLowerCase())));
     this.onVezercikkInFilteredSetVezercikkFirst()
@@ -70,7 +73,9 @@ export class FooldalComponent {
       this.showSzerkesztesGombok = !!this.authService.getToken();
       this.loginText = "Bejelentkezés"
       this.loginFieldDisabled = false
+      this.name = ""
     } else {
+      this.name = this.authService.getName();
       this.showSzerkesztesGombok = !!this.authService.getToken()
       this.loginText = "Kijelentkezés"
       this.loginFieldDisabled = true
@@ -88,7 +93,7 @@ export class FooldalComponent {
       for (let hir of this.filteredHirek) {
         if(!(hir === vezCikk)) {finalList.push(hir);}
       }
-      //comp prop value set only if vezcikk found in filtered
+      //set sorted filteredHirek if vez. cikk was found
       this.filteredHirek = finalList
     }
   }

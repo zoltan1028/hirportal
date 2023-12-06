@@ -20,52 +20,17 @@ export class UjComponent {
   id!: any
   selectedCategories!: Kategoria[]
   kategoriakOptions!: Kategoria[]
-  ngOnInit() {this.setData()}
-  @Input()
-  cim!: string;
-  get Cim() {
-    return (this.cim ?? "");
-  }
-  @Input()
-  lejarat!: string;
-  get Lejarat() {
-    return (this.lejarat ?? "");
-  }
-  @Input()
-  szoveg!: string;
-  get Szoveg() {
-    return (this.szoveg ?? "");
-  }
-  @Input()
-  kategoriak!: Kategoria[];
-  get Kategoriak() {
-    return (this.kategoriak ?? "");
-  }
-  @Input()
-  letrehozas!: string;
-  get Letrehozas() {
-    return (this.letrehozas ?? "");
-  }
-  @Input()
-  keplink!: string;
-  get Keplink() {
-    return (this.keplink ?? "");
-  }
-  @Input()
   isVezercikk!: boolean;
-  get IsVezercikk() {
-    return (this.isVezercikk ?? "");
-  }
-  @Input()
   hirfooldal!: HirFoOldal;
-  get HirFooldal() {
-    return (this.hirfooldal ?? "");
-  }
-  @Input()
   szerkesztok!: Szerkeszto[];
-  get Szerkesztok() {
-    return (this.szerkesztok ?? "");
-  }
+  //form props
+  cim: string = '';
+  lejarat: string = '2000-01-01 00:00:00';
+  szoveg: string = '';
+  kategoriak!: Kategoria[];
+  letrehozas: string = '';
+  keplink: string = '';
+  ngOnInit() {this.setData()}
   setData() {
     this.apiService.getKategoriak().subscribe(kat => {this.kategoriakOptions = kat})
     this.id = this.router.url.split('/').pop()!;
@@ -89,16 +54,15 @@ export class UjComponent {
     }
     const hirtopost: Hir = {
       id: this.id,
-      cim: this.Cim,
-      lejarat: this.Lejarat,
-      szoveg: this.Szoveg,
+      cim: this.cim,
+      lejarat: this.lejarat,
+      szoveg: this.szoveg,
       kategoriak: this.selectedCategories,
       letrehozas: this.letrehozas,
       keplink: this.keplink,
-      isVezercikk: this.IsVezercikk,
+      isVezercikk: this.isVezercikk,
       hirFooldal: this.hirfooldal,
-      //
-      szerkesztok: this.Szerkesztok
+      szerkesztok: this.szerkesztok
     }
     if (this.id === null) {
       this.apiService.postHir(hirtopost, this.authService.getToken()).subscribe(response => {
