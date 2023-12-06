@@ -7,7 +7,7 @@
   <div class="col-4">
 
     <div class="row d-flex justify-content-center">
-      <div class="col-8 nav d-flex justify-content-center filter" >
+      <div class="col-10 nav d-flex justify-content-center filter" >
         <button [ngClass]="{'underline': cat1.value == selectedFilter}" type="button" value="Belföld" (click)="setActiveCategory(cat1.value)" class="nav-link filtertext" #cat1>Belföld</button>
         <button [ngClass]="{'underline': cat2.value == selectedFilter}" type="button" value="Külföld" (click)="setActiveCategory(cat2.value)" class="nav-link filtertext" #cat2>Külföld</button>
         <button [ngClass]="{'underline': cat3.value == selectedFilter}" type="button" value="Kultúra" (click)="setActiveCategory(cat3.value)" class="nav-link filtertext" #cat3>Kultúra</button>
@@ -20,7 +20,7 @@
         <input class="form-control mr-sm-2" type="search" placeholder="Keresés" aria-label="Search" (keyup.enter)="searchInHirek($event.target)" #filter>
         <div class="form-check form-switch">
           <input class="form-check form-switch" value="isToggled" (change)="setToggle()" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-          <small>Kersés az összeshírben</small>
+          <small class="pt-3">Kersés az összeshírben</small>
         </div>
       </div>
     </div>

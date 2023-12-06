@@ -2,34 +2,40 @@ h4 {
   font-size: 5rem;
   text-align: center;
 }
-
 .filtertext:hover {
-  text-decoration: underline rgb(255, 68, 68);
-  font-size: 1.3rem;
+  text-decoration: underline rgb(255, 43, 43);
   transform: scale(1.05);
 }
-
 .filtertext {
   color: black;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   transition: all .2s ease-in-out;
   min-height: 50px;;
 }
-
 .underline{
-  text-decoration: underline rgb(255, 68, 68);
+  text-decoration: underline rgb(255, 43, 43);
 }
-
 .navbar-light {
   background-color: rgb(235, 235, 235) !important;
   border-bottom: 1px solid black;
 }
-
 .btnszerk {
   line-height: 20px;
   font-size: 1rem;
 }
-
 nav {
   background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(235, 235, 235));
+}
+
+.form-switch .form-check-input:focus {
+  border-color: rgba(0, 0, 0, 0.25);
+  outline: 0;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,0.25)'/></svg>");
+}
+.form-switch .form-check-input:checked {
+  background-color: rgb(255, 43, 43);
+  border-color: rgb(255, 43, 43);
+  border: none;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,1.0)'/></svg>");
 }
