@@ -12,7 +12,6 @@ export class FooldalComponent {
   constructor(private apiService: HirportalApiService, private authService: AuthenticationService) {}
   hirek!: Hir[];
   showSzerkesztesGombok!: boolean
-  //fooldalon megjelenitendo hirek
   filteredHirek!: Hir[];
   isToggled: boolean = false
   loginText: string = "Bejelentkezés"

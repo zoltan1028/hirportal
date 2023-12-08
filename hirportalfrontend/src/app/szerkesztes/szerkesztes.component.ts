@@ -22,7 +22,7 @@ export class SzerkesztesComponent {
   kategoriaTodelete: string = "";
   kategoriak: Kategoria[] = []
   ngOnInit() {
-    this.apiService.getFoOldalIds(this.authService.getToken()).subscribe(fohirek => {
+    this.apiService.getFoOldalHirek(this.authService.getToken()).subscribe(fohirek => {
       this.foOldalHirek = fohirek;
       for(let i of this.foOldalHirek) {
         this.foOldalIds.push(i.hir.id!);
@@ -32,11 +32,6 @@ export class SzerkesztesComponent {
     }})
     this.apiService.getKategoriak().subscribe(response => {this.kategoriak = response})
     this.apiService.getHirek().subscribe(hirek => {this.osszesHir = hirek})
-  }
-  @Input()
-  hir!: number | null;
-  get Hir() {
-    return (this.hir)
   }
   initCheckBoxes(id: number) {
     for (let idf of this.foOldalIds) {if(id === idf) {return true}}

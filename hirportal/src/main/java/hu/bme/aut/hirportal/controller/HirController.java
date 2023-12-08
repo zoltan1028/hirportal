@@ -50,8 +50,8 @@ public class HirController {
         return ResponseEntity.ok(hirOptional.get());
     }
     //Protected endpoints by token auth
-    @GetMapping("fooldalhirids")
-    public ResponseEntity<List<HirFooldal>> GetFooldalIds() {
+    @GetMapping("fooldalhirek")
+    public ResponseEntity<List<HirFooldal>> GetFoOldalHirek() {
         return ResponseEntity.ok(hirFooldalRepository.findAll());
     }
     @PostMapping("fooldal")
@@ -114,7 +114,7 @@ public class HirController {
         managedhir.addToSzerkesztok(managedszerkeszto);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     @Transactional
     public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}

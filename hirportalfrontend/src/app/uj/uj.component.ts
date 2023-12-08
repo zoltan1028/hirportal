@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { HirportalApiService } from '../hirportal.api.service';
 import { Router } from '@angular/router';
 import { Hir } from '../model/Hir';
@@ -48,6 +48,8 @@ export class UjComponent {
     }
   }
   submitForm() {
+    console.log(this.lejarat)
+
     if (this.id === "ujhir") {
       this.id = null
       this.szerkesztok = []
@@ -55,7 +57,7 @@ export class UjComponent {
     const hirtopost: Hir = {
       id: this.id,
       cim: this.cim,
-      lejarat: this.lejarat,
+      lejarat: this.lejarat + ' 23:59:59',
       szoveg: this.szoveg,
       kategoriak: this.selectedCategories,
       letrehozas: this.letrehozas,

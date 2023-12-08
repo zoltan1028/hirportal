@@ -26,15 +26,10 @@ public class SzerkesztoController {
     }
     @PostMapping("login")
     public ResponseEntity<String> PostLogin(@RequestHeader String Felhasznalonev, @RequestHeader String Jelszo) {
-        Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(Felhasznalonev));
-        if(szerkesztoOpt.isEmpty()) {return ResponseEntity.badRequest().build();}
-        var szerkeszto = szerkesztoOpt.get();
-        if(szerkeszto.getFelhasznalonev().equals(Felhasznalonev) && szerkeszto.getJelszo().equals(Jelszo)) {
-            HttpHeaders responseHeader = new HttpHeaders();
-            String newToken = authenticationService.GenerateTokenWithAuth();
-            responseHeader.set("Token", newToken);
-            szerkeszto.setToken(newToken);
-            szerkesztoRepository.save(szerkeszto);
+        HttpHeaders responseHeader = new HttpHeaders();
+        var token = authenticationService.LoginUser(Felhasznalonev, Jelszo);
+        if (!token.equals("")) {
+            responseHeader.set("Token", token);
             return ResponseEntity.ok().headers(responseHeader).build();
         }
         return ResponseEntity.badRequest().build();

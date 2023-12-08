@@ -1,11 +1,12 @@
 package hu.bme.aut.hirportal.service;
 
 import hu.bme.aut.hirportal.auth.Authentication;
+import hu.bme.aut.hirportal.model.Szerkeszto;
 import hu.bme.aut.hirportal.repository.SzerkesztoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,5 +30,19 @@ public class AuthenticationService {
             return true;
         }
         return false;
+    }
+
+    public String LoginUser(String felhasznalonev, String jelszo) {
+        String authToken = "";
+        Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(felhasznalonev));
+        if(szerkesztoOpt.isEmpty()) {return authToken;}
+        var szerkeszto = szerkesztoOpt.get();
+        if(szerkeszto.getFelhasznalonev().equals(felhasznalonev) && szerkeszto.getJelszo().equals(jelszo)) {
+            authToken = GenerateTokenWithAuth();
+            szerkeszto.setToken(authToken);
+            szerkesztoRepository.save(szerkeszto);
+            return authToken;
+        }
+        return authToken;
     }
 }

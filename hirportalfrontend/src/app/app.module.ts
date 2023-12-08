@@ -25,7 +25,6 @@ import { ModaldeleteComponent } from './modaldelete/modaldelete.component';
 const routes: Routes = [
   {path: '', redirectTo: 'fooldal', pathMatch: 'full'},
   {path: 'fooldal', component: FooldalComponent},
-  //{path: 'szerkesztes', component: SzerkesztesComponent, children: [{path:':id', component: UjComponent}]}
   {path: 'szerkesztes', component: SzerkesztesComponent},
   {path: 'szerkesztes/:id', component: UjComponent},
   {path: 'ujhir', component: UjComponent},

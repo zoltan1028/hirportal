@@ -62,9 +62,7 @@
       <div class="row justify-content-center">
         <div class="col-12">
           <div *ngFor="let hir of filteredHirek; index as i">
-            <!--id alapjan lehet statikus vezer cikk rendezni hogy az elso legyen kollekcioban-->
-            <hp-hir *ngIf="i != 0" [hir]="hir" [vezcikk]="false" class=".nemvezer"></hp-hir>
-            <hp-hir *ngIf="i == 0" [hir]="hir" [vezcikk]="true" class=".vezer"></hp-hir>
+            <hp-hir [vezcikk]="i == 0 ? true : false" [hir]="hir"></hp-hir>
           </div>
         </div>
       </div>

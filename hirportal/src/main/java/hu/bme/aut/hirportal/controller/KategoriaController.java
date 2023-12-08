@@ -24,6 +24,8 @@ public class KategoriaController {
     @Transactional
     public ResponseEntity<Void> PostKategoria(@RequestHeader String Token, @PathVariable String ujkategorianev) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+        var katbyname = kategoriaRepository.findByNev(ujkategorianev);
+        if (katbyname.isPresent() && katbyname.get().getNev().equals(ujkategorianev)) {return ResponseEntity.badRequest().build();}
         Kategoria ujkategoria = new Kategoria();
         kategoriaRepository.save(ujkategoria);
         ujkategoria.setNev(ujkategorianev);

@@ -1,6 +1,6 @@
 <div class="my-5">
   <!--<h5>{{(id === "ujhir") ? 'Új hír felvétele':'Hír módosítása'}}</h5>-->
-  <h5>Új szerkesztő hozzáadása</h5>
+  <h5>{{id === null ? 'Új szerkesztő létrehozása':'Szerkesztő adatainak módosítása'}}</h5>
   <form #loginForm="ngForm" (submit)="submitForm()" *ngIf="showTemplate" class="container">
     <div class="form-group my-5">
       <label for="felhasznalonev">Felhasználónév</label>

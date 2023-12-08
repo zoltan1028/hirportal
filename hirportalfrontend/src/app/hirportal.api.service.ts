@@ -35,13 +35,13 @@ export class HirportalApiService {
   deleteHir(token: string, id: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.delete<Hir>(`${HirportalApiService.baseUrl}hirek/delete/${id}`, {headers})
+    return this.http.delete<Hir>(`${HirportalApiService.baseUrl}hirek/${id}`, {headers})
   }
   //fooldal
-  getFoOldalIds(token: string) {
+  getFoOldalHirek(token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirids`, {headers})
+    return this.http.get<HirFoOldal[]>(`${HirportalApiService.baseUrl}hirek/fooldalhirek`, {headers})
   }
   postFoOldal(hirekids: string, token: string) {
     let headers = new HttpHeaders();
