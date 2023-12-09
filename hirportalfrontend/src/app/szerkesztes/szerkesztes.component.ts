@@ -20,7 +20,8 @@ export class SzerkesztesComponent {
   vezercikkid!: number;
   ujkategoria: string = "";
   kategoriaTodelete: string = "";
-  kategoriak: Kategoria[] = []
+  kategoriak: Kategoria[] = [];
+  error: boolean = false;
   ngOnInit() {
     this.apiService.getFoOldalHirek(this.authService.getToken()).subscribe(fohirek => {
       this.foOldalHirek = fohirek;
@@ -52,10 +53,15 @@ export class SzerkesztesComponent {
     this.vezercikkid = hirid;
   }
   submitHirekToFoOldal() {
-    this.foOldalIds.push(this.vezercikkid);
-    console.log(this.foOldalIds.toString())
-    this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
-    this.foOldalIds.pop()
+    if (this.foOldalIds.includes(this.vezercikkid)) {
+      this.foOldalIds = this.foOldalIds.filter(i => i !== this.vezercikkid);
+      this.foOldalIds.push(this.vezercikkid);
+      console.log(this.foOldalIds.toString())
+      this.apiService.postFoOldal(this.foOldalIds.toString(), this.authService.getToken()).subscribe(response => {console.log(response)})
+      this.error = false
+    } else {
+      this.error = true
+    }
   }
   deleteHir(event: any, hirid: any) {
     const cim = this.osszesHir.find(hir => hir.id === hirid)!.cim;

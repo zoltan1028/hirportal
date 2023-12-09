@@ -64,11 +64,10 @@ public class HirController {
         for(int i = 0;i < arrOfStr.length;i++) {ids[i] = Long.parseLong(arrOfStr[i]);}
         //empty records from fooldal
         hirFooldalRepository.deleteAll();
-        //last element id
+        //last element id (vezercikk)
         var vezcikkid = ids[ids.length-1];
-        var idswithoutvezer = Arrays.copyOf(ids, ids.length -1);
         // => [2,1,7]
-        for (Long i: idswithoutvezer) {
+        for (Long i: ids) {
             Optional<Hir> hir = hirRepository.findById(i);
             if(hir.isPresent()) {
                 var fooldalhir = new HirFooldal();
