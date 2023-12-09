@@ -13,17 +13,12 @@ public class Hir {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Kategoria> kategoriak = new ArrayList<>();
-    @JsonIgnoreProperties("hirek")
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Szerkeszto> szerkesztok = new ArrayList<>();
-    //orphan remove nem?
-    @JsonIgnoreProperties("hir")
     @OneToOne(mappedBy = "hir", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private HirFooldal hirFooldal;
-
     private String cim;
     private Timestamp lejarat;
     private Timestamp letrehozas = new Timestamp(new Date().getTime());

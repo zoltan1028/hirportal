@@ -81,7 +81,7 @@ export class HirportalApiService {
   deleteKategoria(token: string, kategoria: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.delete<void>(`${HirportalApiService.baseUrl}kategoriak/delete/${kategoria}`, {headers})
+    return this.http.delete<void>(`${HirportalApiService.baseUrl}kategoriak/${kategoria}`, {headers})
   }
   //login
   postLogin(felhasznalonev: string, jelszo: string) {

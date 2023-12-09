@@ -31,7 +31,7 @@ public class KategoriaController {
         ujkategoria.setNev(ujkategorianev);
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     @Transactional
     public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
