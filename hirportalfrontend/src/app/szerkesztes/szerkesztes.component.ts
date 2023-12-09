@@ -67,7 +67,15 @@ export class SzerkesztesComponent {
     const cim = this.osszesHir.find(hir => hir.id === hirid)!.cim;
     let modal = this.modalService.open(ModaldeleteComponent, {backdrop:'static', centered: true});
     (modal.componentInstance as ModaldeleteComponent)
-    .initModalDeleteWindow({receivedelement: cim, routefrommodal : '/szerkesztok'}, {del: () => {modal.close(); this.apiService.deleteHir(this.authService.getToken(), hirid).subscribe(response => {console.log(response);this.osszesHir = this.osszesHir.filter(h => h.id !== hirid);})}, cancel: () => {modal.close();}});
+    .initModalDeleteWindow({receivedelement: cim, routefrommodal : '/szerkesztes'}, {del: () => {modal.close(); this.apiService.deleteHir(this.authService.getToken(), hirid).subscribe(response => {console.log(response);this.osszesHir = this.osszesHir.filter(h => h.id !== hirid);})}, cancel: () => {modal.close();}});
+
+    this.foOldalIds = this.foOldalIds.filter(i => i !== hirid)
+    //if the deleted hir was vezercikk set radio else
+    if (this.vezercikkid === hirid) {
+      var ids = this.foOldalIds.filter(i => i !== this.vezercikkid)
+      this.vezercikkid = ids[0]
+      this.submitHirekToFoOldal();
+    }
   }
   addUjKategoria() {
     this.apiService.postKategoria(this.authService.getToken(), this.ujkategoria).subscribe(response => {console.log(response);this.ngOnInit();
