@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,9 +22,16 @@ public class SzerkesztoController {
     @Autowired
     AuthenticationService authenticationService;
     @GetMapping
-    public ResponseEntity<List<Szerkeszto>> GetSzerkesztok(@RequestHeader String Token) {
+    public ResponseEntity<List<SzerkesztoDto>> GetSzerkesztok(@RequestHeader String Token) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        return ResponseEntity.ok(szerkesztoRepository.findAll());
+        List<SzerkesztoDto> dtoList = new ArrayList<>();
+        for (Szerkeszto sz: szerkesztoRepository.findAll()) {
+            SzerkesztoDto szdto = new SzerkesztoDto();
+            szdto.setId(sz.getId());
+            szdto.setNev(sz.getNev());
+            dtoList.add(szdto);
+        }
+        return ResponseEntity.ok(dtoList);
     }
     @PostMapping("login")
     public ResponseEntity<String> PostLogin(@RequestHeader String Felhasznalonev, @RequestHeader String Jelszo) {
@@ -42,27 +51,19 @@ public class SzerkesztoController {
     }
     @PostMapping
     @Transactional
-    public ResponseEntity<Void> PostSzerkeszto(@RequestHeader String Token,@RequestBody SzerkesztoDto szerkesztodto) {
+    public ResponseEntity<Void> PostSzerkeszto(@RequestHeader String Token,@RequestBody Szerkeszto szerkeszto) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        if((szerkesztodto.getFelhasznalonev().isEmpty() && szerkesztodto.getJelszo().isEmpty())) {return ResponseEntity.badRequest().build();}
-        Szerkeszto szerkeszto = new Szerkeszto();
+        if((szerkeszto.getFelhasznalonev().isEmpty() && szerkeszto.getJelszo().isEmpty())) {return ResponseEntity.badRequest().build();}
         szerkesztoRepository.save(szerkeszto);
-        szerkeszto.setNev(szerkesztodto.getNev());
-        szerkeszto.setFelhasznalonev(szerkesztodto.getFelhasznalonev());
-        szerkeszto.setJelszo(szerkesztodto.getJelszo());
         return ResponseEntity.ok().build();
     }
     @PutMapping("{id}")
     @Transactional
-    public ResponseEntity<Void> PutSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDto szerkesztodto, @PathVariable Long id) {
+    public ResponseEntity<Void> PutSzerkeszto(@RequestHeader String Token, @RequestBody Szerkeszto szerkeszto, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
         var optszerkeszto = szerkesztoRepository.findById(id);
         if (optszerkeszto.isEmpty()){return ResponseEntity.badRequest().build();}
-        var managedszerkeszto = optszerkeszto.get();
-        managedszerkeszto.setFelhasznalonev(szerkesztodto.getFelhasznalonev());
-        managedszerkeszto.setJelszo(szerkesztodto.getJelszo());
-        managedszerkeszto.setNev(szerkesztodto.getNev());
-        szerkesztoRepository.save(managedszerkeszto);
+        szerkesztoRepository.save(szerkeszto);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping("{id}")

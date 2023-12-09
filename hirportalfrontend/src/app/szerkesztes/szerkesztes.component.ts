@@ -29,7 +29,8 @@ export class SzerkesztesComponent {
         if(i.vezercikk) {
           this.vezercikkid = i.hir.id!
         }
-    }})
+      }
+    })
     this.apiService.getKategoriak().subscribe(response => {this.kategoriak = response})
     this.apiService.getHirek().subscribe(hirek => {this.osszesHir = hirek})
   }

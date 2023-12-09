@@ -17,6 +17,7 @@ public class Hir {
     private List<Kategoria> kategoriak = new ArrayList<>();
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Szerkeszto> szerkesztok = new ArrayList<>();
+    @JsonIgnoreProperties("hir")
     @OneToOne(mappedBy = "hir", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private HirFooldal hirFooldal;
     private String cim;

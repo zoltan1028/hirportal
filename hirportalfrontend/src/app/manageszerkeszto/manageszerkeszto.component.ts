@@ -26,27 +26,30 @@ export class ManageszerkesztoComponent {
     if(this.id === null) {
       this.id = null
     }
-    const szerkeszto: SzerkesztoDto = {
+    const szerkeszto: Szerkeszto = {
       id: this.id,
       felhasznalonev: this.felhasznalonev,
       jelszo: this.jelszo,
-      nev: this.nev
+      nev: this.nev,
+      token: ""
     }
     console.log(szerkeszto)
     if (szerkeszto.id === null) {
       this.apiService.postSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response); this.ngOnInit();})
     } else {
+      if(this.authService.getName() === szerkeszto.felhasznalonev) {szerkeszto.token = this.authService.getToken()}
       this.apiService.putSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response); this.ngOnInit();})
     }
   }
   setData() {
     this.apiService.getSzerkesztok(this.authService.getToken()).subscribe(szerkesztok => {
       this.szerkesztok = szerkesztok
-      const emptyoption: SzerkesztoDto = {
+      const emptyoption: Szerkeszto = {
         id: null,
         felhasznalonev:"",
         jelszo: "",
-        nev: ""
+        nev: "",
+        token: ""
       }
       this.szerkesztok.push(emptyoption)
       this.showTemplate = true

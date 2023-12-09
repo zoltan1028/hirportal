@@ -8,7 +8,6 @@ public class HirFooldal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
-    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hirid", referencedColumnName = "id")
     private Hir hir;

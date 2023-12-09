@@ -1,5 +1,7 @@
 export interface Szerkeszto {
   id: number|null,
   felhasznalonev: string,
-  nev: string
+  jelszo: string,
+  nev: string,
+  token: string
 }

@@ -11,12 +11,9 @@ public class Szerkeszto {
     @GeneratedValue
     @Id
     private Long id;
-    @JsonIgnore
     private String felhasznalonev;
     private String nev;
-    @JsonIgnore
     private String jelszo;
-    @JsonIgnore
     private String token;
     @JsonIgnore
     @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
