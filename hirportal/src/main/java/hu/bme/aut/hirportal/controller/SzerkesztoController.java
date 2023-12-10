@@ -1,6 +1,7 @@
 package hu.bme.aut.hirportal.controller;
 
-import hu.bme.aut.hirportal.dto.SzerkesztoDto;
+import hu.bme.aut.hirportal.dto.SzerkesztoDtoGet;
+import hu.bme.aut.hirportal.dto.SzerkesztoDtoPostPut;
 import hu.bme.aut.hirportal.model.Szerkeszto;
 import hu.bme.aut.hirportal.repository.SzerkesztoRepository;
 import hu.bme.aut.hirportal.service.AuthenticationService;
@@ -22,11 +23,11 @@ public class SzerkesztoController {
     @Autowired
     AuthenticationService authenticationService;
     @GetMapping
-    public ResponseEntity<List<SzerkesztoDto>> GetSzerkesztok(@RequestHeader String Token) {
+    public ResponseEntity<List<SzerkesztoDtoGet>> GetSzerkesztok(@RequestHeader String Token) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        List<SzerkesztoDto> dtoList = new ArrayList<>();
+        List<SzerkesztoDtoGet> dtoList = new ArrayList<>();
         for (Szerkeszto sz: szerkesztoRepository.findAll()) {
-            SzerkesztoDto szdto = new SzerkesztoDto();
+            SzerkesztoDtoGet szdto = new SzerkesztoDtoGet();
             szdto.setId(sz.getId());
             szdto.setNev(sz.getNev());
             dtoList.add(szdto);
@@ -53,26 +54,35 @@ public class SzerkesztoController {
     }
     @PostMapping
     @Transactional
-    public ResponseEntity<SzerkesztoDto> PostSzerkeszto(@RequestHeader String Token,@RequestBody Szerkeszto szerkeszto) {
+    public ResponseEntity<SzerkesztoDtoGet> PostSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDtoPostPut szerkeszto) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
         if((szerkeszto.getFelhasznalonev().isEmpty() && szerkeszto.getJelszo().isEmpty())) {return ResponseEntity.badRequest().build();}
-        szerkesztoRepository.save(szerkeszto);
-        SzerkesztoDto szdto = new SzerkesztoDto();
-        szdto.setNev(szerkeszto.getNev());
-        szdto.setId(szerkeszto.getId());
-        return ResponseEntity.ok(szdto);
+        Szerkeszto newszerkeszto = new Szerkeszto();
+        szerkesztoRepository.save(newszerkeszto);
+        newszerkeszto.setFelhasznalonev(szerkeszto.getFelhasznalonev());
+        newszerkeszto.setJelszo(szerkeszto.getJelszo());
+        newszerkeszto.setNev(szerkeszto.getNev());
+        newszerkeszto.setToken("");
+        szerkesztoRepository.save(newszerkeszto);
+        SzerkesztoDtoGet responsedto = new SzerkesztoDtoGet();
+        responsedto.setNev(newszerkeszto.getNev());
+        responsedto.setId(newszerkeszto.getId());
+        return ResponseEntity.ok(responsedto);
     }
     @PutMapping("{id}")
     @Transactional
-    public ResponseEntity<SzerkesztoDto> PutSzerkeszto(@RequestHeader String Token, @RequestBody Szerkeszto szerkeszto, @PathVariable Long id) {
+    public ResponseEntity<SzerkesztoDtoGet> PutSzerkeszto(@RequestHeader String Token, @RequestBody SzerkesztoDtoPostPut szerkeszto, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
-        var optszerkeszto = szerkesztoRepository.findById(id);
+        Optional<Szerkeszto> optszerkeszto = szerkesztoRepository.findById(id);
         if (optszerkeszto.isEmpty()){return ResponseEntity.badRequest().build();}
-        szerkesztoRepository.save(szerkeszto);
-        SzerkesztoDto szdto = new SzerkesztoDto();
-        szdto.setNev(szerkeszto.getNev());
-        szdto.setId(szerkeszto.getId());
-        return ResponseEntity.ok(szdto);
+        Szerkeszto managedszerkeszto = optszerkeszto.get();
+        managedszerkeszto.setFelhasznalonev(szerkeszto.getFelhasznalonev());
+        managedszerkeszto.setJelszo(szerkeszto.getJelszo());
+        managedszerkeszto.setNev(szerkeszto.getNev());
+        SzerkesztoDtoGet responsedto = new SzerkesztoDtoGet();
+        responsedto.setNev(managedszerkeszto.getNev());
+        responsedto.setId(managedszerkeszto.getId());
+        return ResponseEntity.ok(responsedto);
     }
     @DeleteMapping("{id}")
     @Transactional
@@ -84,8 +94,7 @@ public class SzerkesztoController {
         if(szerkesztoToDelete.get().getId().equals(szerkesztoWhoDeletes.getId())) {return ResponseEntity.ok().build();}
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
 
-
-        //deleting all reference from hirek
+        //deleting all hir reference from szerkeszto
         var szo = szerkesztoRepository.findById(id);
         if(szo.isPresent()) {
             var szp = szo.get();
@@ -93,9 +102,6 @@ public class SzerkesztoController {
             for (var h: list) {szp.removeHir(h);}
         }
         szerkesztoRepository.deleteById(szerkesztoToDelete.get().getId());
-
-
-        szerkesztoRepository.delete(szerkesztoToDelete.get());
         return ResponseEntity.ok().build();
     }
 }

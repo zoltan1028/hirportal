@@ -22,7 +22,7 @@ public class Hir {
     private HirFooldal hirFooldal;
     private String cim;
     private Timestamp lejarat;
-    private Timestamp letrehozas = new Timestamp(new Date().getTime());
+    private Timestamp letrehozas;
     @Column(columnDefinition = "varchar(max)")
     private String szoveg;
     private String keplink;
@@ -34,6 +34,7 @@ public class Hir {
         this.cim = cim;
         this.lejarat = lejarat;
         this.szoveg = szoveg;
+        this.letrehozas = new Timestamp(new Date().getTime());
     }
     public List<Szerkeszto> getSzerkesztok() {
         return szerkesztok;

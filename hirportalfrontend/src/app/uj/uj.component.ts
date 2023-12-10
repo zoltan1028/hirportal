@@ -5,7 +5,7 @@ import { Hir } from '../model/Hir';
 import { Kategoria } from '../model/Kategoria';
 import { AuthenticationService } from '../authentication.service';
 import { HirFoOldal } from '../model/HirFoOldal';
-import { Szerkeszto } from '../model/Szerkeszto';
+import { SzerkesztoDtoGet } from '../model/SzerkesztoDtoGet';
 @Component({
   selector: 'hp-uj',
   templateUrl: './uj.component.html',
@@ -22,7 +22,7 @@ export class UjComponent {
   kategoriakOptions!: Kategoria[]
   isVezercikk!: boolean;
   hirfooldal!: HirFoOldal;
-  szerkesztok!: Szerkeszto[];
+  szerkesztok!: SzerkesztoDtoGet[];
   //form props
   cim: string = '';
   lejarat: string = '2000-01-01 00:00:00';

@@ -4,8 +4,8 @@ import { Hir } from './model/Hir';
 import { Observable } from 'rxjs';
 import { Kategoria } from './model/Kategoria';
 import { HirFoOldal } from './model/HirFoOldal';
-import { Szerkeszto } from './model/Szerkeszto';
-import { SzerkesztoDto } from './model/SzerkesztoDto';
+import { SzerkesztoDtoPostPut } from './model/SzerkesztoDtoPostPut';
+import { SzerkesztoDtoGet } from './model/SzerkesztoDtoGet';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,17 +52,17 @@ export class HirportalApiService {
   getSzerkesztok(token: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.get<Szerkeszto[]>(`${HirportalApiService.baseUrl}szerkesztok`, {headers})
+    return this.http.get<SzerkesztoDtoGet[]>(`${HirportalApiService.baseUrl}szerkesztok`, {headers})
   }
-  postSzerkeszto(token: string, szerkeszto: SzerkesztoDto) {
+  postSzerkeszto(token: string, szerkeszto: SzerkesztoDtoPostPut) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.post<SzerkesztoDto>(`${HirportalApiService.baseUrl}szerkesztok`, szerkeszto, {headers})
+    return this.http.post<SzerkesztoDtoPostPut>(`${HirportalApiService.baseUrl}szerkesztok`, szerkeszto, {headers})
   }
-  putSzerkeszto(token: string, szerkeszto: SzerkesztoDto) {
+  putSzerkeszto(token: string, szerkeszto: SzerkesztoDtoPostPut) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.put<SzerkesztoDto>(`${HirportalApiService.baseUrl}szerkesztok/${szerkeszto.id}`, szerkeszto, {headers})
+    return this.http.put<SzerkesztoDtoPostPut>(`${HirportalApiService.baseUrl}szerkesztok/${szerkeszto.id}`, szerkeszto, {headers})
   }
   deleteSzerkeszto(token: string, szerkesztodid: number) {
     let headers = new HttpHeaders();

@@ -43,7 +43,7 @@ public class KategoriaController {
     public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
         if(id == null) {return ResponseEntity.badRequest().build();}
-        //deleting all reference from hirek
+        //deleting hir reference from hirek
         var ko = kategoriaRepository.findById(id);
         if(ko.isPresent()) {
             var kp = ko.get();

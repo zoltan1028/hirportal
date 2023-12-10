@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { HirportalApiService } from '../hirportal.api.service';
-import { Szerkeszto } from '../model/Szerkeszto';
-import { SzerkesztoDto } from '../model/SzerkesztoDto';
+import { SzerkesztoDtoPostPut } from '../model/SzerkesztoDtoPostPut';
+import { SzerkesztoDtoGet } from '../model/SzerkesztoDtoGet';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModaldeleteComponent } from '../modaldelete/modaldelete.component';
 
@@ -18,9 +18,9 @@ export class ManageszerkesztoComponent {
   jelszo: string = ""
   nev: string = ""
   id: number|null = null
-  szerkesztok!: SzerkesztoDto[]
-  szerkesztokdeletelist!: SzerkesztoDto[]
-  szerkeszto!: Szerkeszto
+  szerkesztok!: SzerkesztoDtoGet[]
+  szerkesztokdeletelist!: SzerkesztoDtoGet[]
+  szerkeszto!: SzerkesztoDtoPostPut
   szerkesztoToDelete!: number
   error: boolean = false
   ngOnInit() {this.setData();}
@@ -28,7 +28,7 @@ export class ManageszerkesztoComponent {
     if(this.id === null) {
       this.id = null
     }
-    const szerkeszto: Szerkeszto = {
+    const szerkeszto: SzerkesztoDtoPostPut = {
       id: this.id,
       felhasznalonev: this.felhasznalonev,
       jelszo: this.jelszo,
@@ -56,7 +56,7 @@ export class ManageszerkesztoComponent {
   setData() {
     this.apiService.getSzerkesztok(this.authService.getToken()).subscribe(szerkesztok => {
       this.szerkesztok = szerkesztok
-      const emptyoption: SzerkesztoDto = {
+      const emptyoption: SzerkesztoDtoGet = {
         id: null,
         nev: "",
       }

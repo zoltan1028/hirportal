@@ -11,9 +11,12 @@ public class Szerkeszto {
     @GeneratedValue
     @Id
     private Long id;
+    @JsonIgnore
     private String felhasznalonev;
     private String nev;
+    @JsonIgnore
     private String jelszo;
+    @JsonIgnore
     private String token;
     @JsonIgnore
     @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -39,7 +42,6 @@ public class Szerkeszto {
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getFelhasznalonev() {
         return felhasznalonev;
     }
@@ -47,7 +49,6 @@ public class Szerkeszto {
     public void setFelhasznalonev(String nev) {
         this.felhasznalonev = nev;
     }
-
     public String getJelszo() {
         return jelszo;
     }
