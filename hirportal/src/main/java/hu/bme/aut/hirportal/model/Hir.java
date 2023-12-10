@@ -34,7 +34,6 @@ public class Hir {
         this.cim = cim;
         this.lejarat = lejarat;
         this.szoveg = szoveg;
-        this.letrehozas = new Timestamp(new Date().getTime());
     }
     public List<Szerkeszto> getSzerkesztok() {
         return szerkesztok;

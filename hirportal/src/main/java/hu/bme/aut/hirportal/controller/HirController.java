@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 @RestController
@@ -91,6 +92,7 @@ public class HirController {
         if (optionalSzerkeszto.isPresent()) {hir.addToSzerkesztok(optionalSzerkeszto.get());}
         //set kategoriak for hir
         hir.setKategoriak(hir.getKategoriak());
+        hir.setLetrehozas(new Timestamp(new Date().getTime()));
         return ResponseEntity.ok(hir);
     }
     @PutMapping("{id}")
