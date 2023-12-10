@@ -120,8 +120,18 @@ public class HirController {
     public ResponseEntity<Void> DeleteHir(@RequestHeader String Token, @PathVariable Long id) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
         if(id == null) {return ResponseEntity.badRequest().build();}
+
+        var ho = hirRepository.findById(id);
+        if(ho.isPresent()) {
+            var hp = ho.get();
+            var kategoriak = new ArrayList<>(hp.getKategoriak());
+            var szerkesztok = new ArrayList<>(hp.getSzerkesztok());
+            for (var k: kategoriak) {hp.removeKategoria(k);}
+            for (var sz: szerkesztok) {hp.removeSzerkeszto(sz);}
+        }
         hirRepository.deleteById(id);
         return ResponseEntity.ok().build();
+
     }
 }
 

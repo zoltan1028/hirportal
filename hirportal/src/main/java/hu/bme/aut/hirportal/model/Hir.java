@@ -117,4 +117,13 @@ public class Hir {
     public HirFooldal getHirFooldal() {
         return hirFooldal;
     }
+
+    public void removeKategoria(Kategoria kategoria) {
+        this.kategoriak.remove(kategoria);
+        kategoria.getHirek().remove(this);
+    }
+    public void removeSzerkeszto(Szerkeszto szerkeszto) {
+        this.szerkesztok.remove(szerkeszto);
+        szerkeszto.getHirek().remove(this);
+    }
 }
