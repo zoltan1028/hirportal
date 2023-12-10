@@ -31,12 +31,9 @@
     <div class="form-group my-2">
       <label for="delids">Szerkesztők:</label>
       <select name="delids" [(ngModel)]="szerkesztoToDelete" class="form-control" id="delids">
-        <option  *ngFor="let sz of szerkesztok" [ngValue]="sz.id">{{sz.id}} {{sz.nev}}</option>
+        <option  *ngFor="let sz of szerkesztokdeletelist" [ngValue]="sz.id">{{sz.id}} {{sz.nev}}</option>
       </select>
     </div>
-    <div *ngIf="error"><p>Ne t0r0ld mar maagad!!!!</p></div>
-
-
     <button class="btn btn-danger" type="button" (click)="removeSzerkeszto()">Szerkesztő törlése</button>
   </form>
 

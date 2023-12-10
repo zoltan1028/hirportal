@@ -19,6 +19,7 @@ export class ManageszerkesztoComponent {
   nev: string = ""
   id: number|null = null
   szerkesztok!: SzerkesztoDto[]
+  szerkesztokdeletelist!: SzerkesztoDto[]
   szerkeszto!: Szerkeszto
   szerkesztoToDelete!: number
   error: boolean = false
@@ -38,6 +39,8 @@ export class ManageszerkesztoComponent {
     if (szerkeszto.id === null) {
       this.apiService.postSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {
         this.szerkesztok.push(response);
+        this.szerkesztokdeletelist = this.szerkesztok.filter(sz => sz.id?.toString() !== this.authService.getId() && sz.nev !== '')
+
       })
     } else {
       if(this.authService.getName() === szerkeszto.felhasznalonev) {szerkeszto.token = this.authService.getToken()}
@@ -45,6 +48,8 @@ export class ManageszerkesztoComponent {
         var modifiedSzerkeszto = this.szerkesztok.find(sz => sz.id === this.id)
         modifiedSzerkeszto!.id = response.id;
         modifiedSzerkeszto!.nev = response.nev;
+        this.szerkesztokdeletelist = this.szerkesztok.filter(sz => sz.id?.toString() !== this.authService.getId() && sz.nev !== '')
+
       })
     }
   }
@@ -56,19 +61,19 @@ export class ManageszerkesztoComponent {
         nev: "",
       }
       this.szerkesztok.push(emptyoption)
+      this.szerkesztokdeletelist = this.szerkesztok.filter(sz => sz.id?.toString() !== this.authService.getId() && sz.nev !== '')
+
       this.showTemplate = true
     })
   }
   removeSzerkeszto() {
     if(this.szerkesztoToDelete !== null) {
-      if(this.szerkesztoToDelete.toString() === this.authService.getId()) {this.error = true;return;}
-      this.error = false
-
-      const szerkesztonev = this.szerkesztok.find(sz => sz.id === this.szerkesztoToDelete)!.nev;
+      const szerkesztonev = this.szerkesztokdeletelist.find(sz => sz.id === this.szerkesztoToDelete)!.nev;
       let modal = this.modalService.open(ModaldeleteComponent, {backdrop:'static', centered: true});
       (modal.componentInstance as ModaldeleteComponent)
       .initModalDeleteWindow({receivedelement: szerkesztonev, routefrommodal : '/manageszerkesztok'}, {del: () => {modal.close(); this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {
         console.log(response);
+        this.szerkesztokdeletelist = this.szerkesztokdeletelist.filter(sz => sz.id !== this.szerkesztoToDelete && sz.nev !== '');
         this.szerkesztok = this.szerkesztok.filter(sz => sz.id !== this.szerkesztoToDelete);
       })}, cancel: () => {modal.close();}});
     }
