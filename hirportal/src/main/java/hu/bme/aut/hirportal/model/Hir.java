@@ -13,9 +13,9 @@ public class Hir {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.MERGE, CascadeType.REFRESH})
     private List<Kategoria> kategoriak = new ArrayList<>();
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Szerkeszto> szerkesztok = new ArrayList<>();
     @JsonIgnoreProperties("hir")
     @OneToOne(mappedBy = "hir", cascade = CascadeType.REMOVE, orphanRemoval = true)

@@ -16,7 +16,7 @@ public class Szerkeszto {
     private String jelszo;
     private String token;
     @JsonIgnore
-    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     private List<Hir> hirek = new ArrayList<>();
     public List<Hir> getHirek() {
         return hirek;

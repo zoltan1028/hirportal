@@ -13,7 +13,7 @@ public class Kategoria {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @JsonIgnore
-    @ManyToMany(mappedBy = "kategoriak", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "kategoriak", fetch = FetchType.EAGER, cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Hir> hirek = new ArrayList<>();
     private String nev;
     public Kategoria() {
@@ -47,4 +47,13 @@ public class Kategoria {
     public void setNev(String nev) {
         this.nev = nev;
     }
+    public void addHir(Hir hir) {
+        this.hirek.add(hir);
+        hir.getKategoriak().add(this);
+    }
+    public void removeHir(Hir hir) {
+        this.hirek.remove(hir);
+        hir.getKategoriak().remove(this);
+    }
+
 }
