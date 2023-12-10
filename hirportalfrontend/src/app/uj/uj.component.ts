@@ -39,9 +39,10 @@ export class UjComponent {
         this.showTemplate = true;
         this.hir = hir
         this.cim = this.hir.cim
-        this.lejarat = this.hir.lejarat
+        this.lejarat = this.hir.lejarat.split(' ')[0]
         this.szoveg = this.hir.szoveg
         this.szerkesztok = this.hir.szerkesztok
+        this.keplink = this.hir.keplink
       });
     } else {
       this.showTemplate = true;
