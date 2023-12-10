@@ -57,12 +57,12 @@ export class HirportalApiService {
   postSzerkeszto(token: string, szerkeszto: SzerkesztoDto) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.post<void>(`${HirportalApiService.baseUrl}szerkesztok`, szerkeszto, {headers})
+    return this.http.post<SzerkesztoDto>(`${HirportalApiService.baseUrl}szerkesztok`, szerkeszto, {headers})
   }
   putSzerkeszto(token: string, szerkeszto: SzerkesztoDto) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.put<void>(`${HirportalApiService.baseUrl}szerkesztok/${szerkeszto.id}`, szerkeszto, {headers})
+    return this.http.put<SzerkesztoDto>(`${HirportalApiService.baseUrl}szerkesztok/${szerkeszto.id}`, szerkeszto, {headers})
   }
   deleteSzerkeszto(token: string, szerkesztodid: number) {
     let headers = new HttpHeaders();
@@ -76,7 +76,7 @@ export class HirportalApiService {
   postKategoria(token: string, kategoria: string) {
     let headers = new HttpHeaders();
     headers = headers.append('Token', token)
-    return this.http.post<void>(`${HirportalApiService.baseUrl}kategoriak/${kategoria}`, null, {headers})
+    return this.http.post<Kategoria>(`${HirportalApiService.baseUrl}kategoriak/${kategoria}`, null, {headers})
   }
   deleteKategoria(token: string, kategoria: string) {
     let headers = new HttpHeaders();

@@ -33,7 +33,7 @@ export class FooldalComponent {
     //onLogin
     if (this.authService.getToken() == "") {
       this.apiService.postLogin(formdata.felhasznalonev, formdata.jelszo).subscribe(response => {
-        this.authService.setToken(response.headers.get('Token')!, formdata.felhasznalonev)
+        this.authService.setUserAuthData(response.headers.get('Token')!, formdata.felhasznalonev, response.headers.get('Id')!)
         this.initUserLoginProps();
       });
 

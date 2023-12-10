@@ -78,13 +78,12 @@ export class SzerkesztesComponent {
     }
   }
   addUjKategoria() {
-    this.apiService.postKategoria(this.authService.getToken(), this.ujkategoria).subscribe(response => {console.log(response);this.ngOnInit();
-    })
+    this.apiService.postKategoria(this.authService.getToken(), this.ujkategoria).subscribe(response => {this.kategoriak.push(response)})
   }
   removeKategoria() {
     const katnev = this.kategoriak.find(kat => kat.id === Number(this.kategoriaTodelete))!.nev;
     let modal = this.modalService.open(ModaldeleteComponent, {backdrop:'static', centered: true});
     (modal.componentInstance as ModaldeleteComponent)
-    .initModalDeleteWindow({receivedelement: katnev, routefrommodal : '/szerkesztok'}, {del: () => {modal.close(); this.apiService.deleteKategoria(this.authService.getToken(), this.kategoriaTodelete).subscribe(response => {console.log(response);this.ngOnInit();})}, cancel: () => {modal.close();}});
+    .initModalDeleteWindow({receivedelement: katnev, routefrommodal : '/szerkesztes'}, {del: () => {modal.close(); this.apiService.deleteKategoria(this.authService.getToken(), this.kategoriaTodelete).subscribe(response => {console.log(response);this.kategoriak = this.kategoriak.filter(k => k.id !== Number(this.kategoriaTodelete));console.log(this.kategoriak);console.log(this.kategoriaTodelete)})}, cancel: () => {modal.close();}});
   }
 }

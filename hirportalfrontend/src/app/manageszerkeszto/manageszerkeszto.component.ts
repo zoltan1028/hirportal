@@ -18,9 +18,10 @@ export class ManageszerkesztoComponent {
   jelszo: string = ""
   nev: string = ""
   id: number|null = null
-  szerkesztok!: Szerkeszto[]
+  szerkesztok!: SzerkesztoDto[]
   szerkeszto!: Szerkeszto
   szerkesztoToDelete!: number
+  error: boolean = false
   ngOnInit() {this.setData();}
   submitForm() {
     if(this.id === null) {
@@ -35,21 +36,24 @@ export class ManageszerkesztoComponent {
     }
     console.log(szerkeszto)
     if (szerkeszto.id === null) {
-      this.apiService.postSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response); this.ngOnInit();})
+      this.apiService.postSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {
+        this.szerkesztok.push(response);
+      })
     } else {
       if(this.authService.getName() === szerkeszto.felhasznalonev) {szerkeszto.token = this.authService.getToken()}
-      this.apiService.putSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {console.log(response); this.ngOnInit();})
+      this.apiService.putSzerkeszto(this.authService.getToken(), szerkeszto).subscribe(response => {
+        var modifiedSzerkeszto = this.szerkesztok.find(sz => sz.id === this.id)
+        modifiedSzerkeszto!.id = response.id;
+        modifiedSzerkeszto!.nev = response.nev;
+      })
     }
   }
   setData() {
     this.apiService.getSzerkesztok(this.authService.getToken()).subscribe(szerkesztok => {
       this.szerkesztok = szerkesztok
-      const emptyoption: Szerkeszto = {
+      const emptyoption: SzerkesztoDto = {
         id: null,
-        felhasznalonev:"",
-        jelszo: "",
         nev: "",
-        token: ""
       }
       this.szerkesztok.push(emptyoption)
       this.showTemplate = true
@@ -57,10 +61,16 @@ export class ManageszerkesztoComponent {
   }
   removeSzerkeszto() {
     if(this.szerkesztoToDelete !== null) {
-      const szerkeszto = this.szerkesztok.find(sz => sz.id === this.szerkesztoToDelete)!.nev;
+      if(this.szerkesztoToDelete.toString() === this.authService.getId()) {this.error = true;return;}
+      this.error = false
+
+      const szerkesztonev = this.szerkesztok.find(sz => sz.id === this.szerkesztoToDelete)!.nev;
       let modal = this.modalService.open(ModaldeleteComponent, {backdrop:'static', centered: true});
       (modal.componentInstance as ModaldeleteComponent)
-      .initModalDeleteWindow({receivedelement: szerkeszto, routefrommodal : '/manageszerkesztok'}, {del: () => {modal.close(); this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {console.log(response);this.ngOnInit();})}, cancel: () => {modal.close();}});
+      .initModalDeleteWindow({receivedelement: szerkesztonev, routefrommodal : '/manageszerkesztok'}, {del: () => {modal.close(); this.apiService.deleteSzerkeszto(this.authService.getToken(), this.szerkesztoToDelete).subscribe(response => {
+        console.log(response);
+        this.szerkesztok = this.szerkesztok.filter(sz => sz.id !== this.szerkesztoToDelete);
+      })}, cancel: () => {modal.close();}});
     }
   }
   onOptionChangeSetSelectedNevAndId(id: number|null) {
