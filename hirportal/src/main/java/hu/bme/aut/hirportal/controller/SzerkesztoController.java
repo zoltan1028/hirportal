@@ -83,6 +83,18 @@ public class SzerkesztoController {
         //onmagunk torlse check
         if(szerkesztoToDelete.get().getId().equals(szerkesztoWhoDeletes.getId())) {return ResponseEntity.ok().build();}
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
+
+
+        //deleting all reference from hirek
+        var szo = szerkesztoRepository.findById(id);
+        if(szo.isPresent()) {
+            var szp = szo.get();
+            var list = new ArrayList<>(szp.getHirek());
+            for (var h: list) {szp.removeHir(h);}
+        }
+        szerkesztoRepository.deleteById(szerkesztoToDelete.get().getId());
+
+
         szerkesztoRepository.delete(szerkesztoToDelete.get());
         return ResponseEntity.ok().build();
     }

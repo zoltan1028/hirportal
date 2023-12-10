@@ -16,7 +16,7 @@ public class Szerkeszto {
     private String jelszo;
     private String token;
     @JsonIgnore
-    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @ManyToMany(mappedBy = "szerkesztok", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Hir> hirek = new ArrayList<>();
     public List<Hir> getHirek() {
         return hirek;
@@ -61,5 +61,14 @@ public class Szerkeszto {
 
     public void setNev(String nev) {
         this.nev = nev;
+    }
+
+    public void addHir(Hir hir) {
+        this.hirek.add(hir);
+        hir.getSzerkesztok().add(this);
+    }
+    public void removeHir(Hir hir) {
+        this.hirek.remove(hir);
+        hir.getSzerkesztok().remove(this);
     }
 }
