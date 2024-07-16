@@ -1,5 +1,6 @@
 package hu.bme.aut.hirportal.controller;
 
+import hu.bme.aut.hirportal.auth.Hash;
 import hu.bme.aut.hirportal.dto.SzerkesztoDtoGet;
 import hu.bme.aut.hirportal.dto.SzerkesztoDtoPostPut;
 import hu.bme.aut.hirportal.model.Szerkeszto;
@@ -22,6 +23,8 @@ public class SzerkesztoController {
     SzerkesztoRepository szerkesztoRepository;
     @Autowired
     AuthenticationService authenticationService;
+    @Autowired
+    Hash hash;
     @GetMapping
     public ResponseEntity<List<SzerkesztoDtoGet>> GetSzerkesztok(@RequestHeader String Token) {
         if(!authenticationService.AuthenticateByToken(Token)) {return ResponseEntity.badRequest().build();}
@@ -37,8 +40,8 @@ public class SzerkesztoController {
     @PostMapping("login")
     public ResponseEntity<String> PostLogin(@RequestHeader String Felhasznalonev, @RequestHeader String Jelszo) {
         HttpHeaders responseHeader = new HttpHeaders();
-        var token = authenticationService.LoginUser(Felhasznalonev, Jelszo);
-        if (!token.equals("")) {
+        String token = authenticationService.LoginUser(Felhasznalonev, Jelszo);
+        if (token != null) {
             Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(Felhasznalonev));
             szerkesztoOpt.ifPresent(szerkeszto -> responseHeader.set("Id", szerkeszto.getId().toString()));
             responseHeader.set("Token", token);
@@ -60,7 +63,7 @@ public class SzerkesztoController {
         Szerkeszto newszerkeszto = new Szerkeszto();
         szerkesztoRepository.save(newszerkeszto);
         newszerkeszto.setFelhasznalonev(szerkeszto.getFelhasznalonev());
-        newszerkeszto.setJelszo(szerkeszto.getJelszo());
+        newszerkeszto.setJelszo(hash.hashPassword(szerkeszto.getJelszo()));
         newszerkeszto.setNev(szerkeszto.getNev());
         newszerkeszto.setToken("");
         szerkesztoRepository.save(newszerkeszto);
@@ -77,7 +80,7 @@ public class SzerkesztoController {
         if (optszerkeszto.isEmpty()){return ResponseEntity.badRequest().build();}
         Szerkeszto managedszerkeszto = optszerkeszto.get();
         managedszerkeszto.setFelhasznalonev(szerkeszto.getFelhasznalonev());
-        managedszerkeszto.setJelszo(szerkeszto.getJelszo());
+        managedszerkeszto.setJelszo(hash.hashPassword(szerkeszto.getJelszo()));
         managedszerkeszto.setNev(szerkeszto.getNev());
         SzerkesztoDtoGet responsedto = new SzerkesztoDtoGet();
         responsedto.setNev(managedszerkeszto.getNev());

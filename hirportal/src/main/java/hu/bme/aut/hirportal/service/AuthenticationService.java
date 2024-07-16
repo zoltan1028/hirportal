@@ -1,10 +1,10 @@
 package hu.bme.aut.hirportal.service;
 
-import hu.bme.aut.hirportal.auth.Authentication;
+import hu.bme.aut.hirportal.auth.Hash;
+import hu.bme.aut.hirportal.auth.LoginToken;
 import hu.bme.aut.hirportal.model.Szerkeszto;
 import hu.bme.aut.hirportal.repository.SzerkesztoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,11 +12,10 @@ import java.util.Optional;
 @Service
 public class AuthenticationService {
     @Autowired
+    Hash hash;
+    @Autowired
     SzerkesztoRepository szerkesztoRepository;
-    private Authentication auth = new Authentication();
-    public String GenerateTokenWithAuth() {
-        return auth.GenerateToken();
-    }
+    private LoginToken token;
     public boolean AuthenticateByToken(String token) {
         var szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByToken(token));
         return szerkesztoOpt.isPresent();
@@ -33,16 +32,16 @@ public class AuthenticationService {
     }
 
     public String LoginUser(String felhasznalonev, String jelszo) {
-        String authToken = "";
         Optional<Szerkeszto> szerkesztoOpt = Optional.ofNullable(szerkesztoRepository.findByFelhasznalonev(felhasznalonev));
-        if(szerkesztoOpt.isEmpty()) {return authToken;}
-        var szerkeszto = szerkesztoOpt.get();
-        if(szerkeszto.getFelhasznalonev().equals(felhasznalonev) && szerkeszto.getJelszo().equals(jelszo)) {
-            authToken = GenerateTokenWithAuth();
-            szerkeszto.setToken(authToken);
+        if(szerkesztoOpt.isEmpty()) {return null;}
+        Szerkeszto szerkeszto = szerkesztoOpt.get();
+        //
+        if (hash.isHashOk(jelszo, szerkeszto.getJelszo())) {
+            LoginToken authToken = new LoginToken();
+            szerkeszto.setToken(authToken.GetToken());
             szerkesztoRepository.save(szerkeszto);
-            return authToken;
+            return authToken.GetToken();
         }
-        return authToken;
+        return null;
     }
 }

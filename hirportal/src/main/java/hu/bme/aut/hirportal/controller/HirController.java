@@ -34,13 +34,11 @@ public class HirController {
     }
     @GetMapping("fooldal")
     public ResponseEntity<List<Hir>> GetHirekFoOldal() {
-        List<Hir> osszeshir = hirRepository.findAll();
         List<HirFooldal> fooldalids = hirFooldalRepository.findAll();
         List<Hir> fooldalhirek = new ArrayList<>();
         for (HirFooldal hirfoldal: fooldalids) {
-            for (Hir hir: osszeshir) {
-                if(Objects.equals(hirfoldal.getHir().getId(), hir.getId())) {fooldalhirek.add(hir);}
-            }
+            Optional<Hir> hir = hirRepository.findById(hirfoldal.getHir().getId());
+            hir.ifPresent(fooldalhirek::add);
         }
         return ResponseEntity.ok(fooldalhirek);
     }
